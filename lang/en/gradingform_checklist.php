@@ -27,4 +27,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['definechecklist'] = 'Define checklist';
+$string['gradingof'] = '{$a} grading';
 $string['pluginname'] = 'Checklist';

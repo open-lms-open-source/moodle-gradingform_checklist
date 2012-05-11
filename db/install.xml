@@ -9,8 +9,7 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="definitionid"/>
         <FIELD NAME="definitionid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" COMMENT="grading_definitions id" PREVIOUS="id" NEXT="sortorder"/>
         <FIELD NAME="sortorder" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" COMMENT="Sort order of group" PREVIOUS="definitionid" NEXT="description"/>
-        <FIELD NAME="description" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="Description of the group" PREVIOUS="sortorder" NEXT="descriptionformat"/>
-        <FIELD NAME="descriptionformat" TYPE="int" LENGTH="2" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" COMMENT="Text format of the description" PREVIOUS="description"/>
+        <FIELD NAME="description" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="Description of the group" PREVIOUS="sortorder"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="definitionid"/>
@@ -23,8 +22,7 @@
         <FIELD NAME="groupid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" COMMENT="Checklist group id" PREVIOUS="id" NEXT="sortorder"/>
         <FIELD NAME="sortorder" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" COMMENT="Sort order of the checklist item" PREVIOUS="groupid" NEXT="score"/>
         <FIELD NAME="score" TYPE="number" LENGTH="10" NOTNULL="true" UNSIGNED="false" SEQUENCE="false" DECIMALS="5" COMMENT="Point value of the item" PREVIOUS="sortorder" NEXT="definition"/>
-        <FIELD NAME="definition" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="Definition of the item" PREVIOUS="score" NEXT="definitionformat"/>
-        <FIELD NAME="definitionformat" TYPE="int" LENGTH="2" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" COMMENT="Text format for the item definition" PREVIOUS="definition"/>
+        <FIELD NAME="definition" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="Definition of the item" PREVIOUS="score"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="groupid"/>
