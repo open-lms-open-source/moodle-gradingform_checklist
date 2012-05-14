@@ -244,9 +244,9 @@ class gradingform_checklist_controller extends gradingform_controller {
                 }
                 // remove deleted items from DB and calculate the maximum score for this groups
                 foreach ($currentgroups[$id]['items'] as $itemid => $currentitem) {
-                    if ($groupmaxscore === null || $groupmaxscore < $currentitem['score']) {
-                        $groupmaxscore = $currentitem['score'];
-                    }
+                    // group max score is all sum of all items (all items checked)
+                    $groupmaxscore += $currentitem['score'];
+
                     if (!array_key_exists($itemid, $itemsdata)) {
                         if ($doupdate) {
                             $DB->delete_records('gradingform_checklist_items', array('id' => $itemid));
@@ -265,7 +265,7 @@ class gradingform_checklist_controller extends gradingform_controller {
                 }
                 if (preg_match('/^NEWID\d+$/', $itemid)) {
                     // insert item into DB
-                    $data = array('groupid' => $id); // TODO format is not supported yet
+                    $data = array('groupid' => $id);
                     foreach ($itemfields as $key) {
                         if (array_key_exists($key, $item)) {
                             $data[$key] = $item[$key];
@@ -274,12 +274,10 @@ class gradingform_checklist_controller extends gradingform_controller {
                     if ($doupdate) {
                         $itemid = $DB->insert_record('gradingform_checklist_items', $data);
                     }
-                    if ($groupmaxscore !== null && $groupmaxscore >= $item['score']) {
-                        // new item is added but the maximum score for this groups did not change, re-grading may not be necessary
-                        $haschanges[2] = true;
-                    } else {
-                        $haschanges[3] = true;
-                    }
+
+                    // additional item means that maximum group score will change
+                    $haschanges[3] = true;
+
                 } else {
                     // update item in DB
                     $data = array();
@@ -440,8 +438,8 @@ class gradingform_checklist_controller extends gradingform_controller {
     protected function load_definition() {
         global $DB;
         $sql = "SELECT gd.*,
-                       clg.id AS clgid, clg.sortorder AS clgsortorder, clg.description AS clgdescription, clg.descriptionformat AS clgdescriptionformat,
-                       cli.id AS cliid, cli.score AS cliscore, cli.definition AS clidefinition, cli.definitionformat AS clidefinitionformat
+                       clg.id AS clgid, clg.sortorder AS clgsortorder, clg.description AS clgdescription
+                       cli.id AS cliid, cli.score AS cliscore, cli.definition AS clidefinition
                   FROM {grading_definitions} gd
              LEFT JOIN {gradingform_checklist_groups} clg ON (clg.definitionid = gd.id)
              LEFT JOIN {gradingform_checklist_items} cli ON (cli.groupid = clg.id)
@@ -463,14 +461,14 @@ class gradingform_checklist_controller extends gradingform_controller {
             }
             // pick the groups data
             if (!empty($record->clgid) && empty($this->definition->checklist_groups[$record->clgid])) {
-                foreach (array('id', 'sortorder', 'description', 'descriptionformat') as $fieldname) {
+                foreach (array('id', 'sortorder', 'description') as $fieldname) {
                     $this->definition->checklist_groups[$record->clgid][$fieldname] = $record->{'clg'.$fieldname};
                 }
                 $this->definition->checklist_groups[$record->clgid]['items'] = array();
             }
             // pick the items data
             if (!empty($record->cliid)) {
-                foreach (array('id', 'score', 'definition', 'definitionformat') as $fieldname) {
+                foreach (array('id', 'score', 'definition') as $fieldname) {
                     $value = $record->{'cli'.$fieldname};
                     if ($fieldname == 'score') {
                         $value = (float)$value; // To prevent display like 1.00000
@@ -480,12 +478,6 @@ class gradingform_checklist_controller extends gradingform_controller {
             }
         }
         $rs->close();
-        $options = $this->get_options();
-        if (!$options['sortitemsasc']) {
-            foreach (array_keys($this->definition->checklist_groups) as $clgid) {
-                $this->definition->checklist_groups[$clgid]['items'] = array_reverse($this->definition->checklist_groups[$clgid]['items'], true);
-            }
-        }
     }
 
     /**
