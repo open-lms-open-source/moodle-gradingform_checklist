@@ -7,7 +7,7 @@ M.gradingform_checklisteditor.init = function(Y, options) {
     M.gradingform_checklisteditor.name = options.name
     M.gradingform_checklisteditor.Y = Y
     M.gradingform_checklisteditor.templates[options.name] = {
-        'criterion' : options.criteriontemplate,
-        'level' : options.leveltemplate
+        'group' : options.grouptemplate,
+        'item'  : options.itemtemplate
     }
 };
