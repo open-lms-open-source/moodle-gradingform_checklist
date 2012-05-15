@@ -34,6 +34,24 @@ require_once($CFG->dirroot.'/grade/grading/form/lib.php');
  */
 class gradingform_checklist_controller extends gradingform_controller {
 
+    // Modes of displaying the checklist (used in gradingform_checklist_renderer)
+    /** checklist display mode: For editing (moderator or teacher creates a checklist) */
+    const DISPLAY_EDIT_FULL     = 1;
+    /** checklist display mode: Preview the checklist design with hidden fields */
+    const DISPLAY_EDIT_FROZEN   = 2;
+    /** checklist display mode: Preview the checklist design (for person with manage permission) */
+    const DISPLAY_PREVIEW       = 3;
+    /** checklist display mode: Preview the checklist (for people being graded) */
+    const DISPLAY_PREVIEW_GRADED= 8;
+    /** checklist display mode: For evaluation, enabled (teacher grades a student) */
+    const DISPLAY_EVAL          = 4;
+    /** checklist display mode: For evaluation, with hidden fields */
+    const DISPLAY_EVAL_FROZEN   = 5;
+    /** checklist display mode: Teacher reviews filled checklist */
+    const DISPLAY_REVIEW        = 6;
+    /** checklist display mode: Display filled checklist (i.e. students see their grades) */
+    const DISPLAY_VIEW          = 7;
+
     /**
      * Returns the checklist plugin renderer
      *
@@ -608,13 +626,145 @@ class gradingform_checklist_controller extends gradingform_controller {
  */
 class gradingform_checklist_instance extends gradingform_instance {
 
+    protected $checklist;
+
+    /**
+     * Deletes this (INCOMPLETE) instance from database.
+     */
+    public function cancel() {
+        global $DB;
+
+        parent::cancel();
+        $DB->delete_records('gradingform_checklist_fills', array('instanceid' => $this->get_id()));
+    }
+
+    /**
+     * Duplicates the instance before editing (optionally substitutes raterid and/or itemid with
+     * the specified values)
+     *
+     * @param int $raterid value for raterid in the duplicate
+     * @param int $itemid value for itemid in the duplicate
+     * @return int id of the new instance
+     */
+    public function copy($raterid, $itemid) {
+        global $DB;
+        $instanceid = parent::copy($raterid, $itemid);
+        $currentgrade = $this->get_checklist_filling();
+        foreach ($currentgrade['groups'] as $groupid => $items) {
+            foreach ($items as $record) {
+                $params = array('instanceid' => $instanceid, 'groupid' => $groupid,
+                        'itemid' => $record['itemid'], 'checked' => $record['checked'], 'remark' => $record['remark'],
+                        'remarkformat' => $record['remarkformat']);
+                $DB->insert_record('gradingform_checklist_fills', $params);
+            }
+        }
+        return $instanceid;
+    }
+
+    /**
+     * Retrieves from DB and returns the data how this checklist was filled
+     *
+     * @param boolean $force whether to force DB query even if the data is cached
+     * @return array
+     */
+    public function get_checklist_filling($force = false) {
+        global $DB;
+
+        if ($this->checklist === null || $force) {
+            $records = $DB->get_records('gradingform_checklist_fills', array('instanceid' => $this->get_id()));
+            $this->checklist = array('groups' => array());
+            foreach ($records as $record) {
+                if (empty($this->checklist['groups'][$record->groupid])) {
+                    $this->checklist['groups'][$record->groupid] = array('items' => array());
+                }
+                $this->checklist['groups'][$record->groupid]['items'][$record->itemid] = (array)$record;
+            }
+        }
+        return $this->checklist;
+    }
+
+    /**
+     * Updates the instance with the data received from grading form. This function may be
+     * called via AJAX when grading is not yet completed, so it does not change the
+     * status of the instance.
+     *
+     * @param array $data
+     */
+    public function update($data) {
+        global $DB;
+
+        $currentgrade = $this->get_checklist_filling();
+        parent::update($data);
+
+        foreach ($data['groups'] as $groupid => $group) {
+            foreach($group['items'] as $itemid => $record) {
+                if (!array_key_exists($itemid, $currentgrade['groups'][$groupid]['items'][$itemid])) {
+                    $newrecord = array('instanceid' => $this->get_id(), 'groupid' => $groupid,
+                        'itemid' => $record['itemid'], 'checked' => !empty($record['id']), 'remarkformat' => FORMAT_MOODLE);
+                    if (isset($record['remark'])) {
+                        $newrecord['remark'] = $record['remark'];
+                    }
+                    $DB->insert_record('gradingform_checklist_fills', $newrecord);
+                } else {
+                    $newrecord = array('id' => $currentgrade['groups'][$groupid]['items'][$itemid]['id']);
+                    foreach (array('remark'/*, 'remarkformat' TODO */) as $key) {
+                        if (isset($record[$key]) && $currentgrade['groups'][$groupid]['items'][$itemid][$key] != $record[$key]) {
+                            $newrecord[$key] = $record[$key];
+                        }
+                    }
+
+                    if (!empty($record['id']) && empty($currentgrade['groups'][$groupid]['items'][$itemid]['checked'])) {
+                        $newrecord['checked'] = 1;
+                    }
+                    if (count($newrecord) > 1) {
+                        $DB->update_record('gradingform_checklist_fills', $newrecord);
+                    }
+                }
+            }
+        }
+
+        // take care of unchecked items / deleted comments
+        foreach ($currentgrade['groups'] as $groupid => $group) {
+            foreach($group['items'] as $itemid => $record) {
+                // if the 'id' and 'remark' elements are empty then it is not checked and there is no comment
+                if (empty($data['groups'][$groupid]['items'][$itemid]['id']) && empty($data['groups'][$groupid]['items'][$itemid]['remark'])) {
+                    $DB->delete_records('gradingform_checklist_fills', array('id' => $record['id']));
+                }
+            }
+        }
+
+        $this->get_checklist_filling(true);
+    }
     /**
      * Calculates the grade to be pushed to the gradebook
      *
      * @return int the valid grade from $this->get_controller()->get_grade_range()
      */
     public function get_grade() {
+        $grade = $this->get_checklist_filling();
 
+        if (!($scores = $this->get_controller()->get_min_max_score()) || $scores['maxscore'] <= $scores['minscore']) {
+            return -1;
+        }
+
+        $graderange = array_keys($this->get_controller()->get_grade_range());
+        if (empty($graderange)) {
+            return -1;
+        }
+        sort($graderange);
+        $mingrade = $graderange[0];
+        $maxgrade = $graderange[sizeof($graderange) - 1];
+
+        $curscore = 0;
+        foreach ($grade['groups'] as $groupid => $group) {
+            foreach ($group['items'] as $itemid => $record) {
+                // itemid of 0 means a group remark, not used for scoring; also make sure it is checked
+                if (!empty($itemid) && !empty($record['checked'])) {
+                    $curscore += $this->get_controller()->get_definition()->checklist_groups[$groupid]['items'][$record['itemid']]['score'];
+                }
+            }
+        }
+        return round(($curscore - $scores['minscore']) / ($scores['maxscore'] - $scores['minscore']) * ($maxgrade - $mingrade), 0) + $mingrade;
     }
 
     /**
@@ -625,7 +775,54 @@ class gradingform_checklist_instance extends gradingform_instance {
      * @return string
      */
     public function render_grading_element($page, $gradingformelement) {
-
+        if (!$gradingformelement->_flagFrozen) {
+            $module = array('name'=>'gradingform_checklist', 'fullpath'=>'/grade/grading/form/checklist/js/checklist.js');
+            $page->requires->js_init_call('M.gradingform_checklist.init', array(array('name' => $gradingformelement->getName())), true, $module);
+            $mode = gradingform_checklist_controller::DISPLAY_EVAL;
+        } else {
+            if ($gradingformelement->_persistantFreeze) {
+                $mode = gradingform_checklist_controller::DISPLAY_EVAL_FROZEN;
+            } else {
+                $mode = gradingform_checklist_controller::DISPLAY_REVIEW;
+            }
+        }
+        $groups = $this->get_controller()->get_definition()->checklist_groups;
+        $options = $this->get_controller()->get_options();
+        $value = $gradingformelement->getValue();
+        $html = '';
+        if ($value === null) {
+            $value = $this->get_checklist_filling();
+        } else if (!$this->validate_grading_element($value)) {
+            $html .= html_writer::tag('div', get_string('checklistnotcompleted', 'gradingform_checklist'), array('class' => 'gradingform_checklist-error'));
+        }
+        $currentinstance = $this->get_current_instance();
+        if ($currentinstance && $currentinstance->get_status() == gradingform_instance::INSTANCE_STATUS_NEEDUPDATE) {
+            $html .= html_writer::tag('div', get_string('needregrademessage', 'gradingform_checklist'), array('class' => 'gradingform_checklist-regrade'));
+        }
+        $haschanges = false;
+        if ($currentinstance) {
+            $curfilling = $currentinstance->get_checklist_filling();
+            foreach ($curfilling['groups'] as $groupid => $group) {
+                foreach ($group['items'] as $itemid => $item)
+                    // the saved checked status
+                    $value['groups'][$groupid]['items'][$itemid]['savedchecked'] = !empty($item['checked']);
+                    $newremark = null;
+                    $newchecked = null;
+                    if (isset($value['groups'][$groupid]['items'][$itemid]['remark'])) $newremark = $value['groups'][$groupid]['items'][$itemid]['remark'];
+                    if (isset($value['groups'][$groupid]['items'][$itemid]['id'])) $newchecked = !empty($value['groups'][$groupid]['items'][$itemid]['id']);
+                    if ($newchecked != !empty($item['checked']) || $newremark != $item['remark']) {
+                        $haschanges = true;
+                }
+            }
+        }
+        if ($this->get_data('isrestored') && $haschanges) {
+            $html .= html_writer::tag('div', get_string('restoredfromdraft', 'gradingform_checklist'), array('class' => 'gradingform_checklist-restored'));
+        }
+        if (!empty($options['showdescriptionteacher'])) {
+            $html .= html_writer::tag('div', $this->get_controller()->get_formatted_description(), array('class' => 'gradingform_checklist-description'));
+        }
+        $html .= $this->get_controller()->get_renderer($page)->display_checklist($groups, $options, $mode, $gradingformelement->getName(), $value);
+        return $html;
     }
 
 }
