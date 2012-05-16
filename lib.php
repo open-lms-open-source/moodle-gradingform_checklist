@@ -456,7 +456,7 @@ class gradingform_checklist_controller extends gradingform_controller {
     protected function load_definition() {
         global $DB;
         $sql = "SELECT gd.*,
-                       clg.id AS clgid, clg.sortorder AS clgsortorder, clg.description AS clgdescription
+                       clg.id AS clgid, clg.sortorder AS clgsortorder, clg.description AS clgdescription,
                        cli.id AS cliid, cli.score AS cliscore, cli.definition AS clidefinition
                   FROM {grading_definitions} gd
              LEFT JOIN {gradingform_checklist_groups} clg ON (clg.definitionid = gd.id)

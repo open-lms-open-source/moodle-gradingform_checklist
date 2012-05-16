@@ -27,6 +27,30 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['addgroup'] = 'Add group';
+$string['checklist'] = 'Checklist';
+$string['checklistoptions'] = 'Checklist options';
+$string['checkliststatus'] = 'Current checklist status';
+$string['confirmdeletegroup'] = 'Are you sure you want to delete this group?';
+$string['confirmdeleteitem'] = 'Are you sure you want to delete this item?';
 $string['definechecklist'] = 'Define checklist';
+$string['description'] = 'Description';
 $string['gradingof'] = '{$a} grading';
+$string['groupadditem'] = 'Add item';
+$string['groupdelete'] = 'Delete group';
+$string['groupempty'] = 'Click to edit group';
+$string['groupmovedown'] = 'Move down';
+$string['groupmoveup'] = 'Move up';
+$string['itemdelete'] = 'Delete item';
+$string['itemempty'] = 'Click to edit item';
+$string['name'] = 'Name';
 $string['pluginname'] = 'Checklist';
+$string['save'] = 'Save';
+$string['savechecklist'] = 'Save checklist and make it ready';
+$string['savechecklistdraft'] = 'Save as draft';
+$string['scorepostfix'] = '{$a} points';
+$string['showitempointseval'] = 'Display points for each item during evaluation';
+$string['showitempointstudent'] = 'Display points for each item to those being graded';
+$string['enableitemremarks'] = 'Allow grader to add text remarks for each checklist group';
+$string['enablegroupremarks'] = 'Allow grader to add text remarks for each checklist item';
+$string['showremarksstudent'] = 'Show all remarks to those being graded';

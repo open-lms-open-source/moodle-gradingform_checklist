@@ -193,10 +193,10 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
         }
         $itemtemplate .= html_writer::tag('div', $definition, array('class' => $definitionclass, 'id' => '{NAME}-groups-{GROUP-id}-items-{ITEM-id}-definition'));
         $displayscore = true;
-        if (!$options['showscoreteacher'] && in_array($mode, array(gradingform_checklist_controller::DISPLAY_EVAL, gradingform_checklist_controller::DISPLAY_EVAL_FROZEN, gradingform_checklist_controller::DISPLAY_REVIEW))) {
+        if (!$options['showitempointseval'] && in_array($mode, array(gradingform_checklist_controller::DISPLAY_EVAL, gradingform_checklist_controller::DISPLAY_EVAL_FROZEN, gradingform_checklist_controller::DISPLAY_REVIEW))) {
             $displayscore = false;
         }
-        if (!$options['showscorestudent'] && in_array($mode, array(gradingform_checklist_controller::DISPLAY_VIEW, gradingform_checklist_controller::DISPLAY_PREVIEW_GRADED))) {
+        if (!$options['showitempointstudent'] && in_array($mode, array(gradingform_checklist_controller::DISPLAY_VIEW, gradingform_checklist_controller::DISPLAY_PREVIEW_GRADED))) {
             $displayscore = false;
         }
         if ($displayscore) {
