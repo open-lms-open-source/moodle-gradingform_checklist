@@ -190,7 +190,7 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
                         $group['items']['NEWID'.($i++)]['score'] = $lastitem['score'];
                     }
                 } else {
-                    $group['items']['NEWID'.($i++)]['score'] = 0;
+                    $group['items']['NEWID'.($i++)]['score'] = 1;
                 }
                 // add more items so there are at least 3 in the new group. Increment by 1 the score for each next one
                 for ($i=$i; $i<3; $i++) {
@@ -210,7 +210,7 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
                         $itemid = $this->get_next_id(array_keys($group['items']));
                         $item = array(
                             'definition' => '',
-                            'score' => 0,
+                            'score' => 1,
                         );
                         foreach ($group['items'] as $lastitem) {
                             if ($item['score'] < $lastitem['score'] + 1) {
@@ -238,6 +238,12 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
                     } else {
                         $this->nonjsbuttonpressed = true;
                     }
+                }
+
+                //sortorder for items
+                $itemsortorder = 1;
+                foreach (array_keys($items) as $itemid) {
+                    $items[$itemid]['sortorder'] = $itemsortorder++;
                 }
             }
             $totalscore += (float)$maxscore;

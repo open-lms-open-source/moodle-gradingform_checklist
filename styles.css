@@ -1,0 +1,41 @@
+.gradingform_checklist {overflow:auto;padding-bottom:1.5em;max-width:720px;position:relative;}
+
+.gradingform_checklist.editor .group .controls,
+.gradingform_checklist .group .description,
+.gradingform_checklist .group .items,
+.gradingform_checklist.editor .group .additem,
+.gradingform_checklist .group .remark,
+.gradingform_checklist .group .items .item {vertical-align: top;}
+
+.gradingform_checklist.editor .group .controls,
+.gradingform_checklist .group .description,
+.gradingform_checklist.editor .group .additem,
+.gradingform_checklist .group .remark,
+.gradingform_checklist .group .items .item {padding:3px;}
+
+.gradingform_checklist .controls,
+.gradingform_checklist .controls div,
+.gradingform_checklist .group .description,
+.gradingform_checklist .group .items .item .item-wrapper div {display: inline-block;}
+
+.gradingform_checklist_editform .status {font-weight:normal;text-transform:uppercase;font-size:60%;padding:0.25em;border:1px solid #EEE;}
+.gradingform_checklist_editform .status.ready {background-color:#e7f1c3;border-color:#AAEEAA;}
+.gradingform_checklist_editform .status.draft {background-color:#f3f2aa;border-color:#EEEE22;}
+
+/* Make invisible the buttons 'Move up' for the first group and 'Move down' for the last, because those buttons will make no change */
+.gradingform_checklist.editor .group.first .controls .moveup input,
+.gradingform_checklist.editor .group.last .controls .movedown input {display:none;}
+
+/* replace buttons with images */
+.gradingform_checklist.editor .delete input,
+.gradingform_checklist.editor .moveup input,
+.gradingform_checklist.editor .movedown input{text-indent: -1000em;cursor:pointer;border:none;}
+.gradingform_checklist.editor .group .controls .delete input {width:20px;height:16px;background: transparent url([[pix:i/cross_red_big]]) no-repeat center top;}
+.gradingform_checklist.editor .items .item .delete input {width:20px;height:16px;background: transparent url([[pix:i/cross_red_small]]) no-repeat center top;}
+.gradingform_checklist.editor .moveup input {width:20px;height:15px;background: transparent url([[pix:t/up]]) no-repeat center top;margin-top:4px;}
+.gradingform_checklist.editor .movedown input {width:20px;height:15px;background: transparent url([[pix:t/down]]) no-repeat center top;margin-top:4px;}
+
+.gradingform_checklist.editor .addgroup input,
+.gradingform_checklist.editor .additem input {background: transparent url([[pix:t/addgreen]]) no-repeat;display:block;color:#555555;font-weight:bold;text-decoration:none;}
+.gradingform_checklist.editor .addgroup input {background-position: 5px 8px;height:30px;line-height:29px;margin-bottom:14px;padding-left:20px;padding-right:10px;}
+.gradingform_checklist.editor .additem input {background-position: 5px 6px;height:25px;line-height:24px;margin-bottom:10px;padding-left:18px;padding-right:8px;}

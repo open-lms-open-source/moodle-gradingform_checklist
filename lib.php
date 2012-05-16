@@ -457,12 +457,12 @@ class gradingform_checklist_controller extends gradingform_controller {
         global $DB;
         $sql = "SELECT gd.*,
                        clg.id AS clgid, clg.sortorder AS clgsortorder, clg.description AS clgdescription,
-                       cli.id AS cliid, cli.score AS cliscore, cli.definition AS clidefinition
+                       cli.id AS cliid, cli.score AS cliscore, cli.sortorder AS clisortorder, cli.definition AS clidefinition
                   FROM {grading_definitions} gd
              LEFT JOIN {gradingform_checklist_groups} clg ON (clg.definitionid = gd.id)
              LEFT JOIN {gradingform_checklist_items} cli ON (cli.groupid = clg.id)
                  WHERE gd.areaid = :areaid AND gd.method = :method
-              ORDER BY clg.sortorder,cli.score";
+              ORDER BY clg.sortorder, cli.sortorder";
         $params = array('areaid' => $this->areaid, 'method' => $this->get_method_name());
 
         $rs = $DB->get_recordset_sql($sql, $params);
@@ -486,7 +486,7 @@ class gradingform_checklist_controller extends gradingform_controller {
             }
             // pick the items data
             if (!empty($record->cliid)) {
-                foreach (array('id', 'score', 'definition') as $fieldname) {
+                foreach (array('id', 'score', 'sortorder', 'definition') as $fieldname) {
                     $value = $record->{'cli'.$fieldname};
                     if ($fieldname == 'score') {
                         $value = (float)$value; // To prevent display like 1.00000

@@ -152,7 +152,7 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
     public function item_template($mode, $options, $elementname = '{NAME}', $groupid = '{GROUP-id}', $item = null) {
         // TODO definition format
         if (!isset($item['id'])) {
-            $item = array('id' => '{ITEM-id}', 'definition' => '{ITEM-definition}', 'score' => '{ITEM-score}', 'class' => '{ITEM-class}', 'checked' => false);
+            $item = array('id' => '{ITEM-id}', 'definition' => '{ITEM-definition}', 'score' => '{ITEM-score}', 'class' => '{ITEM-class}', 'sortorder' => '{ITEM-sortorder}', 'checked' => false);
         } else {
             foreach (array('score', 'definition', 'class', 'checked') as $key) {
                 // set missing array elements to empty strings to avoid warnings
@@ -170,10 +170,12 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
         if ($mode == gradingform_checklist_controller::DISPLAY_EDIT_FULL) {
             $definition = html_writer::empty_tag('input', array('type' => 'text', 'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][definition]', 'value' => $item['definition']));
             $score = html_writer::empty_tag('input', array('type' => 'text', 'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][score]', 'size' => '3', 'value' => $item['score']));
+            $itemtemplate .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][sortorder]', 'value' => $item['sortorder']));
         } else {
             if ($mode == gradingform_checklist_controller::DISPLAY_EDIT_FROZEN) {
                 $itemtemplate .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][definition]', 'value' => $item['definition']));
                 $itemtemplate .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][score]', 'value' => $item['score']));
+                $itemtemplate .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][sortorder]', 'value' => $item['sortorder']));
             }
             $definition = $item['definition'];
             $score = $item['score'];
