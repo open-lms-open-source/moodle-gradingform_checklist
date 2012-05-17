@@ -116,7 +116,7 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
                 $grouptemplate .= html_writer::tag('div', $input, array('class' => 'remark'));
             } else if ($mode == gradingform_checklist_controller::DISPLAY_EVAL_FROZEN) {
                 $grouptemplate .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => '{NAME}[groups][{GROUP-id}][remark]', 'value' => $currentremark));
-            }else if ($mode == gradingform_checklist_controller::DISPLAY_REVIEW || $mode == gradingform_checklist_controller::DISPLAY_VIEW) {
+            } else if ($mode == gradingform_checklist_controller::DISPLAY_REVIEW || $mode == gradingform_checklist_controller::DISPLAY_VIEW) {
                 $grouptemplate .= html_writer::tag('div', $currentremark, array('class' => 'remark')); // TODO maybe some prefix here like 'Teacher remark:'
             }
         }
@@ -213,6 +213,21 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
             $button = html_writer::empty_tag('input', array('type' => 'submit', 'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][delete]', 'id' => '{NAME}-groups-{GROUP-id}-items-{ITEM-id}-delete', 'value' => $value, 'title' => $value, 'tabindex' => -1));
             $itemtemplate .= html_writer::tag('div', $button, array('class' => 'delete'));
         }
+        $displayremark = ($options['enableitemremarks'] && ($mode != gradingform_checklist_controller::DISPLAY_VIEW || $options['showremarksstudent']));
+        if ($displayremark) {
+            $currentremark = '';
+            if (isset($item['remark'])) {
+                $currentremark = $item['remark'];
+            }
+            if ($mode == gradingform_checklist_controller::DISPLAY_EVAL) {
+                $input = html_writer::tag('textarea', htmlspecialchars($currentremark), array('name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][remark]', 'cols' => '20', 'rows' => '2'));
+                $itemtemplate .= html_writer::tag('div', $input, array('class' => 'remark'));
+            } else if ($mode == gradingform_checklist_controller::DISPLAY_EVAL_FROZEN) {
+                $itemtemplate .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][remark]', 'value' => $currentremark));
+            } else if ($mode == gradingform_checklist_controller::DISPLAY_REVIEW || $mode == gradingform_checklist_controller::DISPLAY_VIEW) {
+                $itemtemplate .= html_writer::tag('div', $currentremark, array('class' => 'remark')); // TODO maybe some prefix here like 'Teacher remark:'
+            }
+        }
         $itemtemplate .= html_writer::end_tag('div'); // .item-wrapper
         $itemtemplate .= html_writer::end_tag('div'); // .item
 
@@ -262,7 +277,7 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
         }
 
         $checklisttemplate = html_writer::start_tag('div', array('id' => 'checklist-{NAME}', 'class' => 'clearfix gradingform_checklist'.$classsuffix));
-        $checklisttemplate .= html_writer::tag('table', $groupsstr, array('class' => 'groups', 'id' => '{NAME}-groups'));
+        $checklisttemplate .= html_writer::tag('div', $groupsstr, array('class' => 'groups', 'id' => '{NAME}-groups'));
         if ($mode == gradingform_checklist_controller::DISPLAY_EDIT_FULL) {
             $value = get_string('addgroup', 'gradingform_checklist');
             $input = html_writer::empty_tag('input', array('type' => 'submit', 'name' => '{NAME}[groups][addgroup]', 'id' => '{NAME}-groups-addgroup', 'value' => $value, 'title' => $value));
@@ -358,7 +373,9 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
                 if (!empty($groupvalue['items'][$itemid]['savedchecked'])) {
                     $item['class'] .= ' currentchecked';
                 }
-
+                if (!empty($groupvalue['items'][$itemid]['result'])) {
+                    $item['remark'] = $groupvalue['items'][$itemid]['remark'];
+                }
                 $itemsstr .= $this->item_template($mode, $options, $elementname, $id, $item);
             }
             $groupsstr .= $this->group_template($mode, $options, $elementname, $group, $itemsstr, $groupvalue);

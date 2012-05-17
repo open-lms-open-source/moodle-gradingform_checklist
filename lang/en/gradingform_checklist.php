@@ -29,6 +29,11 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['addgroup'] = 'Add group';
 $string['checklist'] = 'Checklist';
+$string['checklistmapping'] = 'Score to grade mapping rules';
+$string['checklistmappingexplained'] = 'The minimum possible score for this checklist is <b>{$a->minscore} points</b> and it will be converted to the minimum grade available in this module (which is zero unless the scale is used).
+    The maximum score <b>{$a->maxscore} points</b> will be converted to the maximum grade.<br />
+    Intermediate scores will be converted respectively and rounded to the nearest available grade.<br />
+    If a scale is used instead of a grade, the score will be converted to the scale elements as if they were consecutive integers.';
 $string['checklistoptions'] = 'Checklist options';
 $string['checkliststatus'] = 'Current checklist status';
 $string['confirmdeletegroup'] = 'Are you sure you want to delete this group?';
@@ -45,6 +50,7 @@ $string['itemdelete'] = 'Delete item';
 $string['itemempty'] = 'Click to edit item';
 $string['name'] = 'Name';
 $string['pluginname'] = 'Checklist';
+$string['restoredfromdraft'] = 'NOTE: The last attempt to grade this person was not saved properly so draft grades have been restored. If you want to cancel these changes use the \'Cancel\' button below.';
 $string['save'] = 'Save';
 $string['savechecklist'] = 'Save checklist and make it ready';
 $string['savechecklistdraft'] = 'Save as draft';

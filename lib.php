@@ -69,7 +69,22 @@ class gradingform_checklist_controller extends gradingform_controller {
      * @return string
      */
     public function render_preview(moodle_page $page) {
+        if (!$this->is_form_defined()) {
+            throw new coding_exception('It is the caller\'s responsibility to make sure that the form is actually defined');
+        }
 
+        $output = $this->get_renderer($page);
+        $groups = $this->definition->checklist_groups;
+        $options = $this->get_options();
+        $checklist = '';
+        if (has_capability('moodle/grade:managegradingforms', $page->context)) {
+            $checklist .= $output->display_checklist_mapping_explained($this->get_min_max_score());
+            $checklist .= $output->display_checklist($groups, $options, self::DISPLAY_PREVIEW, 'checklist');
+        } else {
+            $checklist .= $output->display_checklist($groups, $options, self::DISPLAY_PREVIEW_GRADED, 'checklist');
+        }
+
+        return $checklist;
     }
 
     /**
@@ -650,8 +665,8 @@ class gradingform_checklist_instance extends gradingform_instance {
         global $DB;
         $instanceid = parent::copy($raterid, $itemid);
         $currentgrade = $this->get_checklist_filling();
-        foreach ($currentgrade['groups'] as $groupid => $items) {
-            foreach ($items as $record) {
+        foreach ($currentgrade['groups'] as $groupid => $group) {
+            foreach ($group['items'] as $record) {
                 $params = array('instanceid' => $instanceid, 'groupid' => $groupid,
                         'itemid' => $record['itemid'], 'checked' => $record['checked'], 'remark' => $record['remark'],
                         'remarkformat' => $record['remarkformat']);
@@ -698,9 +713,13 @@ class gradingform_checklist_instance extends gradingform_instance {
 
         foreach ($data['groups'] as $groupid => $group) {
             foreach($group['items'] as $itemid => $record) {
-                if (!array_key_exists($itemid, $currentgrade['groups'][$groupid]['items'][$itemid])) {
+                //handle deletions later
+                if (empty($record['remark']) && empty($record['id'])) {
+                    continue;
+                }
+                if (!array_key_exists($groupid, $currentgrade['groups']) || !array_key_exists($itemid, $currentgrade['groups'][$groupid]['items'])) {
                     $newrecord = array('instanceid' => $this->get_id(), 'groupid' => $groupid,
-                        'itemid' => $record['itemid'], 'checked' => !empty($record['id']), 'remarkformat' => FORMAT_MOODLE);
+                        'itemid' => $itemid, 'checked' => !empty($record['id']), 'remarkformat' => FORMAT_MOODLE);
                     if (isset($record['remark'])) {
                         $newrecord['remark'] = $record['remark'];
                     }
@@ -776,8 +795,8 @@ class gradingform_checklist_instance extends gradingform_instance {
      */
     public function render_grading_element($page, $gradingformelement) {
         if (!$gradingformelement->_flagFrozen) {
-//            $module = array('name'=>'gradingform_checklist', 'fullpath'=>'/grade/grading/form/checklist/js/checklist.js');
-//            $page->requires->js_init_call('M.gradingform_checklist.init', array(array('name' => $gradingformelement->getName())), true, $module);
+            $module = array('name'=>'gradingform_checklist', 'fullpath'=>'/grade/grading/form/checklist/js/checklist.js');
+            $page->requires->js_init_call('M.gradingform_checklist.init', array(array('name' => $gradingformelement->getName())), true, $module);
             $mode = gradingform_checklist_controller::DISPLAY_EVAL;
         } else {
             if ($gradingformelement->_persistantFreeze) {
