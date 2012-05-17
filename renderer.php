@@ -181,7 +181,7 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
             $score = $item['score'];
         }
         if ($mode == gradingform_checklist_controller::DISPLAY_EVAL) {
-            $input = html_writer::empty_tag('input', array('type' => 'checklist', 'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][id]', 'value' => $item['id']) +
+            $input = html_writer::empty_tag('input', array('type' => 'checkbox', 'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][id]', 'value' => $item['id']) +
                 ($item['checked'] ? array('checked' => 'checked') : array()));
             $itemtemplate .= html_writer::tag('div', $input, array('class' => 'checkbox'));
         }

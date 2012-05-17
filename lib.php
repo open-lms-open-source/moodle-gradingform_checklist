@@ -776,8 +776,8 @@ class gradingform_checklist_instance extends gradingform_instance {
      */
     public function render_grading_element($page, $gradingformelement) {
         if (!$gradingformelement->_flagFrozen) {
-            $module = array('name'=>'gradingform_checklist', 'fullpath'=>'/grade/grading/form/checklist/js/checklist.js');
-            $page->requires->js_init_call('M.gradingform_checklist.init', array(array('name' => $gradingformelement->getName())), true, $module);
+//            $module = array('name'=>'gradingform_checklist', 'fullpath'=>'/grade/grading/form/checklist/js/checklist.js');
+//            $page->requires->js_init_call('M.gradingform_checklist.init', array(array('name' => $gradingformelement->getName())), true, $module);
             $mode = gradingform_checklist_controller::DISPLAY_EVAL;
         } else {
             if ($gradingformelement->_persistantFreeze) {
