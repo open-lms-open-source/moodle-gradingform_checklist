@@ -14,17 +14,26 @@ M.gradingform_checklist.init = function(Y, options) {
 
 M.gradingform_checklist.itemclick = function(e, Y, name) {
     var el = e.target;
-    while (el && !el.hasClass('item')) {
-        el = el.get('parentNode');
+
+    // check to see if the actual checkbox was checked and get it's new state if so
+    var newcheckboxstate = null;
+    if (el.hasAttribute('type') && el.get('type') == 'checkbox') {
+        newcheckboxstate = el.get('checked');
     }
+
+    // get the parent 'item' div
+    if (!el.hasClass('item')) {
+        el = el.ancestor('.item', false, '.group');
+    }
+
     if (!el) {
         return;
     }
-    e.preventDefault();
 
+    // set the checkbox status and the item class
     var chb = el.one('input[type=checkbox]');
-    if (!chb.get('checked')) {
-        chb.set('checked', true)
+    if (newcheckboxstate || (newcheckboxstate == null && !chb.get('checked'))) {
+        chb.set('checked', true);
         el.addClass('checked');
     } else {
         el.removeClass('checked');

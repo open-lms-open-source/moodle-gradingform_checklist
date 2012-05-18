@@ -28,6 +28,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['addgroup'] = 'Add group';
+$string['checkitem'] = 'Check this item';
 $string['checklist'] = 'Checklist';
 $string['checklistmapping'] = 'Score to grade mapping rules';
 $string['checklistmappingexplained'] = 'The minimum possible score for this checklist is <b>{$a->minscore} points</b> and it will be converted to the minimum grade available in this module (which is zero unless the scale is used).
@@ -40,14 +41,23 @@ $string['confirmdeletegroup'] = 'Are you sure you want to delete this group?';
 $string['confirmdeleteitem'] = 'Are you sure you want to delete this item?';
 $string['definechecklist'] = 'Define checklist';
 $string['description'] = 'Description';
+$string['err_nodefinition'] = 'Item definition can not be empty';
+$string['err_nogroups'] = 'Checklist must contain at least one group';
+$string['err_scoreformat'] = 'Number of points for each item must be a valid non-negative number';
+$string['err_totalscore'] = 'Maximum number of points possible when graded by the checklist must be more than zero';
 $string['gradingof'] = '{$a} grading';
 $string['groupadditem'] = 'Add item';
 $string['groupdelete'] = 'Delete group';
+$string['groupdescription'] = 'Group description';
 $string['groupempty'] = 'Click to edit group';
 $string['groupmovedown'] = 'Move down';
 $string['groupmoveup'] = 'Move up';
+$string['groupremark'] = 'Group remark';
+$string['itemdefinition'] = 'Item definition';
 $string['itemdelete'] = 'Delete item';
 $string['itemempty'] = 'Click to edit item';
+$string['itemremark'] = 'Item remark';
+$string['itemscore'] = 'Item score';
 $string['name'] = 'Name';
 $string['pluginname'] = 'Checklist';
 $string['restoredfromdraft'] = 'NOTE: The last attempt to grade this person was not saved properly so draft grades have been restored. If you want to cancel these changes use the \'Cancel\' button below.';

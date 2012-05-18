@@ -5,7 +5,12 @@
 .gradingform_checklist .group .items,
 .gradingform_checklist.editor .group .additem,
 .gradingform_checklist .group .remark,
+.gradingform_checklist .group .items .item .remark,
+.gradingform_checklist .group .items .item .score,
+.gradingform_checklist .group .items .item .definition,
 .gradingform_checklist .group .items .item {vertical-align: top;}
+
+.gradingform_checklist .group .items .item .definition {width: 60%;}
 
 .gradingform_checklist.editor .group .controls,
 .gradingform_checklist .group .description,
@@ -22,6 +27,8 @@
 .gradingform_checklist .group .items .item .remark,
 .gradingform_checklist .group .items .item .checkbox,
 .gradingform_checklist .group .items .item .plainvalue {display: inline-block;}
+
+.gradingform_checklist .group > .remark textarea {width: 100%;}
 
 .gradingform_checklist .group .items .item .definition,
 .gradingform_checklist .group .items .item .score,
@@ -75,6 +82,7 @@
 .gradingform_checklist-error {color:red;font-weight:bold;}
 
 /* special classes for elements created by checklisteditor.js */
+.gradingform_checklist .hiddenelement,
 .gradingform_checklist.editor .hiddenelement,
 .gradingform_checklist.editor .group .items .item .plainvalue.hiddenelement {display:none;}
 .gradingform_checklist.editor .pseudotablink {background-color:transparent;border:0 solid;height:1px;width:1px;color:transparent;padding:0;margin:0;position:relative;float:right;}

@@ -20,6 +20,7 @@ M.gradingform_checklisteditor.init = function(Y, options) {
 
     //Event handler for submit buttons
     Y.one('#checklist-' + options.name).delegate('click', M.gradingform_checklisteditor.buttonclick, 'input[type=submit]');
+    Y.one('#checklist-' + options.name).delegate('key', M.gradingform_checklisteditor.handlekey, 'press:13', 'input[type=text]');
 };
 
 // switches all input text elements to non-edit mode
@@ -29,6 +30,11 @@ M.gradingform_checklisteditor.disablealleditors = function() {
 
     Y.all('#checklist-' + name + ' .item').each( function(node) {M.gradingform_checklisteditor.editmode(node, false)} );
     Y.all('#checklist-' + name + ' .description').each( function(node) {M.gradingform_checklisteditor.editmode(node, false)} );
+}
+
+M.gradingform_checklisteditor.handlekey = function(e) {
+    e.preventDefault();
+    M.gradingform_checklisteditor.disablealleditors();
 }
 
 // function invoked on each click on the page. If item and/or group description is clicked
