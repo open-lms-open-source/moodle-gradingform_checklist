@@ -15,6 +15,10 @@ M.gradingform_checklist.init = function(Y, options) {
 M.gradingform_checklist.itemclick = function(e, Y, name) {
     var el = e.target;
 
+    if (el.get('tagName').toLowerCase() == 'textarea') {
+        return;
+    }
+
     // check to see if the actual checkbox was checked and get it's new state if so
     var newcheckboxstate = null;
     if (el.hasAttribute('type') && el.get('type') == 'checkbox') {
@@ -39,4 +43,45 @@ M.gradingform_checklist.itemclick = function(e, Y, name) {
         el.removeClass('checked');
         chb.set('checked', false);
     }
+
+    // recalc the scores
+    M.gradingform_checklist.recalculatetotals(Y, name);
+}
+
+M.gradingform_checklist.recalculatetotals = function(Y, name) {
+    var checklist = Y.one('#checklist-' + name);
+    if (!checklist || !checklist.hasClass('evaluate')) {
+        return;
+    }
+
+    var overalltotal = 0;
+    var overallscored = 0;
+
+    var checklistgroups = checklist.all('.group');
+
+    // iterate through all groups
+    checklistgroups.each(function(group) {
+        var grouptotal = 0;
+        var groupscored = 0;
+
+        var groupitems = group.all('.item');
+
+        // iterate through all group items
+        groupitems.each(function(item) {
+            var checked = item.one('input[type=checkbox]').get('checked');
+            var score   = parseFloat(item.one('.scorevalue').get('innerHTML'));
+
+            grouptotal += score;
+            if (checked) {
+                groupscored += score;
+            }
+        });
+
+        overalltotal += grouptotal;
+        overallscored += groupscored;
+
+        group.one('.pointstotals .scoredpoints').set('innerHTML', groupscored);
+    });
+
+    checklist.one('> .pointstotals .scoredpoints').set('innerHTML', overallscored);
 }

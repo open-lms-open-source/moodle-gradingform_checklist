@@ -607,6 +607,7 @@ class gradingform_checklist_controller extends gradingform_controller {
      */
     public static function get_default_options() {
         $options = array(
+            'alwaysshowdefinition' => 1,
             'showitempointseval' => 1,
             'showitempointstudent' => 1,
             'enableitemremarks' => 1,

@@ -10,13 +10,16 @@
 .gradingform_checklist .group .items .item .definition,
 .gradingform_checklist .group .items .item {vertical-align: top;}
 
-.gradingform_checklist .group .items .item .definition {width: 60%;}
+.gradingform_checklist .group .items .item .definition {width: 50%;}
+.gradingform_checklist .group .items .item .score {width: 15%;}
+.gradingform_checklist .group .items .item .remark {width: 25%;}
 
 .gradingform_checklist.editor .group .controls,
 .gradingform_checklist .group .description,
 .gradingform_checklist.editor .group .additem,
 .gradingform_checklist .group .remark,
-.gradingform_checklist .group .items .item {padding:3px;}
+.gradingform_checklist .group .items .item,
+.gradingform_checklist .group .pointstotals {padding:3px;}
 
 .gradingform_checklist .controls,
 .gradingform_checklist .controls div,
@@ -43,6 +46,9 @@
 
 .gradingform_checklist .group .items .item {margin-left: 10px;}
 .gradingform_checklist .group .description {width:150px; font-weight:bold;}
+
+.gradingform_checklist .checklistfeedback,
+.gradingform_checklist .pointstotals {font-weight: bold;}
 
 /* evaluation */
 .gradingform_checklist .group .items .item.currentchecked {background:#fff0f0;}
