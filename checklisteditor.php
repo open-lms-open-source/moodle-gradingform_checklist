@@ -184,17 +184,13 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
                 $id = $this->get_next_id(array_keys($value['groups']));
                 $group = array('description' => '', 'items' => array());
                 $i = 0;
-                // when adding new group copy the number of items and their scores from the last group
-                if (!empty($value['groups'][$lastid]['items'])) {
-                    foreach ($value['groups'][$lastid]['items'] as $lastitem) {
-                        $group['items']['NEWID'.($i++)]['score'] = $lastitem['score'];
-                    }
-                } else {
-                    $group['items']['NEWID'.($i++)]['score'] = 1;
-                }
-                // add more items so there are at least 3 in the new group. Increment by 1 the score for each next one
-                for ($i=$i; $i<3; $i++) {
-                    $group['items']['NEWID'.$i]['score'] = $group['items']['NEWID'.($i-1)]['score'] + 1;
+
+                // score is 1 by default
+                $group['items']['NEWID'.($i++)]['score'] = 1;
+
+                // add more items so there are at least 3 in the new group. Score is 1 by default
+                for ($i= $i; $i < 3; $i++) {
+                    $group['items']['NEWID'.$i]['score'] = 1;
                 }
                 // set other necessary fields (definition) for the items in the new group
                 foreach (array_keys($group['items']) as $i) {
@@ -212,11 +208,6 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
                             'definition' => '',
                             'score' => 1,
                         );
-                        foreach ($group['items'] as $lastitem) {
-                            if ($item['score'] < $lastitem['score'] + 1) {
-                                $item['score'] = $lastitem['score'] + 1;
-                            }
-                        }
                         $this->nonjsbuttonpressed = true;
                     }
                     if (!array_key_exists('delete', $item)) {

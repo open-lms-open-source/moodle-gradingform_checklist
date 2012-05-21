@@ -173,19 +173,12 @@ M.gradingform_checklisteditor.buttonclick = function(e, confirmed) {
     };
     if (chunks.length == 3 && action == 'addgroup') {
         // ADD NEW GROUP
-        var itemsscores = [1], levidx = 1;
+        var newscore= 1, levidx = 0;
         var parentel = Y.one('#' + name + '-groups');
 
-        if (parentel.all('.group').size()) {
-            var lastgroup = parentel.all('.group').item(parentel.all('.group').size()-1).all('.item');
-            for (levidx=0;levidx<lastgroup.size();levidx++) itemsscores[levidx] = lastgroup.item(levidx).one('.score input[type=text]').get('value');
-        }
-        for (levidx; levidx < 3; levidx++) {
-            itemsscores[levidx] = parseFloat(itemsscores[levidx - 1]) + 1;
-        }
         var itemsstr = '';
-        for (levidx = 0; levidx<itemsscores.length; levidx++) {
-            itemsstr += M.gradingform_checklisteditor.templates[name]['item'].replace(/\{ITEM-id\}/g, 'NEWID' + (newlevid + levidx)).replace(/\{ITEM-score\}/g, itemsscores[levidx]);
+        for (levidx = 0; levidx < 3; levidx++) {
+            itemsstr += M.gradingform_checklisteditor.templates[name]['item'].replace(/\{ITEM-id\}/g, 'NEWID' + (newlevid + levidx)).replace(/\{ITEM-score\}/g, newscore);
         }
         var newgroup = M.gradingform_checklisteditor.templates[name]['group'].replace(/\{ITEMS\}/, itemsstr);
         parentel.append(newgroup.replace(/\{GROUP-id\}/g, 'NEWID' + newid).replace(/\{.+?\}/g, ''));
@@ -195,9 +188,8 @@ M.gradingform_checklisteditor.buttonclick = function(e, confirmed) {
         M.gradingform_checklisteditor.editmode(Y.one('#checklist-' + name + ' #' + name + '-groups-NEWID' + newid + '-description'),true);
     } else if (chunks.length == 5 && action == 'additem') {
         // ADD NEW ITEM
-        var newscore = 0;
+        var newscore = 1;
         var parent = Y.one('#' + name + '-groups-' + chunks[2] + '-items');
-        parent.all('.item').each(function (node) { newscore = Math.max(newscore, parseFloat(node.one('.score input[type=text]').get('value')) + 1) });
         var newitem = M.gradingform_checklisteditor.templates[name]['item'].
             replace(/\{GROUP-id\}/g, chunks[2]).replace(/\{ITEM-id\}/g, 'NEWID' + newlevid).replace(/\{ITEM-score\}/g, newscore).replace(/\{.+?\}/g, '');
         parent.append(newitem);
