@@ -252,6 +252,9 @@ class gradingform_checklist_controller extends gradingform_controller {
                 $data = array('definitionid' => $this->definition->id);
                 foreach ($groupsfields as $key) {
                     if (array_key_exists($key, $group)) {
+                        if ($key == 'description') {
+                            $group[$key] = clean_param($group[$key], PARAM_TEXT);
+                        }
                         $data[$key] = $group[$key];
                     }
                 }
@@ -263,6 +266,9 @@ class gradingform_checklist_controller extends gradingform_controller {
                 // update group in DB
                 $data = array();
                 foreach ($groupsfields as $key) {
+                    if (array_key_exists($key, $group) && $key == 'description') {
+                        $group[$key] = clean_param($group[$key], PARAM_TEXT);
+                    }
                     if (array_key_exists($key, $group) && $group[$key] != $currentgroups[$id][$key]) {
                         $data[$key] = $group[$key];
                     }
@@ -301,6 +307,9 @@ class gradingform_checklist_controller extends gradingform_controller {
                     $data = array('groupid' => $id);
                     foreach ($itemfields as $key) {
                         if (array_key_exists($key, $item)) {
+                            if ($key == 'definition') {
+                                $item[$key] = clean_param($item[$key], PARAM_TEXT);
+                            }
                             $data[$key] = $item[$key];
                         }
                     }
@@ -315,6 +324,9 @@ class gradingform_checklist_controller extends gradingform_controller {
                     // update item in DB
                     $data = array();
                     foreach ($itemfields as $key) {
+                        if (array_key_exists($key, $item) && $key == 'definition') {
+                            $item[$key] = clean_param($item[$key], PARAM_TEXT);
+                        }
                         if (array_key_exists($key, $item) && $item[$key] != $currentgroups[$id]['items'][$itemid][$key]) {
                             $data[$key] = $item[$key];
                         }
@@ -722,12 +734,15 @@ class gradingform_checklist_instance extends gradingform_instance {
                     $newrecord = array('instanceid' => $this->get_id(), 'groupid' => $groupid,
                         'itemid' => $itemid, 'checked' => !empty($record['id']), 'remarkformat' => FORMAT_MOODLE);
                     if (isset($record['remark'])) {
-                        $newrecord['remark'] = $record['remark'];
+                        $newrecord['remark'] = clean_param($record['remark'], PARAM_TEXT);
                     }
                     $DB->insert_record('gradingform_checklist_fills', $newrecord);
                 } else {
                     $newrecord = array('id' => $currentgrade['groups'][$groupid]['items'][$itemid]['id']);
                     foreach (array('remark'/*, 'remarkformat' TODO */) as $key) {
+                        if (isset($record[$key]) && $key == 'remark') {
+                            $record[$key] = clean_param($record[$key], PARAM_TEXT);
+                        }
                         if (isset($record[$key]) && $currentgrade['groups'][$groupid]['items'][$itemid][$key] != $record[$key]) {
                             $newrecord[$key] = $record[$key];
                         }
