@@ -212,13 +212,20 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
                     }
                     if (!array_key_exists('delete', $item)) {
                         if ($withvalidation) {
-                            if (!strlen(trim($item['definition']))) {
+                            $deflength = strlen(trim(clean_param($item['definition'], PARAM_TEXT)));
+                            if (!$deflength) {
                                 $errors['err_nodefinition'] = 1;
+                                $item['error_definition'] = true;
+                            } else if ($deflength > 255) {
+                                $errors['err_definitionmax'] = 1;
                                 $item['error_definition'] = true;
                             }
                             if (!preg_match('#^[\+]?\d*$#', trim($item['score'])) && !preg_match('#^[\+]?\d*[\.,]\d+$#', trim($item['score']))) {
                                 // TODO why we can't allow negative score for checklist?
                                 $errors['err_scoreformat'] = 1;
+                                $item['error_score'] = true;
+                            } else if ($item['score'] > 1000) {
+                                $errors['err_scoremax'] = 1;
                                 $item['error_score'] = true;
                             }
                         }
@@ -244,8 +251,12 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
                     $errors['err_minoneitems'] = 1;
                     $group['error_items'] = true;
                 }
-                if (!strlen(trim($group['description']))) {
+                $descriptionlen = strlen(trim(clean_param($group['description'], PARAM_TEXT)));
+                if (!$descriptionlen) {
                     $errors['err_nodescription'] = 1;
+                    $group['error_description'] = true;
+                } else if ($descriptionlen > 255) {
+                    $errors['err_descriptionmax'] = 1;
                     $group['error_description'] = true;
                 }
             }

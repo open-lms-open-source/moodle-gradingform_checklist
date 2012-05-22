@@ -253,7 +253,7 @@ class gradingform_checklist_controller extends gradingform_controller {
                 foreach ($groupsfields as $key) {
                     if (array_key_exists($key, $group)) {
                         if ($key == 'description') {
-                            $group[$key] = clean_param($group[$key], PARAM_TEXT);
+                            $group[$key] = trim(clean_param($group[$key], PARAM_TEXT));
                         }
                         $data[$key] = $group[$key];
                     }
@@ -267,7 +267,7 @@ class gradingform_checklist_controller extends gradingform_controller {
                 $data = array();
                 foreach ($groupsfields as $key) {
                     if (array_key_exists($key, $group) && $key == 'description') {
-                        $group[$key] = clean_param($group[$key], PARAM_TEXT);
+                        $group[$key] = trim(clean_param($group[$key], PARAM_TEXT));
                     }
                     if (array_key_exists($key, $group) && $group[$key] != $currentgroups[$id][$key]) {
                         $data[$key] = $group[$key];
@@ -308,7 +308,7 @@ class gradingform_checklist_controller extends gradingform_controller {
                     foreach ($itemfields as $key) {
                         if (array_key_exists($key, $item)) {
                             if ($key == 'definition') {
-                                $item[$key] = clean_param($item[$key], PARAM_TEXT);
+                                $item[$key] = trim(clean_param($item[$key], PARAM_TEXT));
                             }
                             $data[$key] = $item[$key];
                         }
@@ -325,7 +325,7 @@ class gradingform_checklist_controller extends gradingform_controller {
                     $data = array();
                     foreach ($itemfields as $key) {
                         if (array_key_exists($key, $item) && $key == 'definition') {
-                            $item[$key] = clean_param($item[$key], PARAM_TEXT);
+                            $item[$key] = trim(clean_param($item[$key], PARAM_TEXT));
                         }
                         if (array_key_exists($key, $item) && $item[$key] != $currentgroups[$id]['items'][$itemid][$key]) {
                             $data[$key] = $item[$key];
