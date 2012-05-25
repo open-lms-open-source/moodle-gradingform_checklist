@@ -15,7 +15,7 @@ M.gradingform_checklist.init = function(Y, options) {
 M.gradingform_checklist.itemclick = function(e, Y, name) {
     var el = e.target;
 
-    if (el.get('tagName').toLowerCase() == 'textarea') {
+    if (el.test('textarea')) {
         return;
     }
 
