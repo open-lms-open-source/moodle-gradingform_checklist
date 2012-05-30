@@ -750,6 +750,8 @@ class gradingform_checklist_instance extends gradingform_instance {
 
                     if (!empty($record['id']) && empty($currentgrade['groups'][$groupid]['items'][$itemid]['checked'])) {
                         $newrecord['checked'] = 1;
+                    } else if (empty($record['id']) && !empty($currentgrade['groups'][$groupid]['items'][$itemid]['checked'])) {
+                        $newrecord['checked'] = 0;
                     }
                     if (count($newrecord) > 1) {
                         $DB->update_record('gradingform_checklist_fills', $newrecord);
