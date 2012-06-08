@@ -71,6 +71,7 @@ $string['itemscore'] = 'Item score';
 $string['name'] = 'Name';
 $string['needregrademessage'] = 'The checklist definition was changed after this student had been graded. The student can not see this checklist until you review the checklist and update the grade.';
 $string['pluginname'] = 'Checklist';
+$string['previewchecklist'] = 'Preview checklist';
 $string['overallpoints'] = 'Overall points';
 $string['regrademessage1'] = 'You are about to save changes to a checklist that has already been used for grading. Please indicate if existing grades need to be reviewed. If you set this then the checklist will be hidden from students until their item is regraded.';
 $string['regrademessage5'] = 'You are about to save significant changes to a checklist that has already been used for grading. The gradebook value will be unchanged, but the checklist will be hidden from students until their item is regraded.';
