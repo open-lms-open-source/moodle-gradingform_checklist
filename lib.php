@@ -125,7 +125,7 @@ class gradingform_checklist_controller extends gradingform_controller {
             return $this->get_instance($instance);
         }
         if ($itemid && $raterid) {
-            if ($rs = $DB->get_records('grading_instances', array('raterid' => $raterid, 'itemid' => $itemid), 'timemodified DESC', '*', 0, 1)) {
+            if ($rs = $DB->get_records('grading_instances', array('definitionid' => $this->definition->id, 'raterid' => $raterid, 'itemid' => $itemid), 'timemodified DESC', '*', 0, 1)) {
                 $record = reset($rs);
                 $currentinstance = $this->get_current_instance($raterid, $itemid);
                 if ($record->status == gradingform_checklist_instance::INSTANCE_STATUS_INCOMPLETE &&
@@ -750,6 +750,8 @@ class gradingform_checklist_instance extends gradingform_instance {
 
                     if (!empty($record['id']) && empty($currentgrade['groups'][$groupid]['items'][$itemid]['checked'])) {
                         $newrecord['checked'] = 1;
+                    } else if (empty($record['id']) && !empty($currentgrade['groups'][$groupid]['items'][$itemid]['checked'])) {
+                        $newrecord['checked'] = 0;
                     }
                     if (count($newrecord) > 1) {
                         $DB->update_record('gradingform_checklist_fills', $newrecord);

@@ -31,7 +31,7 @@
 .gradingform_checklist .group .items .item .checkbox,
 .gradingform_checklist .group .items .item .plainvalue {display: inline-block;}
 
-.gradingform_checklist .group > .remark textarea {width: 100%;}
+.mform .gradingform_checklist .group > .remark textarea {width: 99%;}
 
 .gradingform_checklist .group .items .item .definition,
 .gradingform_checklist .group .items .item .score,
