@@ -36,8 +36,25 @@ function xmldb_gradingform_checklist_upgrade($oldversion) {
 
     $dbman = $DB->get_manager();
 
-    // Moodle v2.2.0 release upgrade line
-    // Put any upgrade step following this
+    if ($oldversion < 2012051001) {
+
+        // Changing type of field description on table gradingform_checklist_groups to text
+        $table = new xmldb_table('gradingform_checklist_groups');
+        $field = new xmldb_field('description', XMLDB_TYPE_TEXT, 'big', null, null, null, null, 'sortorder');
+
+        // Launch change of type for field description
+        $dbman->change_field_type($table, $field);
+
+        // Changing type of field definition on table gradingform_checklist_items to text
+        $table = new xmldb_table('gradingform_checklist_items');
+        $field = new xmldb_field('definition', XMLDB_TYPE_TEXT, 'big', null, null, null, null, 'score');
+
+        // Launch change of type for field definition
+        $dbman->change_field_type($table, $field);
+
+        // checklist savepoint reached
+        upgrade_plugin_savepoint(true, 2012051001, 'gradingform', 'checklist');
+    }
 
     return true;
 }
