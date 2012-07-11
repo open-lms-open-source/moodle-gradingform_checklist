@@ -855,9 +855,9 @@ class gradingform_checklist_instance extends gradingform_instance {
         if ($this->get_data('isrestored') && $haschanges) {
             $html .= html_writer::tag('div', get_string('restoredfromdraft', 'gradingform_checklist'), array('class' => 'gradingform_checklist-restored'));
         }
-        if (!empty($options['showdescriptionteacher'])) {
-            $html .= html_writer::tag('div', $this->get_controller()->get_formatted_description(), array('class' => 'gradingform_checklist-description'));
-        }
+
+        $html .= html_writer::tag('div', $this->get_controller()->get_formatted_description(), array('class' => 'gradingform_checklist-description'));
+
         $html .= $this->get_controller()->get_renderer($page)->display_checklist($groups, $options, $mode, $gradingformelement->getName(), $value);
         return $html;
     }
