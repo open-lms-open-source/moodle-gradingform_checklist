@@ -21,7 +21,8 @@
  * @package    gradingform
  * @subpackage checklist
  * @author     Sam Chaffee
- * @copyright  2012 Moodlerooms, Inc.
+ * @copyright  2011 Marina Glancy
+ * @copyright  2012 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -316,6 +317,7 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
      * @param array $options
      * @param string $elementname the name of the form element (in editor mode) or the prefix for div ids (in view mode)
      * @param string $groupsstr evaluated templates for this checklist's groups
+     * @param string $totalpointsstr the total points string
      * @return string
      */
     protected function checklist_template($mode, $options, $elementname, $groupsstr, $totalpointsstr) {
@@ -367,7 +369,7 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
             && $mode != gradingform_checklist_controller::DISPLAY_EDIT_FROZEN
             && $mode != gradingform_checklist_controller::DISPLAY_PREVIEW) {
             // Options are displayed only for people who can manage
-            return;
+            return '';
         }
         $html = html_writer::start_tag('div', array('class' => 'options'));
         $html .= html_writer::tag('div', get_string('checklistoptions', 'gradingform_checklist'), array('class' => 'optionsheading'));

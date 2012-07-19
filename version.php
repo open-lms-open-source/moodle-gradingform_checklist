@@ -21,7 +21,8 @@
  * @package    gradingform
  * @subpackage checklist
  * @author     Sam Chaffee
- * @copyright  2012 Moodlerooms, Inc.
+ * @copyright  2011 David Mudrak <david@moodle.com>
+ * @copyright  2012 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -29,3 +30,5 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->component  = 'gradingform_checklist';
 $plugin->version    = 2012051001;
+$plugin->requires   = 2011110200;
+$plugin->maturity   = MATURITY_STABLE;

@@ -18,8 +18,9 @@
 /**
  * @package    gradingform
  * @subpackage checklist
- * @copyright  2012 Moodlerooms, Inc.
  * @author     Sam Chaffee
+ * @copyright  2011 David Mudrak <david@moodle.com>
+ * @copyright  Copyright (c) 2012 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

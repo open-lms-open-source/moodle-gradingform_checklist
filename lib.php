@@ -21,7 +21,8 @@
  * @package    gradingform
  * @subpackage checklist
  * @author     Sam Chaffee
- * @copyright  2012 Moodlerooms, Inc.
+ * @copyright  2011 David Mudrak <david@moodle.com>
+ * @copyright  Copyright (c) 2012 Moodlerooms Inc. (http://www.moodlerooms.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -65,6 +66,7 @@ class gradingform_checklist_controller extends gradingform_controller {
     /**
      * Returns the HTML code displaying the preview of the checklist grading form
      *
+     * @throws coding_exception
      * @param moodle_page $page the target page
      * @return string
      */
@@ -650,7 +652,8 @@ class gradingform_checklist_controller extends gradingform_controller {
  * Class to manage one checklist grading instance. Stores information and performs actions like
  * update, copy, validate, submit, etc.
  *
- * @copyright  2012 Moodlerooms, Inc.
+ * @copyright  2011 Marina Glancy
+ * @copyright  Copyright (c) 2012 Moodlerooms Inc. (http://www.moodlerooms.com)
  */
 class gradingform_checklist_instance extends gradingform_instance {
 

@@ -11,8 +11,8 @@ M.gradingform_checklisteditor.init = function(Y, options) {
         'item'  : options.itemtemplate
     };
 
-    M.gradingform_checklisteditor.disablealleditors()
-    Y.on('click', M.gradingform_checklisteditor.clickanywhere, 'body', null)
+    M.gradingform_checklisteditor.disablealleditors();
+    Y.on('click', M.gradingform_checklisteditor.clickanywhere, 'body', null);
     YUI().use('event-touch', function (Y) {
         Y.one('body').on('touchstart', M.gradingform_checklisteditor.clickanywhere);
         Y.one('body').on('touchend', M.gradingform_checklisteditor.clickanywhere);
@@ -30,12 +30,12 @@ M.gradingform_checklisteditor.disablealleditors = function() {
 
     Y.all('#checklist-' + name + ' .item').each( function(node) {M.gradingform_checklisteditor.editmode(node, false)} );
     Y.all('#checklist-' + name + ' .description').each( function(node) {M.gradingform_checklisteditor.editmode(node, false)} );
-}
+};
 
 M.gradingform_checklisteditor.handlekey = function(e) {
     e.preventDefault();
     M.gradingform_checklisteditor.disablealleditors();
-}
+};
 
 // function invoked on each click on the page. If item and/or group description is clicked
 // it switches this element to edit mode. If checklist button is clicked it does nothing so the 'buttonclick'
@@ -67,7 +67,7 @@ M.gradingform_checklisteditor.clickanywhere = function(e) {
     }
     // else disablecurrenteditor
     M.gradingform_checklisteditor.disablealleditors();
-}
+};
 
 // switch the group description or item to edit mode or switch back
 M.gradingform_checklisteditor.editmode = function(el, editmode, focustb) {
@@ -81,7 +81,7 @@ M.gradingform_checklisteditor.editmode = function(el, editmode, focustb) {
     // add 'plainvalue' next to textbox for description/definition and next to input text field for score (if applicable)
     if (!taplain) {
         ta.get('parentNode').append('<div class="plainvalue">' + pseudotablink + '<span class="textvalue">&nbsp;</span></div>');
-        taplain = ta.get('parentNode').one('.plainvalue')
+        taplain = ta.get('parentNode').one('.plainvalue');
         taplain.one('.pseudotablink').on('focus', M.gradingform_checklisteditor.clickanywhere);
         if (tb) {
             tb.get('parentNode').append('<span class="plainvalue">' + pseudotablink + '<span class="textvalue">&nbsp;</span></span>');
@@ -97,7 +97,7 @@ M.gradingform_checklisteditor.editmode = function(el, editmode, focustb) {
         if (value.length) {
             taplain.removeClass('empty');
         } else {
-            value = (el.hasClass('item')) ? M.str.gradingform_checklist.itemempty : M.str.gradingform_checklist.groupempty
+            value = (el.hasClass('item')) ? M.str.gradingform_checklist.itemempty : M.str.gradingform_checklist.groupempty;
             taplain.addClass('empty');
         }
         taplain.one('.textvalue').set('innerHTML', value);
@@ -140,7 +140,7 @@ M.gradingform_checklisteditor.editmode = function(el, editmode, focustb) {
             ta.focus();
         }
     }
-}
+};
 
 // handler for clicking on submit buttons within checklisteditor element. Adds/deletes/rearranges groups and/or items on client side
 M.gradingform_checklisteditor.buttonclick = function(e, confirmed) {
@@ -206,25 +206,25 @@ M.gradingform_checklisteditor.buttonclick = function(e, confirmed) {
         M.gradingform_checklisteditor.assignclasses(elements_str)
     } else if (chunks.length == 4 && action == 'movedown') {
         // MOVE GROUP DOWN
-        var el = Y.one('#' + name + '-groups-' + chunks[2])
-        if (el.next()) el.get('parentNode').insertBefore(el.next(), el)
+        var el = Y.one('#' + name + '-groups-' + chunks[2]);
+        if (el.next()) el.get('parentNode').insertBefore(el.next(), el);
         M.gradingform_checklisteditor.assignclasses(elements_str)
     } else if (chunks.length == 4 && action == 'delete') {
         // DELETE GROUP
         if (confirmed) {
-            Y.one('#' + name + '-groups-' + chunks[2]).remove()
+            Y.one('#' + name + '-groups-' + chunks[2]).remove();
             M.gradingform_checklisteditor.assignclasses(elements_str)
         } else {
-            dialog_options['message'] = M.str.gradingform_checklist.confirmdeletegroup
+            dialog_options['message'] = M.str.gradingform_checklist.confirmdeletegroup;
             M.util.show_confirm_dialog(e, dialog_options);
         }
     } else if (chunks.length == 6 && action == 'delete') {
         // DELETE ITEM
         if (confirmed) {
-            Y.one('#' + name + '-groups-' + chunks[2] + '-' + chunks[3] + '-' + chunks[4]).remove()
+            Y.one('#' + name + '-groups-' + chunks[2] + '-' + chunks[3] + '-' + chunks[4]).remove();
             M.gradingform_checklisteditor.assignclasses(elements_str)
         } else {
-            dialog_options['message'] = M.str.gradingform_checklist.confirmdeleteitem
+            dialog_options['message'] = M.str.gradingform_checklist.confirmdeleteitem;
             M.util.show_confirm_dialog(e, dialog_options);
         }
     } else {
@@ -232,26 +232,26 @@ M.gradingform_checklisteditor.buttonclick = function(e, confirmed) {
         return;
     }
     e.preventDefault();
-}
+};
 
 // properly set classes (first/last/odd/even), item width and/or group sortorder for elements Y.all(elements_str)
 M.gradingform_checklisteditor.assignclasses = function (elements_str) {
-    var elements = M.gradingform_checklisteditor.Y.all(elements_str)
+    var elements = M.gradingform_checklisteditor.Y.all(elements_str);
     for (var i=0;i<elements.size();i++) {
         elements.item(i).removeClass('first').removeClass('last').removeClass('even').removeClass('odd').
-            addClass(((i%2)?'odd':'even') + ((i==0)?' first':'') + ((i==elements.size()-1)?' last':''))
+            addClass(((i%2)?'odd':'even') + ((i==0)?' first':'') + ((i==elements.size()-1)?' last':''));
         elements.item(i).all('input[type=hidden]').each(
             function(node) {if (node.get('name').match(/sortorder/)) node.set('value', i)}
         );
     }
-}
+};
 
 // returns unique id for the next added element, it should not be equal to any of Y.all(elements_str) ids
 M.gradingform_checklisteditor.calculatenewid = function (elements_str) {
-    var newid = 1
+    var newid = 1;
     M.gradingform_checklisteditor.Y.all(elements_str).each( function(node) {
         var idchunks = node.get('id').split('-'), id = idchunks.pop();
         if (id.match(/^NEWID(\d+)$/)) newid = Math.max(newid, parseInt(id.substring(5)) + 1);
     } );
     return newid
-}
+};

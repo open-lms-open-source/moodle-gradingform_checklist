@@ -46,7 +46,7 @@ M.gradingform_checklist.itemclick = function(e, Y, name) {
 
     // recalc the scores
     M.gradingform_checklist.recalculatetotals(Y, name);
-}
+};
 
 M.gradingform_checklist.recalculatetotals = function(Y, name) {
     var checklist = Y.one('#checklist-' + name);
@@ -84,4 +84,4 @@ M.gradingform_checklist.recalculatetotals = function(Y, name) {
     });
 
     checklist.one('> .pointstotals .scoredpoints').set('innerHTML', overallscored);
-}
+};
