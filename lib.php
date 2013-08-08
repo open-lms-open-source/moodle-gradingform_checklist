@@ -82,7 +82,7 @@ class gradingform_checklist_controller extends gradingform_controller {
         if (has_capability('moodle/grade:managegradingforms', $page->context)) {
             $checklist .= $output->display_checklist_mapping_explained($this->get_min_max_score());
             $checklist .= $output->display_checklist($groups, $options, self::DISPLAY_PREVIEW, 'checklist');
-        } else {
+        } else if (!empty($options['alwaysshowdefinition'])) {
             $checklist .= $output->display_checklist($groups, $options, self::DISPLAY_PREVIEW_GRADED, 'checklist');
         }
 
