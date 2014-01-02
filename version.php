@@ -30,6 +30,6 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->component  = 'gradingform_checklist';
 $plugin->version    = 2012051001;
-$plugin->requires   = 2012120302;
-$plugin->release    = '2.4.0 (Build: 20130711)';
+$plugin->requires   = 2013051401;
+$plugin->release    = '2.5.0 (Build: 20131227)';
 $plugin->maturity   = MATURITY_STABLE;
