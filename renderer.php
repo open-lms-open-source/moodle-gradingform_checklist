@@ -229,10 +229,10 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
             $itemtemplate .= html_writer::tag('div', $input, array('class' => 'checkbox'));
         } else if ($mode == gradingform_checklist_controller::DISPLAY_REVIEW || $mode == gradingform_checklist_controller::DISPLAY_VIEW) {
             if (empty($item['checked'])) {
-                $iconname = 'i/cross_red_big';
+                $iconname = 'i/grade_incorrect';
                 $alttext  = get_string('unchecked', 'gradingform_checklist');
             } else {
-                $iconname = 'i/tick_green_big';
+                $iconname = 'i/grade_correct';
                 $alttext  = get_string('checked', 'gradingform_checklist');
             }
             $itemtemplate .= html_writer::tag('div', $this->output->pix_icon($iconname, $alttext), array('class' => 'checkbox'));
