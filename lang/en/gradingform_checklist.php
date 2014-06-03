@@ -74,11 +74,12 @@ $string['needregrademessage'] = 'The checklist definition was changed after this
 $string['pluginname'] = 'Checklist';
 $string['previewchecklist'] = 'Preview checklist';
 $string['overallpoints'] = 'Overall points';
-$string['regrademessage1'] = 'You are about to save changes to a checklist that has already been used for grading. Please indicate if existing grades need to be reviewed. If you set this then the checklist will be hidden from students until their item is regraded.';
-$string['regrademessage5'] = 'You are about to save significant changes to a checklist that has already been used for grading. The gradebook value will be unchanged, but the checklist will be hidden from students until their item is regraded.';
+$string['regrademessage1'] = 'You are about to save changes to a checklist that has already been used for grading. Please
+indicate if existing grades need to be reviewed. If you set this then the checklist will be hidden from students until their items are regraded.';
+$string['regrademessage5'] = 'You are about to save significant changes to a checklist that has already been used for grading. The gradebook value will be unchanged, but the checklist will be hidden from students until their items are regraded.';
 $string['regradeoption0'] = 'Do not mark for regrade';
 $string['regradeoption1'] = 'Mark for regrade';
-$string['restoredfromdraft'] = 'NOTE: The last attempt to grade this person was not saved properly so draft grades have been restored. If you want to cancel these changes use the \'Cancel\' button below.';
+$string['restoredfromdraft'] = 'NOTE: The last attempt to grade this person was not saved properly so draft grades have been restored. If you want to cancel these changes, use the \'Cancel\' button below.';
 $string['save'] = 'Save';
 $string['savechecklist'] = 'Save checklist and make it ready';
 $string['savechecklistdraft'] = 'Save as draft';

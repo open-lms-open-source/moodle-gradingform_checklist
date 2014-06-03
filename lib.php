@@ -804,7 +804,12 @@ class gradingform_checklist_instance extends gradingform_instance {
                 }
             }
         }
-        return round(($curscore - $scores['minscore']) / ($scores['maxscore'] - $scores['minscore']) * ($maxgrade - $mingrade), 0) + $mingrade;
+
+        $gradeoffset = ($curscore-$scores['minscore'])/($scores['maxscore']-$scores['minscore'])*($maxgrade-$mingrade);
+        if ($this->get_controller()->get_allow_grade_decimals()) {
+            return $gradeoffset + $mingrade;
+        }
+        return round($gradeoffset, 0) + $mingrade;
     }
 
     /**
