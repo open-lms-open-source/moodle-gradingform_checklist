@@ -62,8 +62,8 @@
 .gradingform_checklist.editor .delete input,
 .gradingform_checklist.editor .moveup input,
 .gradingform_checklist.editor .movedown input{text-indent: -1000em;cursor:pointer;border:none;}
-.gradingform_checklist.editor .group .controls .delete input {width:20px;height:16px;background: transparent url([[pix:i/cross_red_big]]) no-repeat center top;}
-.gradingform_checklist.editor .items .item .delete input {width:20px;height:16px;background: transparent url([[pix:i/cross_red_small]]) no-repeat center top;}
+.gradingform_checklist.editor .group .controls .delete input {width:20px;height:16px;background: transparent url([[pix:i/invalid]]) no-repeat center top;}
+.gradingform_checklist.editor .items .item .delete input {width:20px;height:16px;background: transparent url([[pix:i/invalid]]) no-repeat center top;}
 .gradingform_checklist.editor .moveup input {width:20px;height:15px;background: transparent url([[pix:t/up]]) no-repeat center top;margin-top:4px;}
 .gradingform_checklist.editor .movedown input {width:20px;height:15px;background: transparent url([[pix:t/down]]) no-repeat center top;margin-top:4px;}
 
