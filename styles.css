@@ -68,7 +68,7 @@
 .gradingform_checklist.editor .movedown input {width:20px;height:15px;background: transparent url([[pix:t/down]]) no-repeat center top;margin-top:4px;}
 
 .gradingform_checklist.editor .addgroup input,
-.gradingform_checklist.editor .additem input {background: transparent url([[pix:t/addgreen]]) no-repeat;display:block;color:#555555;font-weight:bold;text-decoration:none;}
+.gradingform_checklist.editor .additem input {background: transparent url([[pix:t/add]]) no-repeat;display:block;color:#555555;font-weight:bold;text-decoration:none;}
 .gradingform_checklist.editor .addgroup input {background-position: 5px 8px;height:30px;line-height:29px;margin-bottom:14px;padding-left:20px;padding-right:10px;}
 .gradingform_checklist.editor .additem input {background-position: 5px 6px;height:25px;line-height:24px;margin-bottom:10px;padding-left:18px;padding-right:8px;}
 
