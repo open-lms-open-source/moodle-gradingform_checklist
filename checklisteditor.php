@@ -42,8 +42,8 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
     /** Message to display in front of the editor (that there exist grades on this checklist being edited) */
     protected $regradeconfirmation = false;
 
-    function MoodleQuickForm_checklisteditor($elementName=null, $elementLabel=null, $attributes=null) {
-        parent::HTML_QuickForm_input($elementName, $elementLabel, $attributes);
+    function __construct($elementName=null, $elementLabel=null, $attributes=null) {
+        parent::__construct($elementName, $elementLabel, $attributes);
     }
 
     /**
