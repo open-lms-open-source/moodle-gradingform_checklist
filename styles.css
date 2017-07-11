@@ -94,3 +94,8 @@
 
 #page-mod-assign-view .gradingform_checklist-description table { width: 100%;}
 #page-mod-assign-view #checklist-advancedgrading { padding-left: 22px;}
+
+/* Hide extra popout buttons added by js that assumes only one label tag per grade-panel fitem MDL-59264 */
+.path-mod-assign [data-region="grade-panel"] .gradingform_checklist a[data-region="popout-button"] {
+    display: none;
+}
