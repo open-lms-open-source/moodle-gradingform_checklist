@@ -22,7 +22,7 @@
  * @subpackage checklist
  * @author     Sam Chaffee
  * @copyright  2011 David Mudrak <david@moodle.com>
- * @copyright  Copyright (c) 2012 Moodlerooms Inc. (http://www.moodlerooms.com)
+ * @copyright  Copyright (c) 2012 Blackboard Inc. (http://www.moodlerooms.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -653,7 +653,7 @@ class gradingform_checklist_controller extends gradingform_controller {
  * update, copy, validate, submit, etc.
  *
  * @copyright  2011 Marina Glancy
- * @copyright  Copyright (c) 2012 Moodlerooms Inc. (http://www.moodlerooms.com)
+ * @copyright  Copyright (c) 2012 Blackboard Inc. (http://www.moodlerooms.com)
  */
 class gradingform_checklist_instance extends gradingform_instance {
 
