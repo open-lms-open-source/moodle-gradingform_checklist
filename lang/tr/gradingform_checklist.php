@@ -22,7 +22,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['addgroup'] = 'Grup ekle';
-$string['alwaysshowdefinition'] = 'Kullanıcıların modülde kullanılan kontrol listesini önizlemesine izin ver (aksi takdirde kontrol listesi sadece not verildikten sonra gösterilecektir)';
+$string['alwaysshowdefinition'] = 'Kullanıcıların modülde kullanılan kontrol listesini ön izlemesine izin ver (aksi takdirde kontrol listesi sadece not verildikten sonra gösterilecektir)';
 $string['backtoediting'] = 'Düzenlemeye geri dön';
 $string['checked'] = 'Kontrol edildi';
 $string['checkitem'] = '"{$a}" için tam kredi işaretle';
@@ -65,7 +65,7 @@ $string['itemscore'] = 'Öğe puanı';
 $string['name'] = 'Ad';
 $string['needregrademessage'] = 'Kontrol listesi tanımı, bu öğrenciye not verdikten sonra değişti. Öğrenci, siz kontrol listesini kontrol edip notu güncelleştirene kadar bu kontrol listesini göremez.';
 $string['pluginname'] = 'Kontrol listesi';
-$string['previewchecklist'] = 'Kontrol listesini önizle';
+$string['previewchecklist'] = 'Kontrol listesini ön izle';
 $string['overallpoints'] = 'Genel puan';
 $string['regrademessage1'] = 'Zaten not vermek için kullanılmış bir kontrol listesinde yapılan değişiklikleri kaydetmek üzeresiniz. Lütfen
 mevcut notların gözden geçirilmesinin gerekip gerekmediğini belirtin. Bunu ayarlarsanız öğelerine yeniden not verilene kadar kontrol listesi öğrencilerden gizlenir.';
