@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @copyright  Copyright (c) 2020 Blackboard Inc. (http://www.blackboard.com)
+ * @copyright  Copyright (c) 2021 Open LMS (https://www.openlms.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,7 +28,7 @@ $string['checked'] = 'Marcat';
 $string['checkitem'] = 'Marca crèdit complet per a "{$a}"';
 $string['checklist'] = 'Llista de comprovació';
 $string['checklistmapping'] = 'Puntuació per qualificar el mapatge de les regles.';
-$string['checklistmappingexplained'] = 'La puntuació mínima per a aquesta llista de comprovació són <b>{$a->minscore} punts</b> i es convertirà en la qualificació mínima disponible en aquest mòdul (que serà zero si no s’utilitza l’escala).
+$string['checklistmappingexplained'] = 'La puntuació mínima per a aquesta llista de comprovació és de <b>{$a->minscore} punts</b> i es convertirà en la qualificació mínima disponible en aquest mòdul (que serà zero si no s’utilitza l’escala).
 La puntuació màxima de <b>{$a->maxscore} punts</b> es convertirà en la qualificació màxima.<br />
 Les puntuacions intermèdies es convertiran i s\'arrodoniran a la qualificació més similar disponible.<br />
 Si s’utilitza una escala en comptes d’una qualificació, la puntuació es convertirà en elements de l’escala com si fossin nombres enters consecutius.';
@@ -62,12 +62,12 @@ $string['itemempty'] = 'Feu clic per editar l’element';
 $string['itemfeedback'] = 'Retroacció per a "{$a}"';
 $string['itemremark'] = 'Observacions de l’element per a "{$a}"';
 $string['itemscore'] = 'Puntuació de l\'element';
-$string['name'] = 'Nom';
+$string['name'] = 'Nombre';
 $string['needregrademessage'] = 'La definició de la llista de comprovació ha canviat després que l’estudiant hagi rebut la qualificació. L’estudiant no pot veure aquesta llista de comprovació fins que no la reviseu i actualitzeu la qualificació.';
 $string['pluginname'] = 'Llista de comprovació';
 $string['previewchecklist'] = 'Visualització prèvia de la llista de comprovació';
 $string['overallpoints'] = 'Punts globals';
-$string['regrademessage1'] = 'Esteu a punt de desar els canvis en la llista de comprovació que ja s’ha utilitzat per qualificar. 
+$string['regrademessage1'] = 'Esteu a punt de desar els canvis en la llista de comprovació que ja s’ha utilitzat per qualificar.
 Indiqueu si hi ha qualificacions que calgui revisar. Si marqueu aquesta opció, la llista de comprovació quedarà oculta per als estudiants fins que es revisin les qualificacions dels seus elements.';
 $string['regrademessage5'] = 'Esteu a punt de desar canvis significatius en una llista de comprovació que ja s’ha utilitzat per qualificar. Si marqueu aquesta opció, no es faran canvis a la qualificació del butlletí de qualificacions, però la llista de comprovació quedarà oculta per als estudiants fins que es revisin les qualificacions dels seus elements.';
 $string['regradeoption0'] = 'No marqueu per requalificar';
