@@ -22,7 +22,7 @@
  * @subpackage checklist
  * @author     Sam Chaffee
  * @copyright  2011 Marina Glancy
- * @copyright  2012 Blackboard Inc. (http://www.blackboard.com)
+ * @copyright  2012 Open LMS (https://www.openlms.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
