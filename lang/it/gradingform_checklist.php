@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @copyright  Copyright (c) 2020 Blackboard Inc. (http://www.blackboard.com)
+ * @copyright  Copyright (c) 2021 Open LMS (https://www.openlms.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -24,7 +24,7 @@ defined('MOODLE_INTERNAL') || die();
 $string['addgroup'] = 'Aggiungi gruppo';
 $string['alwaysshowdefinition'] = 'Consenti agli utenti di visualizzare in anteprima l\'elenco di controllo utilizzato nel modulo (altrimenti l\'elenco di controllo sarà visibile solo dopo la valutazione)';
 $string['backtoediting'] = 'Torna alla modifica';
-$string['checked'] = 'Selezionato';
+$string['checked'] = 'Spuntato';
 $string['checkitem'] = 'Contrassegna tutto il credito per "{$a}"';
 $string['checklist'] = 'Elenco di controllo';
 $string['checklistmapping'] = 'Punteggio per valutare regole di mapping';
@@ -36,7 +36,7 @@ $string['checkliststatus'] = 'Stato corrente elenco di controllo';
 $string['confirmdeletegroup'] = 'Eiminare questo gruppo?';
 $string['confirmdeleteitem'] = 'Eliminare questo elemento?';
 $string['definechecklist'] = 'Definisci elenco di controllo';
-$string['description'] = 'Descrizione';
+$string['description'] = 'Commento';
 $string['err_definitionmax'] = 'La definizione dell\'elemento non può contenere più di 255 caratteri';
 $string['err_descriptionmax'] = 'La descrizione del gruppo non può contenere più di 255 caratteri';
 $string['err_nodefinition'] = 'Il campo Definizione elemento non può essere vuoto';
@@ -46,7 +46,7 @@ $string['err_scoreformat'] = 'Il numero di punti per ciascun elemento deve esser
 $string['err_scoremax'] = 'Il numero di punti per ciascun elemento non deve essere maggiore di 1000';
 $string['err_totalscore'] = 'Il punteggio massimo possibile di una valutazione deve essere maggiore di zero';
 $string['groupfeedback'] = 'Feedback gruppo per "{$a}"';
-$string['gradingof'] = 'Valutazione di {$a}';
+$string['gradingof'] = 'Valutazione {$a}';
 $string['groupadditem'] = 'Aggiungi elemento';
 $string['groupdelete'] = 'Elimina gruppo';
 $string['groupdescription'] = 'Decrizione gruppo';
@@ -61,12 +61,13 @@ $string['itemempty'] = 'Fai clic per modificare l\'elemento';
 $string['itemfeedback'] = 'Feedback per "{$a}"';
 $string['itemremark'] = 'Nota elemento per "{$a}"';
 $string['itemscore'] = 'Punteggio elemento';
-$string['name'] = 'Nome';
+$string['name'] = 'Titolo';
 $string['needregrademessage'] = 'La definizione dell\'elenco di controllo è stata modificata dopo la valutazione di questo studente. Lo studente non può visualizzare questo elenco di controllo finché non esaminerai l\'elenco di controllo e aggiornerai il voto.';
 $string['pluginname'] = 'Elenco di controllo';
 $string['previewchecklist'] = 'Anteprima elenco di controllo';
 $string['overallpoints'] = 'Punti totali';
-$string['regrademessage1'] = 'Stai per salvare le modifiche apportate su un elenco di controllo già utilizzato per la valutazione. Indica i voti esistenti da rivedere. Con questa impostazione, l\'elenco di controllo non sarà visualizzabile dagli studenti finché i loro elementi non verranno nuovamente valutati.';
+$string['regrademessage1'] = 'Stai per salvare le modifiche apportate su un elenco di controllo già utilizzato per la valutazione.
+Indica i voti esistenti da rivedere. Con questa impostazione, l\'elenco di controllo non sarà visualizzabile dagli studenti finché i loro elementi non verranno nuovamente valutati.';
 $string['regrademessage5'] = 'Stai per salvare modifiche rilevanti apportate a un elenco di controllo che è già stato utilizzato per la valutazione. I valori presenti nel registro voti non saranno modificati, ma l\'elenco di controllo non sarà visualizzabile dagli studenti finché i loro elementi non verranno nuovamente valutati.';
 $string['regradeoption0'] = 'Non contrassegnare per rivalutazione';
 $string['regradeoption1'] = 'Contrassegna per rivalutazione';
