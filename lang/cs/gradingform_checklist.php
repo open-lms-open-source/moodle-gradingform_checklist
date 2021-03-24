@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @copyright  Copyright (c) 2020 Open LMS (https://www.openlms.net)
+ * @copyright  Copyright (c) 2021 Open LMS (https://www.openlms.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -23,21 +23,21 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['addgroup'] = 'Přidat skupinu';
 $string['alwaysshowdefinition'] = 'Povolit uživatelům zobrazit náhled kontrolního seznamu použitého v modulu (jinak se kontrolní seznam zobrazí pouze po klasifikaci)';
-$string['backtoediting'] = 'Zpět k úpravám';
+$string['backtoediting'] = 'Zpět na úpravu';
 $string['checked'] = 'Zaškrtnuté';
 $string['checkitem'] = 'Označit úplný kredit pro "{$a}"';
 $string['checklist'] = 'Kontrolní seznam';
 $string['checklistmapping'] = 'Pravidla mapování skóre na klasifikaci';
 $string['checklistmappingexplained'] = 'Minimální možné skóre pro tento kontrolní seznam je <b>{$a->minscore} bodů</b> a bude převedeno na minimální klasifikaci dostupnou v tomto modulu (která je nulová, není-li použita stupnice).
-    Maximální skóre <b>{$a->maxscore} bodů </b> bude převedeno na maximální klasifikaci.<br />
-    Střední skóre budou převedena jednotlivě a zaokrouhlena na nejbližší dostupnou klasifikaci.<br />
-    Používá-li se místo klasifikace stupnice, bude skóre převedeno na prvky stupnice, které tvoří po sobě jdoucí celá čísla.';
+Maximální skóre <b>{$a->maxscore} bodů </b> bude převedeno na maximální klasifikaci.<br />
+Střední skóre budou převedena jednotlivě a zaokrouhlena na nejbližší dostupnou klasifikaci.<br />
+Používá-li se místo klasifikace stupnice, bude skóre převedeno na prvky stupnice, které tvoří po sobě jdoucí celá čísla.';
 $string['checklistoptions'] = 'Možnosti kontrolního seznamu';
 $string['checkliststatus'] = 'Aktuální stav kontrolního seznamu';
 $string['confirmdeletegroup'] = 'Opravdu chcete tuto skupinu odstranit?';
 $string['confirmdeleteitem'] = 'Opravdu chcete tuto položku zrušit?';
 $string['definechecklist'] = 'Definovat kontrolní seznam';
-$string['description'] = 'Popis';
+$string['description'] = 'Další podrobnosti o uživateli';
 $string['err_definitionmax'] = 'Definice položky smí obsahovat maximálně 255 znaků.';
 $string['err_descriptionmax'] = 'Popis skupiny smí obsahovat maximálně 255 znaků.';
 $string['err_nodefinition'] = 'Definice položky nesmí být prázdná.';
@@ -62,12 +62,12 @@ $string['itemempty'] = 'Kliknout, chcete-li upravit položku';
 $string['itemfeedback'] = 'Zpětná vazba pro položku {$a}';
 $string['itemremark'] = 'Poznámka k položce pro {$a}';
 $string['itemscore'] = 'Skóre položky';
-$string['name'] = 'Název';
+$string['name'] = 'Podle názvu';
 $string['needregrademessage'] = 'Definice kontrolního seznamu byla po klasifikaci studenta změněna. Student nebude moci kontrolní seznam zobrazit, dokud jej nezkontrolujete a neaktualizujete klasifikaci.';
 $string['pluginname'] = 'Kontrolní seznam';
 $string['previewchecklist'] = 'Náhled kontrolního seznamu';
 $string['overallpoints'] = 'Celkový počet bodů';
-$string['regrademessage1'] = 'Chystáte se uložit změny kontrolního seznamu, který již byla použit při klasifikaci. Rozhodněte, 
+$string['regrademessage1'] = 'Chystáte se uložit změny kontrolního seznamu, který již byla použit při klasifikaci. Rozhodněte,
 zda by existující klasifikace měly být zkontrolovány a revidovány. Pokud ano, bude kontrolní seznam studentům skrytý, dokud nebudou jejich položky znovu klasifikovány.';
 $string['regrademessage5'] = 'Chystáte se uložit závažné změny kontrolního seznamu, který již byla použit při klasifikaci. Hodnota v centru klasifikace nebude změněna, ale kontrolní seznam bude pro studenty skrytý, dokud nebudou jejich položky znovu klasifikovány.';
 $string['regradeoption0'] = 'Neoznačovat pro opětovnou klasifikaci';

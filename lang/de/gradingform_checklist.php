@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @copyright  Copyright (c) 2020 Open LMS (https://www.openlms.net)
+ * @copyright  Copyright (c) 2021 Open LMS (https://www.openlms.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -29,7 +29,7 @@ $string['checkitem'] = 'Volle Punktzahl vergeben für "{$a}"';
 $string['checklist'] = 'Checkliste';
 $string['checklistmapping'] = 'Regeln der Zuordnung von Punkten zu Bewertungen';
 $string['checklistmappingexplained'] = 'Die Mindestpunktzahl für diese Checkliste beträgt <b>{$a->minscore} Punkte</b>, die für die in diesem Modul verfügbare Mindestbewertung konvertiert werden (sofern nicht die Skala verwendet wird, ist diese Mindestbewertung 0).
-Die Höchstpunktzahl, <b>{$a->maxscore} Punkte</b> wird in die Höchstbewertung konvertiert.<br />
+Die Höchstpunktzahl, <b>{$a->maxscore} Punkte</b>, wird in die Höchstbewertung konvertiert.<br />
 Mittlere Punktzahlen werden entsprechend konvertiert und auf die nächste verfügbare Bewertung gerundet.<br />
 Wenn anstelle einer Bewertung eine Skala verwendet wird, dann werden die Punkte in Skalenelemente konvertiert, als seien sie aufeinanderfolgende ganze Zahlen.';
 $string['checklistoptions'] = 'Checklistenoptionen';
@@ -67,8 +67,8 @@ $string['needregrademessage'] = 'Die Checklistendefinition wurde geändert, nach
 $string['pluginname'] = 'Checkliste';
 $string['previewchecklist'] = 'Vorschau der Checkliste';
 $string['overallpoints'] = 'Gesamtpunktzahl';
-$string['regrademessage1'] = 'Sie sind dabei, Änderungen an einer Checkliste zu speichern, die bereits zum Bewerten verwendet wurde. Geben Sie bitte an,
-ob die vorhandenen Bewertungen überprüft werden müssen. Wenn Sie dieses festlegen, dann wird die Checkliste den Teilnehmern erst wieder angezeigt, nachdem ihre Elemente neu bewertet wurden.';
+$string['regrademessage1'] = 'Sie sind dabei, Änderungen an einer Checkliste zu speichern, die bereits zur Bewertung verwendet wurde. Geben Sie bitte an,
+ob die vorhandenen Bewertungen überprüft werden müssen. Wenn Sie diese Option festlegen, wird die Checkliste den Teilnehmern/innen erst wieder angezeigt, nachdem ihre Elemente neu bewertet wurden.';
 $string['regrademessage5'] = 'Sie sind dabei, wesentliche Änderungen an einer Checkliste zu speichern, die bereits zum Bewerten verwendet wurde. Der Bewertungsberichtwert bleibt unverändert, jedoch wird die Checkliste den Teilnehmern erst wieder angezeigt, nachdem ihre Elemente neu bewertet wurden.';
 $string['regradeoption0'] = 'Nicht für Neubewertung markieren';
 $string['regradeoption1'] = 'Für Neubewertung markieren';

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @copyright  Copyright (c) 2020 Open LMS (https://www.openlms.net)
+ * @copyright  Copyright (c) 2021 Open LMS (https://www.openlms.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -23,15 +23,15 @@ defined('MOODLE_INTERNAL') || die();
 
 $string['addgroup'] = 'Ajouter un groupe';
 $string['alwaysshowdefinition'] = 'Permet aux utilisateurs de prévisualiser la check-list d\'évaluation dans le module (sinon, la check-list ne sera visible qu\'après l\'évaluation)';
-$string['backtoediting'] = 'Retour à la modification';
+$string['backtoediting'] = 'Retour à l\'édition';
 $string['checked'] = 'Coché';
 $string['checkitem'] = 'Marquer le crédit complet pour "{$a}"';
 $string['checklist'] = 'Check-list';
-$string['checklistmapping'] = 'Règles de correspondances entre résultat et note';
+$string['checklistmapping'] = 'Règles de correspondances entre score et note';
 $string['checklistmappingexplained'] = 'Le résultat minimum possible pour cette check-list est de <b>{$a->minscore} points</b> et sera converti en note minimale possible pour le module (zéro, sauf en cas d\'utilisation d\'échelle).
-    Le résultat maximum est de <b>{$a->maxscore} points</b> et sera converti en note maximale.<br />
-    Les résultats intermédiaires seront convertis respectivement et arrondis à la note disponible la plus proche.<br />
-    Si vous utilisez une échelle au lieu d\'une note, le résultat est converti en élément d\'échelle comme s\'il s\'agissait d\'une suite de nombres entiers.';
+Le résultat maximum est de <b>{$a->maxscore} points</b> et sera converti en note maximale.<br />
+Les résultats intermédiaires seront convertis respectivement et arrondis à la note disponible la plus proche.<br />
+Si vous utilisez une échelle au lieu d\'une note, le résultat est converti en élément d\'échelle comme s\'il s\'agissait d\'une suite de nombres entiers.';
 $string['checklistoptions'] = 'Options de check-list';
 $string['checkliststatus'] = 'État actuel de la check-list';
 $string['confirmdeletegroup'] = 'Voulez-vous vraiment supprimer ce groupe ?';
@@ -47,17 +47,17 @@ $string['err_scoreformat'] = 'Le nombre de points pour chaque élément doit êt
 $string['err_scoremax'] = 'Le nombre de points pour chaque élément ne doit pas être supérieur à 1 000';
 $string['err_totalscore'] = 'Le nombre maximal de points possible lors de la notation au moyen de la check-list doit être supérieur à zéro';
 $string['groupfeedback'] = 'Feed-back du groupe pour "{$a}"';
-$string['gradingof'] = 'Notation de {$a}';
+$string['gradingof'] = 'Évaluation de {$a}';
 $string['groupadditem'] = 'Ajouter un élément';
 $string['groupdelete'] = 'Supprimer un groupe';
 $string['groupdescription'] = 'Description du groupe';
 $string['groupempty'] = 'Cliquez pour modifier le groupe';
-$string['groupmovedown'] = 'Déplacer vers le bas';
-$string['groupmoveup'] = 'Déplacer vers le haut';
+$string['groupmovedown'] = 'Descendre';
+$string['groupmoveup'] = 'Monter';
 $string['grouppoints'] = 'Points du groupe';
 $string['groupremark'] = 'Remarque du groupe pour "{$a}"';
 $string['itemdefinition'] = 'Définition de l\'élément';
-$string['itemdelete'] = 'Supprimer l\'élément';
+$string['itemdelete'] = 'Supprimer élément';
 $string['itemempty'] = 'Cliquer pour modifier l\'élément';
 $string['itemfeedback'] = 'Feed-back pour "{$a}"';
 $string['itemremark'] = 'Remarque de l\'élément pour "{$a}"';
@@ -72,7 +72,7 @@ $string['regrademessage5'] = 'Vous êtes sur le point d\'enregistrer des modific
 $string['regradeoption0'] = 'Ne pas marquer pour réévaluation';
 $string['regradeoption1'] = 'Marquer pour réévaluation';
 $string['restoredfromdraft'] = 'Remarque : la dernière tentative de notation de cette personne n\'a pas été enregistrée correctement, les notes brouillon ont été restaurées. Si vous voulez annuler ces modifications, cliquez sur le bouton Annuler ci-dessous.';
-$string['save'] = 'Enregistrer';
+$string['save'] = 'Sauvegarder';
 $string['savechecklist'] = 'Enregistrer la check-list et la tenir prête';
 $string['savechecklistdraft'] = 'Enregistrer comme brouillon';
 $string['scorepostfix'] = '{$a} points';

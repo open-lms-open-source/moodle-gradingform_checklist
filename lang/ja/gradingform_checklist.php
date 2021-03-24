@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @copyright  Copyright (c) 2020 Open LMS (https://www.openlms.net)
+ * @copyright  Copyright (c) 2021 Open LMS (https://www.openlms.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -29,15 +29,15 @@ $string['checkitem'] = '"{$a}"の満点をマークする';
 $string['checklist'] = 'チェックリスト';
 $string['checklistmapping'] = '評定マッピングルールの評点';
 $string['checklistmappingexplained'] = 'このチェックリストの最低評点は、<b>{$a->minscore} 点</b>です。また、この評点は、モジュール内で利用可能な最小評点 (評価尺度を使用していない限りゼロ) にコンバートされます。
-    最大評点 <b>{$a->maxscore} 点</b>は最大評点にコンバートされます。<br />
-    中間評点は、それぞれコンバートされた後、利用可能な評点に近い値に四捨五入されます。<br />
-    評点の代わりに評価尺度を使用する場合、評点は連続する整数のように尺度要素にコンバートされます。';
+最大評点 <b>{$a->maxscore} 点</b>は最大評点にコンバートされます。<br />
+中間評点は、それぞれコンバートされた後、利用可能な評点に近い値に四捨五入されます。<br />
+評点の代わりに評価尺度を使用する場合、評点は連続する整数のように尺度要素にコンバートされます。';
 $string['checklistoptions'] = 'チェックリストオプション';
 $string['checkliststatus'] = '現在のチェックリストのステータス';
 $string['confirmdeletegroup'] = 'このグループを削除しますか？';
 $string['confirmdeleteitem'] = 'この項目を削除しますか？';
 $string['definechecklist'] = 'チェックリストを定義する';
-$string['description'] = '説明';
+$string['description'] = '記述内容';
 $string['err_definitionmax'] = '255文字を超える項目定義は指定できません';
 $string['err_descriptionmax'] = '255文字を超えるグループ説明は指定できません';
 $string['err_nodefinition'] = '項目定義は空白にできません';
@@ -48,7 +48,7 @@ $string['err_scoremax'] = '各項目の点数には、1000以下の値を指定�
 $string['err_totalscore'] = 'チェックリストで評定する場合、最大評点にはゼロ以上の値を指定する必要があります';
 $string['groupfeedback'] = '"{$a}"のグループフィードバック';
 $string['gradingof'] = '{$a} 評定';
-$string['groupadditem'] = '項目を追加する';
+$string['groupadditem'] = 'アイテムを追加する';
 $string['groupdelete'] = 'グループを削除する';
 $string['groupdescription'] = 'グループ説明';
 $string['groupempty'] = 'グループを編集するにはクリック';
@@ -57,23 +57,23 @@ $string['groupmoveup'] = '上へ';
 $string['grouppoints'] = 'グループの評点';
 $string['groupremark'] = '"{$a}"のグループのコメント';
 $string['itemdefinition'] = '項目定義';
-$string['itemdelete'] = '項目を削除する';
+$string['itemdelete'] = 'アイテムを削除する';
 $string['itemempty'] = '項目を編集するにはクリック';
 $string['itemfeedback'] = '"{$a}"のフィードバック';
 $string['itemremark'] = '"{$a}"の項目のコメント';
 $string['itemscore'] = '項目の評点';
-$string['name'] = '名称';
+$string['name'] = 'コース名順';
 $string['needregrademessage'] = 'この学生の評定後に、チェックリスト定義が変更されました。チェックリストをレビューして評定を更新するまで、学生はこのチェックリストを閲覧できません。';
 $string['pluginname'] = 'チェックリスト';
 $string['previewchecklist'] = 'チェックリストをプレビューする';
 $string['overallpoints'] = '全体の評点';
-$string['regrademessage1'] = 'すでに評定に使用されているチェックリストの変更を保存しようとしています。既存の評定を
-レビューする必要があるかどうかを指定してください。この設定を有効にすると、再評定されるまでチェックリストは学生に表示されません。';
+$string['regrademessage1'] = 'すでに評定に使用されているチェックリストの変更を保存しようとしています。
+既存の評定をレビューする必要があるかどうかを指定してください。この設定を有効にすると、再評定されるまでチェックリストは学生に表示されません。';
 $string['regrademessage5'] = 'すでに評定に使用されているチェックリストの重要な変更を保存しようとしています。評定表の評点は変更されませんが、評定項目が再評定されるまで、チェックリストは学生に表示されません。';
 $string['regradeoption0'] = '再評定をマークしない';
 $string['regradeoption1'] = '再評定をマークする';
 $string['restoredfromdraft'] = '注意: このユーザの前回の受験に関する評点が適切に保存されなかったため、下書きの評点がリストアされました。これらの変更をキャンセルする場合は、下の[キャンセル]ボタンを使用してください。';
-$string['save'] = '保存';
+$string['save'] = '保存する';
 $string['savechecklist'] = 'チェックリストを保存して利用可能にする';
 $string['savechecklistdraft'] = '下書きとして保存する';
 $string['scorepostfix'] = '{$a} 点';

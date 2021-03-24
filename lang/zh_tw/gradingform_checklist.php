@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @copyright  Copyright (c) 2020 Open LMS (https://www.openlms.net)
+ * @copyright  Copyright (c) 2021 Open LMS (https://www.openlms.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -24,20 +24,20 @@ defined('MOODLE_INTERNAL') || die();
 $string['addgroup'] = '新增群組';
 $string['alwaysshowdefinition'] = '允許使用者預覽模組中所使用的檢查清單 (否則檢查清單只在評分後才會看見)';
 $string['backtoediting'] = '返回繼續編輯';
-$string['checked'] = '已檢查';
+$string['checked'] = '已勾選';
 $string['checkitem'] = '標記「{$a}」的完整記分';
 $string['checklist'] = '檢查清單';
 $string['checklistmapping'] = '得分到成績的對應規則';
 $string['checklistmappingexplained'] = '此檢查清單的最低可能得分為 <b>{$a->minscore} 點</b>，將轉換為此模組中可用的最低成績 (除非使用等級，否則為零)。
-    最高得分 <b>{$a->maxscore} 點</b>將轉換為最高成績。<br />
-    中間的得分將分別轉換，取整數為最接近的可用成績。<br />
-    若是使用等級而非成績，得分將轉換為視同連續整數的等級元素。';
+最高得分 <b>{$a->maxscore} 點</b>將轉換為最高成績。<br />
+中間的得分將分別轉換，取整數為最接近的可用成績。<br />
+若是使用等級而非成績，得分將轉換為視同連續整數的等級元素。';
 $string['checklistoptions'] = '檢查清單選項';
 $string['checkliststatus'] = '目前的檢查清單狀態';
 $string['confirmdeletegroup'] = '您確定要刪除此群組嗎？';
 $string['confirmdeleteitem'] = '您確定要刪除此項目嗎？';
 $string['definechecklist'] = '定義檢查清單';
-$string['description'] = '說明';
+$string['description'] = '描述';
 $string['err_definitionmax'] = '項目定義不得超過 255 個字元';
 $string['err_descriptionmax'] = '群組說明不得超過 255 個字元';
 $string['err_nodefinition'] = '項目定義不得留空';
