@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="grade/grading/form/checklist/db" VERSION="20120525" COMMENT="XMLDB file for Moodle Checklist Advanced Grading Plugin"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="gradingform_checklist_groups" COMMENT="Contains information for checklist groups" NEXT="gradingform_checklist_items">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="definitionid"/>
+        <FIELD NAME="definitionid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" COMMENT="grading_definitions id" PREVIOUS="id" NEXT="sortorder"/>
+        <FIELD NAME="sortorder" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" COMMENT="Sort order of group" PREVIOUS="definitionid" NEXT="description"/>
+        <FIELD NAME="description" TYPE="text" LENGTH="big" NOTNULL="false" SEQUENCE="false" COMMENT="Description of the group" PREVIOUS="sortorder"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="definitionid"/>
+        <KEY NAME="definitionid" TYPE="foreign" FIELDS="definitionid" REFTABLE="grading_definitions" REFFIELDS="id" COMMENT="Foreign key on grading_definitions" PREVIOUS="primary"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="gradingform_checklist_items" COMMENT="Checklist items" PREVIOUS="gradingform_checklist_groups" NEXT="gradingform_checklist_fills">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="groupid"/>
+        <FIELD NAME="groupid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" COMMENT="Checklist group id" PREVIOUS="id" NEXT="sortorder"/>
+        <FIELD NAME="sortorder" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" COMMENT="Sort order of the checklist item" PREVIOUS="groupid" NEXT="score"/>
+        <FIELD NAME="score" TYPE="number" LENGTH="10" NOTNULL="true" UNSIGNED="false" SEQUENCE="false" DECIMALS="5" COMMENT="Point value of the item" PREVIOUS="sortorder" NEXT="definition"/>
+        <FIELD NAME="definition" TYPE="text" LENGTH="big" NOTNULL="false" SEQUENCE="false" COMMENT="Definition of the item" PREVIOUS="score"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="groupid"/>
+        <KEY NAME="groupid" TYPE="foreign" FIELDS="groupid" REFTABLE="gradingform_checklist_groups" REFFIELDS="id" COMMENT="Foreign key on gradingform_checklist_groups" PREVIOUS="primary"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="gradingform_checklist_fills" COMMENT="Stores the data of how the checklist is filled by a particular rater" PREVIOUS="gradingform_checklist_items">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true" NEXT="instanceid"/>
+        <FIELD NAME="instanceid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" COMMENT="Grading instance id" PREVIOUS="id" NEXT="groupid"/>
+        <FIELD NAME="groupid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" COMMENT="Checklist group id" PREVIOUS="instanceid" NEXT="itemid"/>
+        <FIELD NAME="itemid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="false" COMMENT="Checklist item id" PREVIOUS="groupid" NEXT="checked"/>
+        <FIELD NAME="checked" TYPE="int" LENGTH="1" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" COMMENT="Stores the checked status of the item" PREVIOUS="itemid" NEXT="remark"/>
+        <FIELD NAME="remark" TYPE="text" LENGTH="big" NOTNULL="false" SEQUENCE="false" COMMENT="Feedback by the rater on the item" PREVIOUS="checked" NEXT="remarkformat"/>
+        <FIELD NAME="remarkformat" TYPE="int" LENGTH="2" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" COMMENT="Text format for the remark" PREVIOUS="remark"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="instanceid"/>
+        <KEY NAME="instanceid" TYPE="foreign" FIELDS="instanceid" REFTABLE="grading_instances" REFFIELDS="id" COMMENT="Foreign key on the instance" PREVIOUS="primary" NEXT="groupid"/>
+        <KEY NAME="groupid" TYPE="foreign" FIELDS="groupid" REFTABLE="gradingform_checklist_groups" REFFIELDS="id" COMMENT="Foreign key of gradingform_checklist_groups" PREVIOUS="instanceid" NEXT="itemid"/>
+        <KEY NAME="itemid" TYPE="foreign" FIELDS="itemid" REFTABLE="gradingform_checklist_items" REFFIELDS="id" COMMENT="Foreign key on gradingform_checklist_items" PREVIOUS="groupid"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="instanceid-groupid-itemid" UNIQUE="true" FIELDS="instanceid, groupid, itemid" COMMENT="Index on the instance group and item ids"/>
+      </INDEXES>
+    </TABLE>
+  </TABLES>
+</XMLDB>

@@ -1,0 +1,101 @@
+.gradingform_checklist {overflow:auto;padding-bottom:1.25em;max-width:720px;position:relative;}
+
+.gradingform_checklist.editor .group .controls,
+.gradingform_checklist .group .description,
+.gradingform_checklist .group .items,
+.gradingform_checklist.editor .group .additem,
+.gradingform_checklist .group .remark,
+.gradingform_checklist .group .items .item .remark,
+.gradingform_checklist .group .items .item .score,
+.gradingform_checklist .group .items .item .definition,
+.gradingform_checklist .group .items .item {vertical-align: top;}
+
+.gradingform_checklist .group .items .item .definition {width: 50%;}
+.gradingform_checklist .group .items .item .score {width: 15%;}
+.gradingform_checklist .group .items .item .remark {width: 25%;}
+
+.gradingform_checklist.editor .group .controls,
+.gradingform_checklist .group .description,
+.gradingform_checklist.editor .group .additem,
+.gradingform_checklist .group .remark,
+.gradingform_checklist .group .items .item,
+.gradingform_checklist .group .pointstotals {padding:3px;}
+
+.gradingform_checklist .controls,
+.gradingform_checklist .controls div,
+.gradingform_checklist .group .description,
+.gradingform_checklist .group .items .item .definition,
+.gradingform_checklist .group .items .item .score,
+.gradingform_checklist .group .items .item .delete,
+.gradingform_checklist .group .items .item .remark,
+.gradingform_checklist .group .items .item .checkbox,
+.gradingform_checklist .group .items .item .plainvalue {display: inline-block;}
+
+.mform .gradingform_checklist .group > .remark textarea {width: 99%;}
+
+.gradingform_checklist .group .items .item .definition,
+.gradingform_checklist .group .items .item .score,
+.gradingform_checklist .group .items .item .delete,
+.gradingform_checklist .group .items .item .remark,
+.gradingform_checklist .group .items .item .checkbox,
+.gradingform_checklist .group .items .item .plainvalue {padding-left: 3px;}
+
+.gradingform_checklist_editform .status {font-weight:normal;text-transform:uppercase;font-size:60%;padding:0.25em;border:1px solid #EEE;}
+.gradingform_checklist_editform .status.ready {background-color:#e7f1c3;border-color:#AAEEAA;}
+.gradingform_checklist_editform .status.draft {background-color:#f3f2aa;border-color:#EEEE22;}
+
+.gradingform_checklist .group .description {width:150px; font-weight:bold;}
+
+.gradingform_checklist .checklistfeedback,
+.gradingform_checklist .pointstotals {font-weight: bold;}
+
+/* evaluation */
+.gradingform_checklist .group .items .item.currentchecked {background:#fff0f0;}
+.gradingform_checklist .group .items .item.checked {background:#d0ffd0;border:1px solid #555;}
+.gradingform_checklist.evaluate .group .items .item:hover {background:#30ff30;}
+
+/* Make invisible the buttons 'Move up' for the first group and 'Move down' for the last, because those buttons will make no change */
+.gradingform_checklist.editor .group.first .controls .moveup input,
+.gradingform_checklist.editor .group.last .controls .movedown input {display:none;}
+
+/* replace buttons with images */
+.gradingform_checklist.editor .delete input,
+.gradingform_checklist.editor .moveup input,
+.gradingform_checklist.editor .movedown input{text-indent: -1000em;cursor:pointer;border:none;}
+.gradingform_checklist.editor .group .controls .delete input {width:20px;height:16px;background: transparent url([[pix:i/invalid]]) no-repeat center top;}
+.gradingform_checklist.editor .items .item .delete input {width:20px;height:16px;background: transparent url([[pix:i/invalid]]) no-repeat center top;}
+.gradingform_checklist.editor .moveup input {width:20px;height:15px;background: transparent url([[pix:t/up]]) no-repeat center top;margin-top:4px;}
+.gradingform_checklist.editor .movedown input {width:20px;height:15px;background: transparent url([[pix:t/down]]) no-repeat center top;margin-top:4px;}
+
+.gradingform_checklist.editor .addgroup input,
+.gradingform_checklist.editor .additem input {background: transparent url([[pix:t/add]]) no-repeat;display:block;color:#555555;font-weight:bold;text-decoration:none;}
+.gradingform_checklist.editor .addgroup input {background-position: 5px 8px;height:30px;line-height:29px;margin-bottom:14px;padding-left:20px;padding-right:10px;}
+.gradingform_checklist.editor .additem input {background-position: 5px 6px;height:25px;line-height:24px;margin-bottom:10px;padding-left:18px;padding-right:8px;}
+
+.gradingform_checklist .options .optionsheading {font-weight:bold;font-size:1.1em;padding-bottom:5px;}
+.gradingform_checklist .options .option {padding-bottom:2px;}
+.gradingform_checklist .options .option label {margin-left: 5px;}
+.gradingform_checklist .options .option .value {margin-left: 5px;font-weight:bold;}
+
+.gradingform_checklist .group .items.error { border:1px solid red;}
+.gradingform_checklist .group .description.error,
+.gradingform_checklist .group .items .item .definition.error,
+.gradingform_checklist .group .items .item .score.error {background:#FFDDDD;}
+
+.gradingform_checklist-regrade {padding:10px;background:#FFDDDD;border:1px solid #F00;margin-bottom:10px;}
+.gradingform_checklist-restored {padding:10px;background:#FFFFDD;border:1px solid #FF0;margin-bottom:10px;}
+.gradingform_checklist-error {color:red;font-weight:bold;}
+
+/* special classes for elements created by checklisteditor.js */
+.gradingform_checklist .hiddenelement,
+.gradingform_checklist.editor .hiddenelement,
+.gradingform_checklist.editor .group .items .item .plainvalue.hiddenelement {display:none;}
+.gradingform_checklist.editor .pseudotablink {background-color:transparent;border:0 solid;height:1px;width:1px;color:transparent;padding:0;margin:0;position:relative;float:right;}
+
+#page-mod-assign-view .gradingform_checklist-description table { width: 100%;}
+#page-mod-assign-view #checklist-advancedgrading { padding-left: 22px;}
+
+/* Hide extra popout buttons added by js that assumes only one label tag per grade-panel fitem MDL-59264 */
+.path-mod-assign [data-region="grade-panel"] .gradingform_checklist a[data-region="popout-button"] {
+    display: none;
+}
