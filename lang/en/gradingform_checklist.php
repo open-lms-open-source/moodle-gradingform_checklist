@@ -90,3 +90,5 @@ $string['enableitemremarks'] = 'Allow grader to add text remarks for each checkl
 $string['enablegroupremarks'] = 'Allow grader to add text remarks for each checklist group';
 $string['showremarksstudent'] = 'Show all remarks to those being graded';
 $string['unchecked'] = 'Unchecked';
+// Privacy.
+$string['privacy:metadata'] = 'This plugin does not store personal data.';
