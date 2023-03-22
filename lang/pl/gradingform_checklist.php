@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @copyright  Copyright (c) 2022 Open LMS (https://www.openlms.net)
+ * @copyright  Copyright (c) 2023 Open LMS (https://www.openlms.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,10 +28,10 @@ $string['checked'] = 'Sprawdzone';
 $string['checkitem'] = 'Zaznacz pełny punkt dla „{$a}”';
 $string['checklist'] = 'Lista kryteriów';
 $string['checklistmapping'] = 'Przeliczenie oceny formularza na ocenę modułu';
-$string['checklistmappingexplained'] = 'Minimalna możliwa liczba punktów dla tej listy kontrolnej to <b>{$a->minscore}</b>Wynik ten zostanie przeliczony na minimalną dostępną w module ocenę (która wynosi zero, chyba że zastosowano skalę).
-Maksymalna liczba <b>{$a->maxscore} punktów</b> zostanie przeliczona na ocenę maksymalną.<br />
-Wyniki pośrednie będą przeliczane proporcjonalnie i zaokrąglane do najbliższego stopnia.<br />
-Jeśli zamiast stopnia użyto skalę, wynik zostanie przeliczony na elementy skali, tak jakby były one kolejnymi liczbami całkowitymi.';
+$string['checklistmappingexplained'] = 'Minimalna możliwa ocena dla tej listy kontrolnej to <b>{$a->minscore} punktów</b>. Wynik ten zostanie przeliczony na minimalną dostępną w module ocenę (która wynosi zero, chyba że zastosowano skalę).
+Maksymalny wynik <b>{$a->maxscore} points</b> zostanie przeliczony na ocenę maksymalną.<br />
+Wyniki pośrednie będą przeliczane proporcjonalnie i zaokrąglane do najbliższej oceny.<br />
+Jeśli zamiast oceny użyto skali, wynik zostanie przeliczony na elementy skali, tak jakby były kolejnymi liczbami całkowitymi.';
 $string['checklistoptions'] = 'Opcje formularza';
 $string['checkliststatus'] = 'Bieżący status formularza';
 $string['confirmdeletegroup'] = 'Czy na pewno chcesz usunąć tę grupę?';
@@ -67,7 +67,8 @@ $string['needregrademessage'] = 'Definicja formularza kryteriów została zmieni
 $string['pluginname'] = 'Lista kryteriów';
 $string['previewchecklist'] = 'Podgląd formularza kryteriów';
 $string['overallpoints'] = 'Ogólna liczba punktów';
-$string['regrademessage1'] = 'Użytkownik ma zamiar zapisać zmiany na liście kontrolnej, która był a uż wykorzystywana do oceniania. Należy wskazać, czy istniejące oceny wymagają sprawdzenia. Jeżeli tak, lista kontrolna będzie ukryta dla studentów do czasu ponownej oceny ich prac.';
+$string['regrademessage1'] = 'Użytkownik ma zamiar zapisać zmiany na liście kontrolnej, która była już wykorzystywana do oceniania.
+Należy wskazać, czy istniejące oceny wymagają sprawdzenia. Jeżeli tak, lista kontrolna będzie ukryta dla studentów do czasu ponownej oceny ich prac.';
 $string['regrademessage5'] = 'Użytkownik ma zamiar zapisać istotne zmiany w formularzu kryteriów, który był już wykorzystywany do oceniania. Wartość w dzienniku ocen nie ulegnie zmianie, ale informacje szczegółowe będą ukryte dla studentów do czasu ponownej oceny ich prac.';
 $string['regradeoption0'] = 'Nie zaznaczaj do ponownego ocenienia';
 $string['regradeoption1'] = 'Zaznacz do ponownego ocenienia';
