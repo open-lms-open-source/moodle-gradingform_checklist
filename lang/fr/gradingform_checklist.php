@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @copyright  Copyright (c) 2022 Open LMS (https://www.openlms.net)
+ * @copyright  Copyright (c) 2023 Open LMS (https://www.openlms.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -25,13 +25,13 @@ $string['addgroup'] = 'Ajouter un groupe';
 $string['alwaysshowdefinition'] = 'Permet aux utilisateurs de prévisualiser la check-list d\'évaluation dans le module (sinon, la check-list ne sera visible qu\'après l\'évaluation)';
 $string['backtoediting'] = 'Retour à l\'édition';
 $string['checked'] = 'Coché';
-$string['checkitem'] = 'Marquer le crédit complet pour "{$a}"';
+$string['checkitem'] = 'Marquer le crédit complet pour &quot;{$a}&quot;';
 $string['checklist'] = 'Check-list';
 $string['checklistmapping'] = 'Règles de correspondances entre score et note';
-$string['checklistmappingexplained'] = 'Le résultat minimum possible pour cette check-list est de <b>{$a->minscore} points</b> et sera converti en note minimale possible pour le module (zéro, sauf en cas d\'utilisation d\'échelle).
-Le résultat maximum est de <b>{$a->maxscore} points</b> et sera converti en note maximale.<br />
-Les résultats intermédiaires seront convertis respectivement et arrondis à la note disponible la plus proche.<br />
-Si vous utilisez une échelle au lieu d\'une note, le résultat est converti en élément d\'échelle comme s\'il s\'agissait d\'une suite de nombres entiers.';
+$string['checklistmappingexplained'] = 'La note minimale possible pour cette liste de contrôle est de <b>{$a->minscore} points</b> et elle sera convertie en la note minimale disponible dans ce module (qui est zéro sauf si l\'échelle est utilisée).
+Le score maximum <b>{$a->maxscore} points</b> sera converti en note maximale.<br />
+Les notes intermédiaires seront converties respectivement et arrondies à la note disponible la plus proche.<br />
+Si une échelle est utilisée à la place d\'une note, le score sera converti en éléments d\'échelle comme s\'il s\'agissait d\'entiers consécutifs.';
 $string['checklistoptions'] = 'Options de check-list';
 $string['checkliststatus'] = 'État actuel de la check-list';
 $string['confirmdeletegroup'] = 'Voulez-vous vraiment supprimer ce groupe ?';
@@ -46,7 +46,7 @@ $string['err_nogroups'] = 'La  check-list doit contenir au moins un groupe';
 $string['err_scoreformat'] = 'Le nombre de points pour chaque élément doit être un nombre non négatif valide';
 $string['err_scoremax'] = 'Le nombre de points pour chaque élément ne doit pas être supérieur à 1 000';
 $string['err_totalscore'] = 'Le nombre maximal de points possible lors de la notation au moyen de la check-list doit être supérieur à zéro';
-$string['groupfeedback'] = 'Feed-back du groupe pour "{$a}"';
+$string['groupfeedback'] = 'Feed-back du groupe pour &quot;{$a}&quot;';
 $string['gradingof'] = 'Évaluation de {$a}';
 $string['groupadditem'] = 'Ajouter un élément';
 $string['groupdelete'] = 'Supprimer un groupe';
@@ -55,19 +55,20 @@ $string['groupempty'] = 'Cliquez pour modifier le groupe';
 $string['groupmovedown'] = 'Descendre';
 $string['groupmoveup'] = 'Monter';
 $string['grouppoints'] = 'Points du groupe';
-$string['groupremark'] = 'Remarque du groupe pour "{$a}"';
+$string['groupremark'] = 'Remarque du groupe pour &quot;{$a}&quot;';
 $string['itemdefinition'] = 'Définition de l\'élément';
 $string['itemdelete'] = 'Supprimer élément';
 $string['itemempty'] = 'Cliquer pour modifier l\'élément';
-$string['itemfeedback'] = 'Feed-back pour "{$a}"';
-$string['itemremark'] = 'Remarque de l\'élément pour "{$a}"';
+$string['itemfeedback'] = 'Feed-back pour &quot;{$a}&quot;';
+$string['itemremark'] = 'Remarque de l\'élément pour &quot;{$a}&quot;';
 $string['itemscore'] = 'Résultat de l\'élément';
 $string['name'] = 'Nom';
 $string['needregrademessage'] = 'La définition de la check-list a été modifiée après la notation de l\'étudiant. Il ne peut pas voir cette check-list tant que vous ne l\'avez pas passée en revue et que vous n\'avez pas mis la note à jour.';
 $string['pluginname'] = 'Check-list';
 $string['previewchecklist'] = 'Aperçu de la check-list';
 $string['overallpoints'] = 'Points au total';
-$string['regrademessage1'] = 'Vous êtes sur le point d\'enregistrer des modifications sur une check-list déjà utilisée pour une notation. Indiquez si les notes existantes doivent être réévaluées. Dans ce cas, les étudiants ne pourront pas voir la check-list, tant que l\'élément n\'est pas réévalué.';
+$string['regrademessage1'] = 'Vous êtes sur le point d\'enregistrer des modifications sur une check-list déjà utilisée pour une notation.
+Indiquez si les notes existantes doivent être réévaluées. Dans ce cas, les étudiants ne pourront pas voir la check-list, tant que l\'élément n\'est pas réévalué.';
 $string['regrademessage5'] = 'Vous êtes sur le point d\'enregistrer des modifications importantes sur une check-list déjà utilisée pour une notation. La note dans le carnet de notes ne sera pas modifiée, mais les étudiants ne pourront pas voir la check-list, tant que leur élément n\'est pas réévalué.';
 $string['regradeoption0'] = 'Ne pas marquer pour réévaluation';
 $string['regradeoption1'] = 'Marquer pour réévaluation';
