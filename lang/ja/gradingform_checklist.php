@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @copyright  Copyright (c) 2022 Open LMS (https://www.openlms.net)
+ * @copyright  Copyright (c) 2023 Open LMS (https://www.openlms.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,10 +28,10 @@ $string['checked'] = 'チェック済み';
 $string['checkitem'] = '"{$a}"の満点をマークする';
 $string['checklist'] = 'チェックリスト';
 $string['checklistmapping'] = '評定マッピングルールの評点';
-$string['checklistmappingexplained'] = 'このチェックリストの最低評点は、<b>{$a->minscore} 点</b>です。また、この評点は、モジュール内で利用可能な最小評点 (評価尺度を使用していない限りゼロ) にコンバートされます。
-最大評点 <b>{$a->maxscore} 点</b>は最大評点にコンバートされます。<br />
-中間評点は、それぞれコンバートされた後、利用可能な評点に近い値に四捨五入されます。<br />
-評点の代わりに評価尺度を使用する場合、評点は連続する整数のように尺度要素にコンバートされます。';
+$string['checklistmappingexplained'] = 'このチェックリストの最小可能スコアは <b>{$a->minscore} ポイント</b>です。これは、このモジュールで利用可能な最小評点に変換されます（スケールが使用されない限りゼロになります）。
+最高スコア <b>{$a->maxscore} ポイント</b>は、最大評点に変換されます。<br />
+中間スコアは個別に変換され、利用可能な評点に四捨五入されます。<br />
+評点の代わりにスケールが使用される場合、スコアは連続する整数のようにスケール要素に変換されます。';
 $string['checklistoptions'] = 'チェックリストオプション';
 $string['checkliststatus'] = '現在のチェックリストのステータス';
 $string['confirmdeletegroup'] = 'このグループを削除しますか？';
@@ -72,7 +72,7 @@ $string['regrademessage1'] = 'すでに評定に使用されているチェッ�
 $string['regrademessage5'] = 'すでに評定に使用されているチェックリストの重要な変更を保存しようとしています。評定表の評点は変更されませんが、評定項目が再評定されるまで、チェックリストは学生に表示されません。';
 $string['regradeoption0'] = '再評定をマークしない';
 $string['regradeoption1'] = '再評定をマークする';
-$string['restoredfromdraft'] = '注意: このユーザの前回の受験に関する評点が適切に保存されなかったため、下書きの評点がリストアされました。これらの変更をキャンセルする場合は、下の[キャンセル]ボタンを使用してください。';
+$string['restoredfromdraft'] = '注意：このユーザの前回の受験に関する評点が適切に保存されなかったため、下書きの評点がリストアされました。これらの変更をキャンセルする場合は、下の[キャンセル]ボタンを使用してください。';
 $string['save'] = '保存する';
 $string['savechecklist'] = 'チェックリストを保存して利用可能にする';
 $string['savechecklistdraft'] = '下書きとして保存する';
