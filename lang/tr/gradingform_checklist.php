@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @copyright  Copyright (c) 2022 Open LMS (https://www.openlms.net)
+ * @copyright  Copyright (c) 2023 Open LMS (https://www.openlms.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,10 +28,10 @@ $string['checked'] = 'Kontrol edildi';
 $string['checkitem'] = '"{$a}" için tam kredi işaretle';
 $string['checklist'] = 'Kontrol listesi';
 $string['checklistmapping'] = 'Puanı nota dönüştürme kuralları';
-$string['checklistmappingexplained'] = 'Bu kontrol listesi için minimum olası puan <b>{$a->minscore} puandır</b> ve bu modülde kullanılabilen minimum nota dönüştürülecektir (bu not da ölçek kullanılmadıysa sıfırdır).
-Maksimum puan olan <b>{$a->maxscore} puan</b>, maksimum nota dönüştürülecektir.<br />
-Ara puanlar, sırasıyla dönüştürülecek ve kullanılabilen en yakın nota yuvarlanacaktır.<br />
-Not yerine bir ölçek kullanılırsa puan, ardıl tam sayılarmış gibi ölçek öğelerine dönüştürülecektir.';
+$string['checklistmappingexplained'] = 'Bu kontrol listesi için mümkün olan en düşük puan <b>{$a->minscore} puandır</b> ve bu modül için geçerli en düşük nota dönüştürülür (ölçek kullanılmıyorsa bu değer sıfırdır).
+Maksimum puan <b>{$a->maxscore}</b> maksimum nota dönüştürülür.<br />
+Ara puanlar sırasıyla dönüştürülür ve geçerli en yakın puana yuvarlanır.<br />
+Not yerine ölçek kullanılıyorsa puan ardışık tamsayılar gibi ölçek öğelerine dönüştürülür.';
 $string['checklistoptions'] = 'Kontrol listesi seçenekleri';
 $string['checkliststatus'] = 'Mevcut kontrol listesi durumu';
 $string['confirmdeletegroup'] = 'Bu grubu silmek istediğinize emin misiniz?';
