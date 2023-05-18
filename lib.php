@@ -30,6 +30,10 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/grade/grading/form/lib.php');
 
+/** checklist: Used to compare our gradeitem_type against. */
+const CHECKLIST = 'checklist';
+
+
 /**
  * This controller encapsulates the checklist grading logic
  */
@@ -781,7 +785,7 @@ class gradingform_checklist_instance extends gradingform_instance {
      * @return int the valid grade from $this->get_controller()->get_grade_range()
      */
     public function get_grade() {
-        $grade = $this->get_checklist_filling();
+        $grade = $this->get_checklist_filling(true);
 
         if (!($scores = $this->get_controller()->get_min_max_score()) || $scores['maxscore'] <= $scores['minscore']) {
             return -1;
