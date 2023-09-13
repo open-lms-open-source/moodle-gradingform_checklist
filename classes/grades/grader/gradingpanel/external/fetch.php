@@ -165,10 +165,15 @@ class fetch extends external_api {
         $maxgrade = max(array_keys($controller->get_grade_range()));
 
         $criterion = [];
+        $totalitems = 0;
+        $totalitemschecked = 0;
         if ($definition->checklist_groups) {
             // Iterate over the defined criterion in the checklist and map out what we need to render each item.
-            $criterion = array_map(function ($criterion) use ($definitionid, $fillings, $context, $hasgrade) {
+            $criterion = array_map(function ($criterion) use ($definitionid, $fillings, $context, $hasgrade,
+                &$totalitems, &$totalitemschecked) {
                 // The general structure we'll be returning, we still need to get the remark (if any) and the levels associated.
+                $numitems = count($criterion['items']);
+                $numitemschecked = 0;
                 $result = [
                     'id' => $criterion['id'],
                     'description' => self::get_formatted_text(
@@ -178,9 +183,12 @@ class fetch extends external_api {
                         $criterion['description'],
                         0
                     ),
+                    'numitems' => $numitems, // Initialize the count of items.
+                    'numitemschecked' => 0, // Initialize the count of items checked.
                 ];
 
-                $result['items'] = array_map(function ($items) use ($criterion, $fillings, $context, $definitionid) {
+                $result['items'] = array_map(function ($items) use ($criterion, $fillings, $context, $definitionid,
+                    &$numitems, &$numitemschecked) {
                     $result = [
                         'id' => $items['id'],
                         'criterionid' => $criterion['id'],
@@ -211,8 +219,17 @@ class fetch extends external_api {
                         $result['checked'] = $filling['checked'];
                     }
 
+                    // Check if the item score is equal to 1 and increment the corresponding count.
+                    if ($result['checked']) {
+                        $numitemschecked++;
+                    }
                     return $result;
                 }, $criterion['items']);
+
+                // Add the item counts to the criterion structure.
+                $result['numitemschecked'] = $numitemschecked;
+                $totalitems += $numitems;
+                $totalitemschecked += $numitemschecked;
 
                 return $result;
             }, $definition->checklist_groups);
@@ -224,6 +241,8 @@ class fetch extends external_api {
             'grade' => [
                 'instanceid' => $instance->get_id(),
                 'criteria' => $criterion,
+                'numitems' => $totalitems,
+                'numitemschecked' => $totalitemschecked,
                 'usergrade' => $grade->grade,
                 'maxgrade' => $maxgrade,
                 'gradedby' => $gradername,
@@ -250,6 +269,8 @@ class fetch extends external_api {
                     new external_single_structure([
                         'id' => new external_value(PARAM_INT, 'ID of the Criteria'),
                         'description' => new external_value(PARAM_RAW, 'Description of the Criteria'),
+                        'numitems' => new external_value(PARAM_INT, 'Number of elements of the criterion'),
+                        'numitemschecked' => new external_value(PARAM_INT, 'Number of the items checked'),
                         'items' => new external_multiple_structure(new external_single_structure([
                             'id' => new external_value(PARAM_INT, 'ID of item'),
                             'criterionid' => new external_value(PARAM_INT, 'ID of the criterion this matches to'),
@@ -260,6 +281,8 @@ class fetch extends external_api {
                         ])),
                     ])
                 ),
+                'numitems' => new external_value(PARAM_INT, 'Number of elements in all criteria'),
+                'numitemschecked' => new external_value(PARAM_INT, 'Number of the items checked'),
                 'timecreated' => new external_value(PARAM_INT, 'The time that the grade was created'),
                 'usergrade' => new external_value(PARAM_RAW, 'Current user grade'),
                 'maxgrade' => new external_value(PARAM_RAW, 'Max possible grade'),
