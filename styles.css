@@ -99,3 +99,7 @@
 .path-mod-assign [data-region="grade-panel"] .gradingform_checklist a[data-region="popout-button"] {
     display: none;
 }
+
+.hiddenelement {
+    display: none;
+}

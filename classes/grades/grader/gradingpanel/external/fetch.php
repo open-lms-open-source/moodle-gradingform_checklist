@@ -183,6 +183,7 @@ class fetch extends external_api {
                         $criterion['description'],
                         0
                     ),
+                    'remark' => '',
                     'numitems' => $numitems, // Initialize the count of items.
                     'numitemschecked' => 0, // Initialize the count of items checked.
                 ];
@@ -225,7 +226,11 @@ class fetch extends external_api {
                     }
                     return $result;
                 }, $criterion['items']);
-
+                if (!empty($fillings['groups'][$criterion['id']]['items'][0])){
+                    $groupfeedbackfill = $fillings['groups'][$criterion['id']]['items'][0];
+                    $result['groupfeedback'] = self::get_formatted_text($context, $definitionid, 'remark',
+                        $groupfeedbackfill['remark'], (int) $groupfeedbackfill['remarkformat']);
+                }
                 // Add the item counts to the criterion structure.
                 $result['numitemschecked'] = $numitemschecked;
                 $totalitems += $numitems;
@@ -269,6 +274,7 @@ class fetch extends external_api {
                     new external_single_structure([
                         'id' => new external_value(PARAM_INT, 'ID of the Criteria'),
                         'description' => new external_value(PARAM_RAW, 'Description of the Criteria'),
+                        'groupfeedback' => new external_value(PARAM_RAW, 'Group feedback', VALUE_OPTIONAL),
                         'numitems' => new external_value(PARAM_INT, 'Number of elements of the criterion'),
                         'numitemschecked' => new external_value(PARAM_INT, 'Number of the items checked'),
                         'items' => new external_multiple_structure(new external_single_structure([

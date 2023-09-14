@@ -108,7 +108,7 @@
                             </label>
                         </div>
                             <div class="form-group">
-                                <label class="text-muted" for="advancedgrading-groups-{{criterionid}}-items-{{id}}-remark-input">{{#str}} additionalfeedback, core_grades {{/str}}</label>
+                                <label class="text-muted hiddenelement" for="advancedgrading-groups-{{criterionid}}-items-{{id}}-remark-input">{{#str}} additionalfeedback, core_grades {{/str}}</label>
                                 <textarea class="form-control"
                                        name="advancedgrading[groups][{{criterionid}}][items][{{id}}][remark]"
                                        id="advancedgrading-groups-{{criterionid}}-items-{{id}}-remark-input"
@@ -119,6 +119,15 @@
                                 >{{{remark}}}</textarea>
                             </div>
                     {{/items}}
+                    <label class="hiddenelement" for="advancedgrading-groups-{{id}}-items-0-remark">{{#str}}groupremark, gradingform_checklist, {{description}} {{/str}}</label>
+                    <textarea class="form-control"
+                              name="advancedgrading[groups][{{id}}][items][0][remark]"
+                              id="advancedgrading-groups-{{id}}-items-0-remark"
+                              cols="10"
+                              rows="5"
+                              data-max-rows="5"
+                              data-auto-rows="true"
+                    >{{{groupfeedback}}}</textarea>
                     <div id="pointsgroup-{{id}}" class="pointsgroup">
                         <strong>
                             <span>{{#str}} grouppoints, gradingform_checklist {{/str}}: <span class="scoredpoints">{{numitemschecked}}</span>/<span class="outofpoints">{{numitems}}</span></span>
