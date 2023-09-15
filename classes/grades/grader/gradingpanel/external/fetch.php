@@ -129,11 +129,13 @@ class fetch extends external_api {
         $gradeduser = \core_user::get_user($gradeduserid, '*', MUST_EXIST);
 
         // One can access its own grades. Others just if they're graders.
+        $isgrading = false;
         if ($gradeduserid != $USER->id) {
             $gradeitem->require_user_can_grade($gradeduser, $USER);
+            $isgrading = true;
         }
 
-        return self::get_fetch_data($gradeitem, $gradeduser);
+        return self::get_fetch_data($gradeitem, $gradeduser, $isgrading);
     }
 
     /**
@@ -143,12 +145,13 @@ class fetch extends external_api {
      * @param stdClass $gradeduser
      * @return array
      */
-    public static function get_fetch_data(gradeitem $gradeitem, stdClass $gradeduser): array {
+    public static function get_fetch_data(gradeitem $gradeitem, stdClass $gradeduser, bool $isgrading = true): array {
         global $USER;
         // Set up all the controllers etc that we'll be needing.
         $hasgrade = $gradeitem->user_has_grade($gradeduser);
         $grade = $gradeitem->get_grade_for_user($gradeduser, $USER);
         $instance = $gradeitem->get_advanced_grading_instance($USER, $grade);
+
         if (!$instance) {
             throw new moodle_exception('error:gradingunavailable', 'grading');
         }
@@ -158,6 +161,15 @@ class fetch extends external_api {
         $fillings = $instance->get_checklist_filling();
         $context = $controller->get_context();
         $definitionid = (int) $definition->id;
+
+        $options = $controller->get_options();
+
+        // Calculate when to show the elements depending on whether the user is grading or viewing their grades.
+        $templateoptions = new stdClass();
+        $templateoptions->showgrouppoints = $controller->can_display_group_and_item_points($isgrading);
+        $templateoptions->showoverallpoints = $controller->can_display_overall_points($isgrading);
+        $templateoptions->showgroupfeedback = $controller->can_display_group_feedback($isgrading);
+        $templateoptions->showitemfeedback = $controller->can_display_item_feedback($isgrading);
 
         // Set up some items we need to return on other interfaces.
         $gradegrade = \grade_grade::fetch(['itemid' => $gradeitem->get_grade_item()->id, 'userid' => $gradeduser->id]);
@@ -169,7 +181,7 @@ class fetch extends external_api {
         $totalitemschecked = 0;
         if ($definition->checklist_groups) {
             // Iterate over the defined criterion in the checklist and map out what we need to render each item.
-            $criterion = array_map(function ($criterion) use ($definitionid, $fillings, $context, $hasgrade,
+            $criterion = array_map(function ($criterion) use ($definitionid, $fillings, $context, $hasgrade, $templateoptions,
                 &$totalitems, &$totalitemschecked) {
                 // The general structure we'll be returning, we still need to get the remark (if any) and the levels associated.
                 $numitems = count($criterion['items']);
@@ -183,13 +195,12 @@ class fetch extends external_api {
                         $criterion['description'],
                         0
                     ),
-                    'remark' => '',
                     'numitems' => $numitems, // Initialize the count of items.
                     'numitemschecked' => 0, // Initialize the count of items checked.
                 ];
 
                 $result['items'] = array_map(function ($items) use ($criterion, $fillings, $context, $definitionid,
-                    &$numitems, &$numitemschecked) {
+                    $templateoptions, &$numitems, &$numitemschecked) {
                     $result = [
                         'id' => $items['id'],
                         'criterionid' => $criterion['id'],
@@ -207,12 +218,14 @@ class fetch extends external_api {
                     $filling = [];
                     if (!empty($fillings['groups'][$criterion['id']]['items'][$items['id']])) {
                         $filling = $fillings['groups'][$criterion['id']]['items'][$items['id']];
-                        $result['remark'] = self::get_formatted_text($context,
-                            $definitionid,
-                            'remark',
-                            $filling['remark'],
-                            (int) $filling['remarkformat']
-                        );
+                        if ($templateoptions->showitemfeedback) {
+                            $result['remark'] = self::get_formatted_text($context,
+                                $definitionid,
+                                'remark',
+                                $filling['remark'],
+                                (int) $filling['remarkformat']
+                            );
+                        }
                     }
 
                     // Consult the grade filling to see if an item has been selected and if it is the current item.
@@ -226,15 +239,20 @@ class fetch extends external_api {
                     }
                     return $result;
                 }, $criterion['items']);
-                if (!empty($fillings['groups'][$criterion['id']]['items'][0])){
+                if ($templateoptions->showgroupfeedback && !empty($fillings['groups'][$criterion['id']]['items'][0])){
                     $groupfeedbackfill = $fillings['groups'][$criterion['id']]['items'][0];
                     $result['groupfeedback'] = self::get_formatted_text($context, $definitionid, 'remark',
                         $groupfeedbackfill['remark'], (int) $groupfeedbackfill['remarkformat']);
                 }
                 // Add the item counts to the criterion structure.
-                $result['numitemschecked'] = $numitemschecked;
-                $totalitems += $numitems;
-                $totalitemschecked += $numitemschecked;
+                if ($templateoptions->showgrouppoints) {
+                    $result['numitemschecked'] = $numitemschecked;
+                }
+
+                if ($templateoptions->showoverallpoints) {
+                    $totalitems += $numitems;
+                    $totalitemschecked += $numitemschecked;
+                }
 
                 return $result;
             }, $definition->checklist_groups);
@@ -245,6 +263,7 @@ class fetch extends external_api {
             'hasgrade' => $hasgrade,
             'grade' => [
                 'instanceid' => $instance->get_id(),
+                'options' => $templateoptions,
                 'criteria' => $criterion,
                 'numitems' => $totalitems,
                 'numitemschecked' => $totalitemschecked,
@@ -270,13 +289,19 @@ class fetch extends external_api {
             'hasgrade' => new external_value(PARAM_BOOL, 'Does the user have a grade?'),
             'grade' => new external_single_structure([
                 'instanceid' => new external_value(PARAM_INT, 'The id of the current grading instance'),
+                'options' => new external_single_structure([
+                    'showgrouppoints' => new external_value(PARAM_BOOL, 'The points of the groups and items should be displayed'),
+                    'showoverallpoints' => new external_value(PARAM_BOOL, 'The points of the overall should be displayed'),
+                    'showgroupfeedback' => new external_value(PARAM_BOOL, 'The group feedback should be displayed'),
+                    'showitemfeedback' => new external_value(PARAM_BOOL, 'The item feedback should be displayed'),
+                ]),
                 'criteria' => new external_multiple_structure(
                     new external_single_structure([
                         'id' => new external_value(PARAM_INT, 'ID of the Criteria'),
                         'description' => new external_value(PARAM_RAW, 'Description of the Criteria'),
                         'groupfeedback' => new external_value(PARAM_RAW, 'Group feedback', VALUE_OPTIONAL),
-                        'numitems' => new external_value(PARAM_INT, 'Number of elements of the criterion'),
-                        'numitemschecked' => new external_value(PARAM_INT, 'Number of the items checked'),
+                        'numitems' => new external_value(PARAM_INT, 'Number of elements of the criterion', VALUE_OPTIONAL),
+                        'numitemschecked' => new external_value(PARAM_INT, 'Number of the items checked', VALUE_OPTIONAL),
                         'items' => new external_multiple_structure(new external_single_structure([
                             'id' => new external_value(PARAM_INT, 'ID of item'),
                             'criterionid' => new external_value(PARAM_INT, 'ID of the criterion this matches to'),
@@ -287,8 +312,8 @@ class fetch extends external_api {
                         ])),
                     ])
                 ),
-                'numitems' => new external_value(PARAM_INT, 'Number of elements in all criteria'),
-                'numitemschecked' => new external_value(PARAM_INT, 'Number of the items checked'),
+                'numitems' => new external_value(PARAM_INT, 'Number of elements in all criteria', VALUE_OPTIONAL),
+                'numitemschecked' => new external_value(PARAM_INT, 'Number of the items checked', VALUE_OPTIONAL),
                 'timecreated' => new external_value(PARAM_INT, 'The time that the grade was created'),
                 'usergrade' => new external_value(PARAM_RAW, 'Current user grade'),
                 'maxgrade' => new external_value(PARAM_RAW, 'Max possible grade'),

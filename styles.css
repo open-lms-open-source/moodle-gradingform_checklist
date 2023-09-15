@@ -1,4 +1,8 @@
-.gradingform_checklist {overflow:auto;padding-bottom:1.25em;max-width:720px;position:relative;}
+.gradingform_checklist {
+    overflow: auto;
+    padding-bottom: 1.25em;
+    position: relative;
+}
 
 .gradingform_checklist.editor .group .controls,
 .gradingform_checklist .group .description,
@@ -97,9 +101,5 @@
 
 /* Hide extra popout buttons added by js that assumes only one label tag per grade-panel fitem MDL-59264 */
 .path-mod-assign [data-region="grade-panel"] .gradingform_checklist a[data-region="popout-button"] {
-    display: none;
-}
-
-.hiddenelement {
     display: none;
 }

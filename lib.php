@@ -650,6 +650,55 @@ class gradingform_checklist_controller extends gradingform_controller {
         }
         return $options;
     }
+
+    /**
+     * Returns whether the points of the groups and items should be displayedtaking into account the method configuration
+     * and whether the user is grading or not.
+     *
+     * @param bool $isgrading The user is reviewing their grades or is grading.
+     * @return bool
+     */
+    public function can_display_group_and_item_points(bool $isgrading): bool {
+        $options = $this->get_options();
+        return !empty($options['showitempointstudent']) && !$isgrading || !empty($options['showitempointseval']) && $isgrading;
+    }
+
+    /**
+     * Returns whether the total points should be displayed taking into account the method configuration and whether
+     * the user is grading or not. Only when the showitempointseval setting is zero and is being graded is it not displayed,
+     * otherwise it should always be displayed.
+     *
+     * @param bool $isgrading The user is reviewing their grades or is grading.
+     * @return bool
+     */
+    public function can_display_overall_points(bool $isgrading): bool {
+        $options = $this->get_options();
+        return !$isgrading || !empty($options['showitempointseval']);
+    }
+
+    /**
+     * Returns whether the group feedback should be displayed taking into account the method configuration and whether
+     * the user is grading or not. If enablegroupremarks is disabled it will not be displayed in any case.
+     *
+     * @param bool $isgrading The user is reviewing their grades or is grading.
+     * @return bool
+     */
+    public function can_display_group_feedback(bool $isgrading): bool {
+        $options = $this->get_options();
+        return !empty($options['enablegroupremarks']) && ($isgrading || !empty($options['showremarksstudent']));
+    }
+
+    /**
+     * Returns whether the item feedback should be displayed taking into account the method configuration and whether
+     * the user is grading or not. If enableitemremarks is disabled it will not be displayed in any case.
+     *
+     * @param bool $isgrading The user is reviewing their grades or is grading.
+     * @return bool
+     */
+    public function can_display_item_feedback(bool $isgrading): bool {
+        $options = $this->get_options();
+        return !empty($options['enableitemremarks']) && ($isgrading || !empty($options['showremarksstudent']));
+    }
 }
 
 /**

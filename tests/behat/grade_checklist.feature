@@ -4,7 +4,7 @@ Feature: Converting checklist score to grades
   As a teacher
   I need to be able to use different grade settings
 
-  Scenario: Set checklist as a grading method for forums.
+  Background:
     Given the following "users" exist:
       | username | firstname | lastname | email |
       | teacher1 | Teacher | 1 | teacher1@example.com |
@@ -22,7 +22,7 @@ Feature: Converting checklist score to grades
     And the following forum discussions exist in course "Course 1":
       | user     | forum  | name        | message     |
       | teacher1 | forum1 | discussion1 | message1    |
-    When I log in as "teacher1"
+    And I log in as "teacher1"
     And I change window size to "large"
     And I am on "Course 1" course homepage with editing mode on
     And I am on the "forum1" "forum activity editing" page
@@ -30,7 +30,7 @@ Feature: Converting checklist score to grades
     And I select "Point" from the "grade_forum[modgrade_type]" singleselect
     And I select "Checklist" from the "advancedgradingmethod_forum" singleselect
     And I press "Save and return to course"
-    And I follow "forum1"
+    And I am on the "forum1" "forum activity" page
     And I navigate to "Advanced grading" in current page administration
     And I select "Checklist" from the "setmethod" singleselect
     And I follow "Define new grading form from scratch"
@@ -46,10 +46,84 @@ Feature: Converting checklist score to grades
     And I click on "#checklist-groups-NEWID1-items-NEWID2-definition" "css_element"
     And I set the field "checklist-groups-NEWID1-items-NEWID2-definition-input" to "Has conclusions"
     And I press "Save checklist and make it ready"
-    And I am on "Course 1" course homepage
+
+  Scenario: Set checklist as a grading method for forums.
+    Given I am on "Course 1" course homepage
     And I follow "forum1"
-    And I click on "Grade users" "button"
+    When I click on "Grade users" "button"
+    And I click on "[data-direction='1'][data-action='change-user']" "css_element"
+    And I should see "Student 1"
+    Then I should see "Group points: 0/3"
+    And I should see "Overall points: 0/3"
+    And I click on ".form-check-input" "css_element"
     And I should see "Group 1"
     And I should see "Has title"
     And I should see "Has description"
     And I should see "Has conclusions"
+    And I should see "Group points: 1/3"
+    And I should see "Overall points: 1/3"
+    And "//div[contains(@id, 'criteria-')]//div//textarea" "xpath" should exist
+    And "//div[contains(@id, 'criteria-')]//textarea[contains(@id, '-items-0-remark')]" "xpath" should exist
+    And I click on "button[data-action='savegrade']" "css_element"
+    And I log out
+    And I log in as "student1"
+    And I am on "Course 1" course homepage
+    And I follow "forum1"
+    When I click on "View grades" "button"
+    And I should see "Group 1"
+    And I should see "Has title"
+    And I should see "Has description"
+    And I should see "Has conclusions"
+    And I should see "Group points: 1/3"
+    And I should see "Overall points: 1/3"
+    And "//div[contains(@id, 'criteria-')]//div//textarea" "xpath" should exist
+    And "//div[contains(@id, 'criteria-')]//textarea[contains(@id, '-items-0-remark')]" "xpath" should exist
+
+  Scenario: Disable display of points during evaluation and feedback of groups
+    And I am on the "forum1" "forum activity editing" page
+    And I navigate to "Advanced grading" in current page administration
+    And I select "Checklist" from the "setmethod" singleselect
+    And I follow "Edit the current form definition"
+    And I click on "Display points for each item during evaluation" "checkbox"
+    And I click on "Allow grader to add text remarks for each checklist group" "checkbox"
+    And I press "Save"
+    And I am on the "forum1" "forum activity" page
+    When I click on "Grade users" "button"
+    And I click on "[data-direction='1'][data-action='change-user']" "css_element"
+    And I should see "Student 1"
+    Then I should not see "Group points: 0/3"
+    And I should not see "Overall points: 0/3"
+    And "//div[contains(@id, 'criteria-')]//div//textarea" "xpath" should exist
+    And "//div[contains(@id, 'criteria-')]//textarea[contains(@id, '-items-0-remark')]" "xpath" should not exist
+    And I log out
+    And I am on the "forum1" "forum activity" page logged in as "student1"
+    And I click on "View grades" "button"
+    Then I should see "Group points: 0/3"
+    And I should see "Overall points: 0/3"
+    And "//div[contains(@id, 'criteria-')]//div//textarea" "xpath" should exist
+    And "//div[contains(@id, 'criteria-')]//textarea[contains(@id, '-items-0-remark')]" "xpath" should not exist
+
+  Scenario: Disable display points for each item to those being graded and item feedback
+    And I am on the "forum1" "forum activity editing" page
+    And I navigate to "Advanced grading" in current page administration
+    And I select "Checklist" from the "setmethod" singleselect
+    And I follow "Edit the current form definition"
+    And I click on "Display points for each item to those being graded" "checkbox"
+    And I click on "Allow grader to add text remarks for each checklist item" "checkbox"
+    And I click on "Show all remarks to those being graded" "checkbox"
+    And I press "Save"
+    And I am on the "forum1" "forum activity" page
+    When I click on "Grade users" "button"
+    And I click on "[data-direction='1'][data-action='change-user']" "css_element"
+    And I should see "Student 1"
+    Then I should see "Group points: 0/3"
+    And I should see "Overall points: 0/3"
+    And "//div[contains(@id, 'criteria-')]//div//textarea" "xpath" should not exist
+    And "//div[contains(@id, 'criteria-')]//textarea[contains(@id, '-items-0-remark')]" "xpath" should exist
+    And I log out
+    And I am on the "forum1" "forum activity" page logged in as "student1"
+    And I click on "View grades" "button"
+    Then I should not see "Group points: 0/3"
+    And I should see "Overall points: 0/3"
+    And "//div[contains(@id, 'criteria-')]//div//textarea" "xpath" should not exist
+    And "//div[contains(@id, 'criteria-')]//textarea[contains(@id, '-items-0-remark')]" "xpath" should not exist

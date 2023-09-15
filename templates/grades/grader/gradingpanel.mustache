@@ -59,7 +59,7 @@
 }}
 <form id="gradingform_checklist-{{uniqid}}">
     <input type="hidden" name="instanceid" value="{{instanceid}}">
-    <div id="checklist-advancedgrading-{{uniqid}}" class="criterion">
+    <div id="checklist-advancedgrading-{{uniqid}}" class="criterion gradingform_checklist">
         {{#criteria}}
             <div class="mb-3">
                 <div class="d-flex align-items-center mb-2">
@@ -102,11 +102,14 @@
                                 <span>
                                     {{{definition}}}
                                 </span>
-                                <span class="pull-right">
-                                    {{#str}}scorepostfix, gradingform_checklist, {{score}}{{/str}}
-                                </span>
+                                {{#options.showgrouppoints}}
+                                    <span class="pull-right">
+                                        {{#str}}scorepostfix, gradingform_checklist, {{score}}{{/str}}
+                                    </span>
+                                {{/options.showgrouppoints}}
                             </label>
                         </div>
+                        {{#options.showitemfeedback}}
                             <div class="form-group">
                                 <label class="text-muted hiddenelement" for="advancedgrading-groups-{{criterionid}}-items-{{id}}-remark-input">{{#str}} additionalfeedback, core_grades {{/str}}</label>
                                 <textarea class="form-control"
@@ -118,29 +121,36 @@
                                        data-auto-rows="true"
                                 >{{{remark}}}</textarea>
                             </div>
+                        {{/options.showitemfeedback}}
                     {{/items}}
-                    <label class="hiddenelement" for="advancedgrading-groups-{{id}}-items-0-remark">{{#str}}groupremark, gradingform_checklist, {{description}} {{/str}}</label>
-                    <textarea class="form-control"
-                              name="advancedgrading[groups][{{id}}][items][0][remark]"
-                              id="advancedgrading-groups-{{id}}-items-0-remark"
-                              cols="10"
-                              rows="5"
-                              data-max-rows="5"
-                              data-auto-rows="true"
-                    >{{{groupfeedback}}}</textarea>
+                    {{#options.showgroupfeedback}}
+                        <label class="hiddenelement" for="advancedgrading-groups-{{id}}-items-0-remark">{{#str}}groupremark, gradingform_checklist, {{description}} {{/str}}</label>
+                        <textarea class="form-control"
+                                  name="advancedgrading[groups][{{id}}][items][0][remark]"
+                                  id="advancedgrading-groups-{{id}}-items-0-remark"
+                                  cols="10"
+                                  rows="5"
+                                  data-max-rows="5"
+                                  data-auto-rows="true"
+                        >{{{groupfeedback}}}</textarea>
+                    {{/options.showgroupfeedback}}
+                {{#options.showgrouppoints}}
                     <div id="pointsgroup-{{id}}" class="pointsgroup">
                         <strong>
                             <span>{{#str}} grouppoints, gradingform_checklist {{/str}}: <span class="scoredpoints">{{numitemschecked}}</span>/<span class="outofpoints">{{numitems}}</span></span>
                         </strong>
                     </div>
+                {{/options.showgrouppoints}}
                 </div>
             </div>
         {{/criteria}}
-        <div id="pointstotals">
-            <strong>
-                <span>{{#str}} overallpoints, gradingform_checklist {{/str}}: <span class="scoredpoints">{{numitemschecked}}</span>/<span class="outofpoints">{{numitems}}</span></span>
-            </strong>
-        </div>
+        {{#options.showoverallpoints}}
+            <div id="pointstotals">
+                <strong>
+                    <span>{{#str}} overallpoints, gradingform_checklist {{/str}}: <span class="scoredpoints">{{numitemschecked}}</span>/<span class="outofpoints">{{numitems}}</span></span>
+                </strong>
+            </div>
+        {{/options.showoverallpoints}}
     </div>
 </form>
 {{#js}}
