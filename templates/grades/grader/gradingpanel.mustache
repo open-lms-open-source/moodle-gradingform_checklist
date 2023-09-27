@@ -88,6 +88,7 @@
                                    name="advancedgrading[groups][{{criterionid}}][items][{{id}}][id]"
                                    id="advancedgrading-groups-{{criterionid}}-items-{{id}}-id-input"
                                    value="{{id}}"
+                                   score="{{score}}"
                                 {{#checked}}
                                    aria-checked="true"
                                    tabindex="0"
@@ -102,11 +103,11 @@
                                 <span>
                                     {{{definition}}}
                                 </span>
-                                {{#options.showgrouppoints}}
+                                {{#options.showpoints}}
                                     <span class="pull-right">
                                         {{#str}}scorepostfix, gradingform_checklist, {{score}}{{/str}}
                                     </span>
-                                {{/options.showgrouppoints}}
+                                {{/options.showpoints}}
                             </label>
                         </div>
                         {{#options.showitemfeedback}}
@@ -134,23 +135,23 @@
                                   data-auto-rows="true"
                         >{{{groupfeedback}}}</textarea>
                     {{/options.showgroupfeedback}}
-                {{#options.showgrouppoints}}
+                {{#options.showpoints}}
                     <div id="pointsgroup-{{id}}" class="pointsgroup">
                         <strong>
-                            <span>{{#str}} grouppoints, gradingform_checklist {{/str}}: <span class="scoredpoints">{{numitemschecked}}</span>/<span class="outofpoints">{{numitems}}</span></span>
+                            <span>{{#str}} grouppoints, gradingform_checklist {{/str}}: <span class="scoredpoints">{{grouppoints}}</span>/<span class="outofpoints">{{maxgrouppoints}}</span></span>
                         </strong>
                     </div>
-                {{/options.showgrouppoints}}
+                {{/options.showpoints}}
                 </div>
             </div>
         {{/criteria}}
-        {{#options.showoverallpoints}}
+        {{#options.showpoints}}
             <div id="pointstotals">
                 <strong>
-                    <span>{{#str}} overallpoints, gradingform_checklist {{/str}}: <span class="scoredpoints">{{numitemschecked}}</span>/<span class="outofpoints">{{numitems}}</span></span>
+                    <span>{{#str}} overallpoints, gradingform_checklist {{/str}}: <span class="scoredpoints">{{points}}</span>/<span class="outofpoints">{{maxpoints}}</span></span>
                 </strong>
             </div>
-        {{/options.showoverallpoints}}
+        {{/options.showpoints}}
     </div>
 </form>
 {{#js}}
@@ -158,10 +159,16 @@
         AutoRows.init(document.getElementById('gradingform_checklist-{{uniqid}}'));
         $('.form-check-input.item').change(function () {
             let criterion = $(this).closest('.criterion');
-            let numchecked = criterion.find('.form-check-input.item:checked').length;
-            criterion.find('.pointsgroup').find('.scoredpoints').text(numchecked);
-            let totalchecked = $('.form-check-input.item:checked').length;
-            $('#pointstotals').find('.scoredpoints').text(totalchecked);
+            let grouppoints = 0;
+            criterion.find('.form-check-input.item:checked').each(function() {
+                grouppoints += parseInt($(this).attr('score'), 10) || 0;
+            });
+            criterion.find('.pointsgroup').find('.scoredpoints').text(grouppoints);
+            let totalpoints = 0;
+            $('.form-check-input.item:checked').each(function() {
+                totalpoints += parseInt($(this).attr('score'), 10) || 0;
+            });
+            $('#pointstotals').find('.scoredpoints').text(totalpoints);
         });
     });
 {{/js}}

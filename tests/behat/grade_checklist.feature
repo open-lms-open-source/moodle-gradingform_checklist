@@ -124,6 +124,6 @@ Feature: Converting checklist score to grades
     And I am on the "forum1" "forum activity" page logged in as "student1"
     And I click on "View grades" "button"
     Then I should not see "Group points: 0/3"
-    And I should see "Overall points: 0/3"
+    And I should not see "Overall points: 0/3"
     And "//div[contains(@id, 'criteria-')]//div//textarea" "xpath" should not exist
     And "//div[contains(@id, 'criteria-')]//textarea[contains(@id, '-items-0-remark')]" "xpath" should not exist

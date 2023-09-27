@@ -166,8 +166,7 @@ class fetch extends external_api {
 
         // Calculate when to show the elements depending on whether the user is grading or viewing their grades.
         $templateoptions = new stdClass();
-        $templateoptions->showgrouppoints = $controller->can_display_group_and_item_points($isgrading);
-        $templateoptions->showoverallpoints = $controller->can_display_overall_points($isgrading);
+        $templateoptions->showpoints = $controller->can_display_points($isgrading);
         $templateoptions->showgroupfeedback = $controller->can_display_group_feedback($isgrading);
         $templateoptions->showitemfeedback = $controller->can_display_item_feedback($isgrading);
 
@@ -177,15 +176,15 @@ class fetch extends external_api {
         $maxgrade = max(array_keys($controller->get_grade_range()));
 
         $criterion = [];
-        $totalitems = 0;
-        $totalitemschecked = 0;
+        $maxpoints = 0;
+        $points = 0;
         if ($definition->checklist_groups) {
             // Iterate over the defined criterion in the checklist and map out what we need to render each item.
             $criterion = array_map(function ($criterion) use ($definitionid, $fillings, $context, $hasgrade, $templateoptions,
-                &$totalitems, &$totalitemschecked) {
+                &$maxpoints, &$points) {
                 // The general structure we'll be returning, we still need to get the remark (if any) and the levels associated.
-                $numitems = count($criterion['items']);
-                $numitemschecked = 0;
+                $maxgrouppoints = 0;
+                $grouppoints = 0;
                 $result = [
                     'id' => $criterion['id'],
                     'description' => self::get_formatted_text(
@@ -195,12 +194,12 @@ class fetch extends external_api {
                         $criterion['description'],
                         0
                     ),
-                    'numitems' => $numitems, // Initialize the count of items.
-                    'numitemschecked' => 0, // Initialize the count of items checked.
+                    'maxgrouppoints' => 0,
+                    'grouppoints' => 0,
                 ];
 
                 $result['items'] = array_map(function ($items) use ($criterion, $fillings, $context, $definitionid,
-                    $templateoptions, &$numitems, &$numitemschecked) {
+                    $templateoptions, &$maxgrouppoints, &$grouppoints) {
                     $result = [
                         'id' => $items['id'],
                         'criterionid' => $criterion['id'],
@@ -235,8 +234,9 @@ class fetch extends external_api {
 
                     // Check if the item score is equal to 1 and increment the corresponding count.
                     if ($result['checked']) {
-                        $numitemschecked++;
+                        $grouppoints += $items['score'];
                     }
+                    $maxgrouppoints += $items['score'];
                     return $result;
                 }, $criterion['items']);
                 if ($templateoptions->showgroupfeedback && !empty($fillings['groups'][$criterion['id']]['items'][0])){
@@ -245,13 +245,14 @@ class fetch extends external_api {
                         $groupfeedbackfill['remark'], (int) $groupfeedbackfill['remarkformat']);
                 }
                 // Add the item counts to the criterion structure.
-                if ($templateoptions->showgrouppoints) {
-                    $result['numitemschecked'] = $numitemschecked;
+                if ($templateoptions->showpoints) {
+                    $result['maxgrouppoints'] = $maxgrouppoints;
+                    $result['grouppoints'] = $grouppoints;
                 }
 
-                if ($templateoptions->showoverallpoints) {
-                    $totalitems += $numitems;
-                    $totalitemschecked += $numitemschecked;
+                if ($templateoptions->showpoints) {
+                    $maxpoints += $maxgrouppoints;
+                    $points += $grouppoints;
                 }
 
                 return $result;
@@ -265,8 +266,8 @@ class fetch extends external_api {
                 'instanceid' => $instance->get_id(),
                 'options' => $templateoptions,
                 'criteria' => $criterion,
-                'numitems' => $totalitems,
-                'numitemschecked' => $totalitemschecked,
+                'maxpoints' => $maxpoints,
+                'points' => $points,
                 'usergrade' => $grade->grade,
                 'maxgrade' => $maxgrade,
                 'gradedby' => $gradername,
@@ -290,8 +291,7 @@ class fetch extends external_api {
             'grade' => new external_single_structure([
                 'instanceid' => new external_value(PARAM_INT, 'The id of the current grading instance'),
                 'options' => new external_single_structure([
-                    'showgrouppoints' => new external_value(PARAM_BOOL, 'The points of the groups and items should be displayed'),
-                    'showoverallpoints' => new external_value(PARAM_BOOL, 'The points of the overall should be displayed'),
+                    'showpoints' => new external_value(PARAM_BOOL, 'The points should be displayed'),
                     'showgroupfeedback' => new external_value(PARAM_BOOL, 'The group feedback should be displayed'),
                     'showitemfeedback' => new external_value(PARAM_BOOL, 'The item feedback should be displayed'),
                 ]),
@@ -300,8 +300,8 @@ class fetch extends external_api {
                         'id' => new external_value(PARAM_INT, 'ID of the Criteria'),
                         'description' => new external_value(PARAM_RAW, 'Description of the Criteria'),
                         'groupfeedback' => new external_value(PARAM_RAW, 'Group feedback', VALUE_OPTIONAL),
-                        'numitems' => new external_value(PARAM_INT, 'Number of elements of the criterion', VALUE_OPTIONAL),
-                        'numitemschecked' => new external_value(PARAM_INT, 'Number of the items checked', VALUE_OPTIONAL),
+                        'maxgrouppoints' => new external_value(PARAM_INT, 'Maximum number of criterion points', VALUE_OPTIONAL),
+                        'grouppoints' => new external_value(PARAM_INT, 'Criterion points', VALUE_OPTIONAL),
                         'items' => new external_multiple_structure(new external_single_structure([
                             'id' => new external_value(PARAM_INT, 'ID of item'),
                             'criterionid' => new external_value(PARAM_INT, 'ID of the criterion this matches to'),
@@ -312,8 +312,8 @@ class fetch extends external_api {
                         ])),
                     ])
                 ),
-                'numitems' => new external_value(PARAM_INT, 'Number of elements in all criteria', VALUE_OPTIONAL),
-                'numitemschecked' => new external_value(PARAM_INT, 'Number of the items checked', VALUE_OPTIONAL),
+                'maxpoints' => new external_value(PARAM_INT, 'Maximum number of points for all criteria', VALUE_OPTIONAL),
+                'points' => new external_value(PARAM_INT, 'Points obtained for all criteria', VALUE_OPTIONAL),
                 'timecreated' => new external_value(PARAM_INT, 'The time that the grade was created'),
                 'usergrade' => new external_value(PARAM_RAW, 'Current user grade'),
                 'maxgrade' => new external_value(PARAM_RAW, 'Max possible grade'),
