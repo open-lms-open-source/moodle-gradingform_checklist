@@ -203,7 +203,8 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
                     array('class' => 'hiddenelement', 'for' => '{NAME}-groups-{GROUP-id}-items-{ITEM-id}-definition-input'));
             $definition = $labelfordef . html_writer::empty_tag('input', array('type' => 'text',
                     'id' => '{NAME}-groups-{GROUP-id}-items-{ITEM-id}-definition-input',
-                    'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][definition]', 'value' => $item['definition']));
+                    'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][definition]', 'value' => $item['definition'],
+                    'maxlength' => '255'));
 
             $labelforscore = html_writer::tag('label', get_string('itemscore', 'gradingform_checklist'),
                     array('class' => 'hiddenelement', 'for' => '{NAME}-groups-{GROUP-id}-items-{ITEM-id}-score-input'));

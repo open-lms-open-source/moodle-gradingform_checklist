@@ -90,3 +90,4 @@ $string['enableitemremarks'] = 'Allow grader to add text remarks for each checkl
 $string['enablegroupremarks'] = 'Allow grader to add text remarks for each checklist group';
 $string['showremarksstudent'] = 'Show all remarks to those being graded';
 $string['unchecked'] = 'Unchecked';
+$string['maxlengthalert'] = 'This input field has a maximum length of {$a} characters';

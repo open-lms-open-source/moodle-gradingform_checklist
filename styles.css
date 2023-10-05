@@ -103,3 +103,13 @@
 .path-mod-assign [data-region="grade-panel"] .gradingform_checklist a[data-region="popout-button"] {
     display: none;
 }
+
+/* Wrap checklist option if word is too long */
+#page-grade-grading-form-checklist-edit .gradingform_checklist .definition .plainvalue .textvalue {
+    word-break: break-word;
+}
+
+/* Increase definition input size to be more comfortable */
+#page-grade-grading-form-checklist-edit .gradingform_checklist input[id$="-definition-input"] {
+    width: calc(100% - 2rem);
+}

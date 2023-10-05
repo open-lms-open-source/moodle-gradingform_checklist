@@ -101,7 +101,7 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
             $mode = gradingform_checklist_controller::DISPLAY_EDIT_FULL;
             $module = array('name'=>'gradingform_checklisteditor', 'fullpath'=>'/grade/grading/form/checklist/js/checklisteditor.js',
                 'strings' => array(array('confirmdeletegroup', 'gradingform_checklist'), array('confirmdeleteitem', 'gradingform_checklist'),
-                    array('groupempty', 'gradingform_checklist'), array('itemempty', 'gradingform_checklist')
+                    array('groupempty', 'gradingform_checklist'), array('itemempty', 'gradingform_checklist'), ['maxlengthalert', 'gradingform_checklist']
                 ));
             $PAGE->requires->js_init_call('M.gradingform_checklisteditor.init', array(
                     array('name' => $this->getName(),

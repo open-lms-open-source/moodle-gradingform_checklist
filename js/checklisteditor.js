@@ -18,6 +18,9 @@ M.gradingform_checklisteditor.init = function(Y, options) {
         Y.one('body').on('touchend', M.gradingform_checklisteditor.clickanywhere);
     });
 
+    // Keydown length validator for definition inputs
+    Y.all('input[id$="-definition-input"]').on('keydown', M.gradingform_checklisteditor.lengthvalidator);
+
     //Event handler for submit buttons
     Y.one('#checklist-' + options.name).delegate('click', M.gradingform_checklisteditor.buttonclick, 'input[type=submit]');
     Y.one('#checklist-' + options.name).delegate('key', M.gradingform_checklisteditor.handlekey, 'press:13', 'input[type=text]');
@@ -254,4 +257,17 @@ M.gradingform_checklisteditor.calculatenewid = function (elements_str) {
         if (id.match(/^NEWID(\d+)$/)) newid = Math.max(newid, parseInt(id.substring(5)) + 1);
     } );
     return newid
+};
+
+M.gradingform_checklisteditor.lengthvalidator = function (e) {
+    // Ignore control keys and direction keys
+    if (e.keyCode < 32 || (e.keyCode >= 33 && e.keyCode <= 40)) {
+        return;
+    }
+
+    var max = parseInt(e.target.getAttribute('maxlength'));
+    if (e.target.get('value').length >= max) {
+        e.preventDefault();
+        window.alert(M.str.gradingform_checklist.maxlengthalert.replace('{$a}', max));
+    }
 };
