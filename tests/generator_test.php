@@ -61,10 +61,10 @@ class generator_test extends advanced_testcase {
         $description = 'My first checklist';
         $criteria = [
             'Group 1' => [
-                'Has title' => 1
+                'Has title' => 1,
             ],
             'Group 2' => [
-                'Has references' => 1
+                'Has references' => 1,
             ],
         ];
 
@@ -138,10 +138,10 @@ class generator_test extends advanced_testcase {
         $description = 'My first checklist';
         $criteria = [
             'Group 1' => [
-                'Has title' => 1
+                'Has title' => 1,
             ],
             'Group 2' => [
-                'Has references' => 1
+                'Has references' => 1,
             ],
         ];
 

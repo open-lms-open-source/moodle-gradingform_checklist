@@ -546,7 +546,7 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
             $html .= get_string('regrademessage1', 'gradingform_checklist');
             $selectoptions = array(
                 0 => get_string('regradeoption0', 'gradingform_checklist'),
-                1 => get_string('regradeoption1', 'gradingform_checklist')
+                1 => get_string('regradeoption1', 'gradingform_checklist'),
             );
             $html .= html_writer::select($selectoptions, $elementname.'[regrade]', $value, false);
         } else {

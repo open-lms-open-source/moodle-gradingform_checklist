@@ -464,7 +464,7 @@ class gradingform_checklist_controller extends gradingform_controller {
             'noclean' => false,
             'trusted' => false,
             'filter' => true,
-            'context' => $context
+            'context' => $context,
         );
         return format_text($description, $this->definition->descriptionformat, $formatoptions);
     }
@@ -630,7 +630,7 @@ class gradingform_checklist_controller extends gradingform_controller {
             'showitempointstudent' => 1,
             'enableitemremarks' => 1,
             'enablegroupremarks' => 1,
-            'showremarksstudent' => 1
+            'showremarksstudent' => 1,
         );
         return $options;
     }
