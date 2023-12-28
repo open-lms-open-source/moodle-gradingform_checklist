@@ -119,7 +119,7 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
             if ($mode == gradingform_checklist_controller::DISPLAY_EVAL) {
                 $labelforremark = html_writer::tag('label', get_string('groupremark', 'gradingform_checklist', $group['description']),
                         array('class' => 'hiddenelement', 'for' => '{NAME}-groups-{GROUP-id}-items-0-remark'));
-                $input = $labelforremark . html_writer::tag('textarea', htmlspecialchars($currentremark),
+                $input = $labelforremark . html_writer::tag('textarea', htmlspecialchars($currentremark, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401),
                         array('id' => '{NAME}-groups-{GROUP-id}-items-0-remark', 'name' => '{NAME}[groups][{GROUP-id}][items][0][remark]', 'cols' => '10', 'rows' => '5'));
                 $grouptemplate .= html_writer::tag('div', $input, array('class' => 'remark'));
             } else if ($mode == gradingform_checklist_controller::DISPLAY_EVAL_FROZEN) {
@@ -281,7 +281,7 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
             if ($mode == gradingform_checklist_controller::DISPLAY_EVAL) {
                 $labelforremark = html_writer::tag('label', get_string('itemremark', 'gradingform_checklist', $item['definition']),
                         array('class' => 'hiddenelement', 'for' => '{NAME}-groups-{GROUP-id}-items-{ITEM-id}-remark-input'));
-                $input = $labelforremark . html_writer::tag('textarea', htmlspecialchars($currentremark), array('id' => '{NAME}-groups-{GROUP-id}-items-{ITEM-id}-remark-input',
+                $input = $labelforremark . html_writer::tag('textarea', htmlspecialchars($currentremark, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401), array('id' => '{NAME}-groups-{GROUP-id}-items-{ITEM-id}-remark-input',
                         'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][remark]', 'cols' => '20', 'rows' => '3'));
                 $itemtemplate .= html_writer::tag('div', $input, array('class' => 'remark'));
             } else if ($mode == gradingform_checklist_controller::DISPLAY_EVAL_FROZEN) {
