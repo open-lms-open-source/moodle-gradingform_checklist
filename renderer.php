@@ -324,20 +324,27 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
         $classsuffix = ''; // CSS suffix for class of the main div. Depends on the mode
         switch ($mode) {
             case gradingform_checklist_controller::DISPLAY_EDIT_FULL:
-                $classsuffix = ' editor editable'; break;
+                $classsuffix = ' editor editable'; 
+                break;
             case gradingform_checklist_controller::DISPLAY_EDIT_FROZEN:
-                $classsuffix = ' editor frozen';  break;
+                $classsuffix = ' editor frozen';
+                break;
             case gradingform_checklist_controller::DISPLAY_PREVIEW:
             case gradingform_checklist_controller::DISPLAY_PREVIEW_GRADED:
-                $classsuffix = ' editor preview';  break;
+                $classsuffix = ' editor preview';
+                break;
             case gradingform_checklist_controller::DISPLAY_EVAL:
-                $classsuffix = ' evaluate editable'; break;
+                $classsuffix = ' evaluate editable';
+                break;
             case gradingform_checklist_controller::DISPLAY_EVAL_FROZEN:
-                $classsuffix = ' evaluate frozen';  break;
+                $classsuffix = ' evaluate frozen';
+                break;
             case gradingform_checklist_controller::DISPLAY_REVIEW:
-                $classsuffix = ' review';  break;
+                $classsuffix = ' review';
+                break;
             case gradingform_checklist_controller::DISPLAY_VIEW:
-                $classsuffix = ' view';  break;
+                $classsuffix = ' view';
+                break;
         }
 
         $checklisttemplate = html_writer::start_tag('div', array('id' => 'checklist-{NAME}', 'class' => 'clearfix gradingform_checklist'.$classsuffix));
