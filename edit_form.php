@@ -50,7 +50,7 @@ class gradingform_checklist_editchecklist extends moodleform {
         $form->setType('returnurl', PARAM_LOCALURL);
 
         // name
-        $form->addElement('text', 'name', get_string('name', 'gradingform_checklist'), array('size'=>52));
+        $form->addElement('text', 'name', get_string( 'name' , 'gradingform_checklist'), array('size' => 52));
         $form->addRule('name', get_string('required'), 'required');
         $form->setType('name', PARAM_TEXT);
 
@@ -68,7 +68,7 @@ class gradingform_checklist_editchecklist extends moodleform {
         // checklist editor
         $element = $form->addElement('checklisteditor', 'checklist', get_string('checklist', 'gradingform_checklist'));
         $form->setType('checklist', PARAM_RAW);
-        //$element->freeze(); // TODO freeze checklist editor if needed
+        // $element->freeze(); // TODO freeze checklist editor if needed
 
         $buttonarray = array();
         $buttonarray[] = &$form->createElement('submit', 'savechecklist', get_string('savechecklist', 'gradingform_checklist'));

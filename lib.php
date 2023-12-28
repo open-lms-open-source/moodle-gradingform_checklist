@@ -47,7 +47,7 @@ class gradingform_checklist_controller extends gradingform_controller {
     /** checklist display mode: Preview the checklist design (for person with manage permission) */
     const DISPLAY_PREVIEW       = 3;
     /** checklist display mode: Preview the checklist (for people being graded) */
-    const DISPLAY_PREVIEW_GRADED= 8;
+    const DISPLAY_PREVIEW_GRADED = 8;
     /** checklist display mode: For evaluation, enabled (teacher grades a student) */
     const DISPLAY_EVAL          = 4;
     /** checklist display mode: For evaluation, with hidden fields */
@@ -426,7 +426,7 @@ class gradingform_checklist_controller extends gradingform_controller {
         $new->checklist = array('groups' => array(), 'options' => $old->checklist['options']);
         $newgroupid = 1;
         $newitemid = 1;
-        foreach ($old->checklist['groups'] as  $oldgroup) {
+        foreach ($old->checklist['groups'] as $oldgroup) {
             unset($oldgroup['id']);
             if (isset($oldgroup['items'])) {
                 foreach ($oldgroup['items'] as $olditemid => $olditem) {
@@ -769,7 +769,7 @@ class gradingform_checklist_instance extends gradingform_instance {
 
         foreach ($data['groups'] as $groupid => $group) {
             foreach($group['items'] as $itemid => $record) {
-                //handle deletions later
+                // handle deletions later
                 if (empty($record['remark']) && empty($record['id'])) {
                     continue;
                 }
@@ -845,7 +845,7 @@ class gradingform_checklist_instance extends gradingform_instance {
             }
         }
 
-        $gradeoffset = ($curscore-$scores['minscore'])/($scores['maxscore']-$scores['minscore'])*($maxgrade-$mingrade);
+        $gradeoffset = ($curscore - $scores['minscore']) / ($scores['maxscore'] - $scores['minscore']) * ($maxgrade - $mingrade);
         if ($this->get_controller()->get_allow_grade_decimals()) {
             return $gradeoffset + $mingrade;
         }
@@ -861,7 +861,7 @@ class gradingform_checklist_instance extends gradingform_instance {
      */
     public function render_grading_element($page, $gradingformelement) {
         if (!$gradingformelement->_flagFrozen) {
-            $module = array('name'=>'gradingform_checklist', 'fullpath'=>'/grade/grading/form/checklist/js/checklist.js');
+            $module = array('name' => 'gradingform_checklist', 'fullpath' => '/grade/grading/form/checklist/js/checklist.js');
             $page->requires->js_init_call('M.gradingform_checklist.init', array(array('name' => $gradingformelement->getName())), true, $module);
             $mode = gradingform_checklist_controller::DISPLAY_EVAL;
         } else {
@@ -895,7 +895,7 @@ class gradingform_checklist_instance extends gradingform_instance {
                     $newchecked = null;
                     if (isset($value['groups'][$groupid]['items'][$itemid]['remark'])) $newremark = $value['groups'][$groupid]['items'][$itemid]['remark'];
                     if (isset($value['groups'][$groupid]['items'][$itemid]['id'])) $newchecked = !empty($value['groups'][$groupid]['items'][$itemid]['id']);
-                    if ($newchecked != !empty($item['checked']) || $newremark != $item['remark']) {
+                if ($newchecked != !empty($item['checked']) || $newremark != $item['remark']) {
                         $haschanges = true;
                 }
             }

@@ -424,7 +424,7 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
         $scoredpoints = 0;
         $cnt = 0;
         foreach ($groups as $id => $group) {
-            $group['class'] = $this->get_css_class_suffix($cnt++, sizeof($groups) -1);
+            $group['class'] = $this->get_css_class_suffix($cnt++, sizeof($groups) - 1);
             $group['id'] = $id;
             $itemsstr = '';
             $itemcnt = 0;
@@ -435,7 +435,7 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
             }
             foreach ($group['items'] as $itemid => $item) {
                 $item['id'] = $itemid;
-                $item['class'] = $this->get_css_class_suffix($itemcnt++, sizeof($group['items']) -1);
+                $item['class'] = $this->get_css_class_suffix($itemcnt++, sizeof($group['items']) - 1);
                 $item['checked'] = !empty($groupvalue['items'][$itemid]['checked']);
                 if ($item['checked'] && ($mode == gradingform_checklist_controller::DISPLAY_EVAL_FROZEN || $mode == gradingform_checklist_controller::DISPLAY_REVIEW || $mode == gradingform_checklist_controller::DISPLAY_VIEW)) {
                     $item['class'] .= ' checked';
@@ -487,7 +487,7 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
         if ($idx == $maxidx) {
             $class .= ' last';
         }
-        if ($idx%2) {
+        if ($idx % 2) {
             $class .= ' odd';
         } else {
             $class .= ' even';
@@ -542,7 +542,7 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
 
     public function display_regrade_confirmation($elementname, $changelevel, $value) {
         $html = html_writer::start_tag('div', array('class' => 'gradingform_checklist-regrade'));
-        if ($changelevel<=2) {
+        if ($changelevel <= 2) {
             $html .= get_string('regrademessage1', 'gradingform_checklist');
             $selectoptions = array(
                 0 => get_string('regradeoption0', 'gradingform_checklist'),

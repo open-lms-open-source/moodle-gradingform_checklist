@@ -53,7 +53,7 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
      * @param array $helpbuttonargs array of arguments to make a help button
      * @param string $function function name to call to get html
      */
-    public function setHelpButton($helpbuttonargs, $function='helpbutton'){
+    public function setHelpButton($helpbuttonargs, $function='helpbutton') {
         debugging('component setHelpButton() is not used any more, please use $mform->setHelpButton() instead');
     }
 
@@ -99,7 +99,7 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
         $data = $this->prepare_data(null, $this->wasvalidated);
         if (!$this->_flagFrozen) {
             $mode = gradingform_checklist_controller::DISPLAY_EDIT_FULL;
-            $module = array('name'=>'gradingform_checklisteditor', 'fullpath'=>'/grade/grading/form/checklist/js/checklisteditor.js',
+            $module = array('name' => 'gradingform_checklisteditor', 'fullpath' => '/grade/grading/form/checklist/js/checklisteditor.js',
                 'strings' => array(array('confirmdeletegroup', 'gradingform_checklist'), array('confirmdeleteitem', 'gradingform_checklist'),
                     array('groupempty', 'gradingform_checklist'), array('itemempty', 'gradingform_checklist'), ['maxlengthalert', 'gradingform_checklist'],
                 ));
@@ -190,7 +190,7 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
                 $group['items']['NEWID'.($i++)]['score'] = 1;
 
                 // add more items so there are at least 3 in the new group. Score is 1 by default
-                for ($i= $i; $i < 3; $i++) {
+                for ($i = $i; $i < 3; $i++) {
                     $group['items']['NEWID'.$i]['score'] = 1;
                 }
                 // set other necessary fields (definition) for the items in the new group
@@ -239,7 +239,7 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
                     }
                 }
 
-                //sortorder for items
+                // sortorder for items
                 $itemsortorder = 1;
                 foreach (array_keys($items) as $itemid) {
                     $items[$itemid]['sortorder'] = $itemsortorder++;
@@ -326,7 +326,7 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
                 $maxid = (int)$matches[1];
             }
         }
-        return 'NEWID'.($maxid+1);
+        return 'NEWID' . ($maxid + 1);
     }
 
 
@@ -370,7 +370,7 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
      * @return array
      */
     public function exportValue(&$submitValues, $assoc = false) {
-        $value =  $this->prepare_data($this->_findValue($submitValues));
+        $value = $this->prepare_data($this->_findValue($submitValues));
         return $this->_prepareValue($value, $assoc);
     }
 }
