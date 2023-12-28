@@ -423,7 +423,7 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
         $scoredpoints = 0;
         $cnt = 0;
         foreach ($groups as $id => $group) {
-            $group['class'] = $this->get_css_class_suffix($cnt++, sizeof($groups) - 1);
+            $group['class'] = $this->get_css_class_suffix($cnt++, count($groups) - 1);
             $group['id'] = $id;
             $itemsstr = '';
             $itemcnt = 0;
@@ -434,7 +434,7 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
             }
             foreach ($group['items'] as $itemid => $item) {
                 $item['id'] = $itemid;
-                $item['class'] = $this->get_css_class_suffix($itemcnt++, sizeof($group['items']) - 1);
+                $item['class'] = $this->get_css_class_suffix($itemcnt++, count($group['items']) - 1);
                 $item['checked'] = !empty($groupvalue['items'][$itemid]['checked']);
                 if ($item['checked'] && ($mode == gradingform_checklist_controller::DISPLAY_EVAL_FROZEN || $mode == gradingform_checklist_controller::DISPLAY_REVIEW || $mode == gradingform_checklist_controller::DISPLAY_VIEW)) {
                     $item['class'] .= ' checked';
@@ -504,7 +504,7 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
      */
     public function display_instances($instances, $defaultcontent, $cangrade) {
         $return = '';
-        if (sizeof($instances)) {
+        if (count($instances)) {
             $return .= html_writer::start_tag('div', array('class' => 'advancedgrade'));
             $idx = 0;
             foreach ($instances as $instance) {

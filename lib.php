@@ -832,7 +832,7 @@ class gradingform_checklist_instance extends gradingform_instance {
         }
         sort($graderange);
         $mingrade = $graderange[0];
-        $maxgrade = $graderange[sizeof($graderange) - 1];
+        $maxgrade = $graderange[count($graderange) - 1];
 
         $curscore = 0;
         foreach ($grade['groups'] as $groupid => $group) {
