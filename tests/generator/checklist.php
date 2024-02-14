@@ -76,7 +76,7 @@ class checklist {
             'description_editor' => [
                 'text' => $this->description,
                 'format' => FORMAT_HTML,
-                'itemid' => 1
+                'itemid' => 1,
             ],
             'checklist' => [
                 'groups' => $this->get_all_criterion_values(),
