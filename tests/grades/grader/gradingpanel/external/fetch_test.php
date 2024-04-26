@@ -33,10 +33,12 @@ use moodle_exception;
  * @category   test
  * @copyright  Copyright (c) 2023 Open LMS (https://www.openlms.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * 
+ * @runTestsInSeparateProcesses
  */
 class fetch_test extends advanced_testcase {
 
-    public static function setupBeforeClass(): void {
+    protected function setUp(): void {
         global $CFG;
         require_once("{$CFG->libdir}/externallib.php");
     }
