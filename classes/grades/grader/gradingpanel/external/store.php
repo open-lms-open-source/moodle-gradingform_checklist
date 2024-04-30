@@ -32,10 +32,11 @@ use coding_exception;
 use context;
 use core_grades\component_gradeitem as gradeitem;
 use core_grades\component_gradeitems;
-use external_api;
-use external_function_parameters;
-use external_single_structure;
-use external_value;
+// Moodle patch INT-19461: Add missing core_external imports
+use core_external\external_api;
+use core_external\external_function_parameters;
+use core_external\external_single_structure;
+use core_external\external_value;
 use moodle_exception;
 require_once($CFG->dirroot.'/grade/grading/form/checklist/lib.php');
 
