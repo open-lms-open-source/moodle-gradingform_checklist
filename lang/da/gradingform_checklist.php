@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @copyright  Copyright (c) 2023 Open LMS (https://www.openlms.net)
+ * @copyright  Copyright (c) 2024 Open LMS (https://www.openlms.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -25,13 +25,10 @@ $string['addgroup'] = 'Tilføj gruppe';
 $string['alwaysshowdefinition'] = 'Tillad brugere at se eksempel på tjeklisten, der bruges i modulet (ellers bliver tjeklisten kun synlig efter karaktergivning)';
 $string['backtoediting'] = 'Tilbage til redigering';
 $string['checked'] = 'Markeret';
-$string['checkitem'] = 'Markér fuld pointtildeling for &quot;{$a}&quot;';
+$string['checkitem'] = 'Markér fuld pointtildeling for "{$a}"';
 $string['checklist'] = 'Tjekliste';
 $string['checklistmapping'] = 'Pointresultat for tilknytningsregler for karakter';
-$string['checklistmappingexplained'] = 'Det mindst mulige pointresultat for denne tjekliste er <b>{$a->minscore} point</b>, og den vil blive konverteret til den mindste karakter, der er tilgængelig i dette modul (som er nul, medmindre skalaen bruges).
-Den maksimale pointtildeling <b>{$a->maxscore} point</b> vil blive konverteret til den maksimale karakter.<br />
-Mellemliggende pointresultater konverteres tilsvarende og afrundes til den nærmeste tilgængelige karakter.<br />
-Hvis der anvendes en skala i stedet for en karakter, vil pointresultatet blive konverteret til skalaelementerne, som om de var fortløbende heltal.';
+$string['checklistmappingexplained'] = 'Det mindst mulige pointresultat for denne tjekliste er <b>{$a->minscore} point</b>, og den vil blive konverteret til den mindste karakter, der er tilgængelig i dette modul (som er nul, medmindre skalaen bruges). Den maksimale pointtildeling <b>{$a->maxscore} point</b> vil blive konverteret til den maksimale karakter.<br />Mellemliggende pointresultater konverteres tilsvarende og afrundes til den nærmeste tilgængelige karakter.<br />Hvis der anvendes en skala i stedet for en karakter, vil pointresultatet blive konverteret til skalaelementerne, som om de var fortløbende heltal.';
 $string['checklistoptions'] = 'Indstillinger for tjekliste';
 $string['checkliststatus'] = 'Aktuel tjeklistestatus';
 $string['confirmdeletegroup'] = 'Er du sikker på, at du vil slette denne gruppe?';
@@ -46,7 +43,7 @@ $string['err_nogroups'] = 'Tjeklisten skal indeholde mindst en gruppe';
 $string['err_scoreformat'] = 'Antal point for hvert element skal være et gyldigt positivt tal';
 $string['err_scoremax'] = 'Antal point for hvert element må ikke være højere end 1000';
 $string['err_totalscore'] = 'Maksimum antal mulige print, når der gives karakter af tjeklisten, skal være højere end nul';
-$string['groupfeedback'] = 'Gruppefeedback for &quot;{$a}&quot;';
+$string['groupfeedback'] = 'Gruppefeedback for "{$a}"';
 $string['gradingof'] = '{$a} karaktergivning';
 $string['groupadditem'] = 'Tilføj element';
 $string['groupdelete'] = 'Slet gruppe';
@@ -55,24 +52,23 @@ $string['groupempty'] = 'Klik for at redigere gruppe';
 $string['groupmovedown'] = 'Flyt ned';
 $string['groupmoveup'] = 'Flyt op';
 $string['grouppoints'] = 'Gruppepoint';
-$string['groupremark'] = 'Gruppebemærkning til &quot;{$a}&quot;';
+$string['groupremark'] = 'Gruppebemærkning til "{$a}"';
 $string['itemdefinition'] = 'Elementdefinition';
 $string['itemdelete'] = 'Slet element';
 $string['itemempty'] = 'Klik for at redigere element';
-$string['itemfeedback'] = 'Feedback for &quot;{$a}&quot;';
-$string['itemremark'] = 'Elementbemærkning til &quot;{$a}&quot;';
+$string['itemfeedback'] = 'Feedback for "{$a}"';
+$string['itemremark'] = 'Elementbemærkning til "{$a}"';
 $string['itemscore'] = 'Elementpointresultat';
 $string['name'] = 'Navn';
 $string['needregrademessage'] = 'Tjeklistedefinitionen blev ændret, efter denne studerende havde fået karakter. Den studerende kan ikke se denne tjekliste, før du gennemgår den og opdaterer karakteren.';
 $string['pluginname'] = 'Tjekliste';
 $string['previewchecklist'] = 'Vis eksempel på tjekliste';
 $string['overallpoints'] = 'Samlede point';
-$string['regrademessage1'] = 'Du er ved at gemme ændringer i en tjekliste, der allerede er blevet brugt til karaktergivning.
-Angiv venligst, om de eksisterende karakterer skal gennemgås. Hvis du angiver dette, skjules tjeklisten for studerende, indtil deres elementer har fået nye karakterer.';
+$string['regrademessage1'] = 'Du er ved at gemme ændringer til en tjekliste, der allerede er blevet brugt til karaktergivning. Angiv, om eksisterende karakterer skal gennemses. Hvis du angiver dette, skjules tjeklisten for studerende, indtil deres elementer har fået ny karakter.';
 $string['regrademessage5'] = 'Du er ved at gemme væsentlige ændringer til en tjekliste, der allerede er blevet brugt til karaktergivning. Karakterbogsværdien ændres ikke, men tjeklisten skjules for studerende, indtil deres elementer har fået ny karakter.';
 $string['regradeoption0'] = 'Markér ikke for ny karakter';
 $string['regradeoption1'] = 'Markér for ny karakter';
-$string['restoredfromdraft'] = 'BEMÆRK: Det sidste forsøg på at give denne person karakter blev ikke gemt korrekt, så kladdekarakterer er blevet gendannet. Hvis du vil annullere disse ændringer, skal du bruge knappen &apos;Annuller&apos; herunder.';
+$string['restoredfromdraft'] = 'BEMÆRK: Det sidste forsøg på at give denne person karakter blev ikke gemt korrekt, så kladdekarakterer er blevet gendannet. Hvis du vil annullere disse ændringer, skal du bruge knappen \'Annuller\' herunder.';
 $string['save'] = 'Gem';
 $string['savechecklist'] = 'Gem tjekliste, og gør den klar';
 $string['savechecklistdraft'] = 'Gem som kladde';
@@ -83,3 +79,4 @@ $string['enableitemremarks'] = 'Tillad karaktergiver at tilføje tekstbemærknin
 $string['enablegroupremarks'] = 'Tillad karaktergiver at tilføje tekstbemærkninger for hver tjeklistegruppe';
 $string['showremarksstudent'] = 'Vis alle bemærkninger til dem, der får karakter';
 $string['unchecked'] = 'Ikke markeret';
+$string['maxlengthalert'] = 'Dette indtastningsfelt har en maks. længde på {$a} tegn';
