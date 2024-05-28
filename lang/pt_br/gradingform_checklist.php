@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @copyright  Copyright (c) 2023 Open LMS (https://www.openlms.net)
+ * @copyright  Copyright (c) 2024 Open LMS (https://www.openlms.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -25,13 +25,10 @@ $string['addgroup'] = 'Adicionar grupo';
 $string['alwaysshowdefinition'] = 'Permitir que os usuários visualizem a lista de progresso usada no módulo (caso contrário, a lista de progresso só ficará visível após a avaliação)';
 $string['backtoediting'] = 'Voltar para edição';
 $string['checked'] = 'Marcado';
-$string['checkitem'] = 'Marcar crédito total para &quot;{$a}&quot;';
+$string['checkitem'] = 'Marcar crédito total para "{$a}"';
 $string['checklist'] = 'Lista de progresso';
 $string['checklistmapping'] = 'Regras de mapeamento de pontuação para nota';
-$string['checklistmappingexplained'] = 'A pontuação mínima possível para esta lista de verificação é de <b>{$a->minscore} pontos</b> e será convertida para a nota mínima disponível neste módulo (que é zero, a menos que a escala seja usada).
-A pontuação máxima de <b>{$a->maxscore} pontos</b> será convertida para a nota máxima.<br />
-As pontuações intermediárias serão convertidas, respectivamente, e arredondadas para a nota mais próxima disponível.<br />
-Se uma escala for usada em vez de uma nota, a pontuação será convertida nos elementos de escala como se fossem números inteiros consecutivos.';
+$string['checklistmappingexplained'] = 'A pontuação mínima possível para esta lista de progresso é de <b>{$a->minscore} pontos</b> e será convertida para a nota mínima disponível neste módulo (que é zero, a menos que a escala seja usada). A pontuação máxima de <b>{$a->maxscore} pontos</b> será convertida para a nota máxima.<br />As pontuações intermediárias serão convertidas, respectivamente, e arredondadas para a nota mais próxima disponível.<br />Se uma escala for usada em vez de uma nota, a pontuação será convertida nos elementos de escala como se fossem números inteiros consecutivos.';
 $string['checklistoptions'] = 'Opções da lista de progresso';
 $string['checkliststatus'] = 'Status atual da lista de progresso';
 $string['confirmdeletegroup'] = 'Você tem certeza de que quer excluir este grupo?';
@@ -46,7 +43,7 @@ $string['err_nogroups'] = 'É necessário que a lista de progresso contenha pelo
 $string['err_scoreformat'] = 'O número de pontos para cada item precisa ser um número não negativo válido';
 $string['err_scoremax'] = 'O número de pontos para cada item não pode ser maior do que 1.000';
 $string['err_totalscore'] = 'O número máximo de pontos possíveis para avaliação por lista de progresso precisa ser maior do que zero';
-$string['groupfeedback'] = 'Comentários de grupo para &quot;{$a}&quot;';
+$string['groupfeedback'] = 'Comentários de grupo para "{$a}"';
 $string['gradingof'] = 'Avaliação de {$a}';
 $string['groupadditem'] = 'Adicionar item';
 $string['groupdelete'] = 'Excluir grupo';
@@ -55,24 +52,23 @@ $string['groupempty'] = 'Clique para editar grupo';
 $string['groupmovedown'] = 'Mover para baixo';
 $string['groupmoveup'] = 'Mover para cima';
 $string['grouppoints'] = 'Pontos do grupo';
-$string['groupremark'] = 'Comentário do grupo para &quot;{$a}&quot;';
+$string['groupremark'] = 'Comentário do grupo para "{$a}"';
 $string['itemdefinition'] = 'Definição do item';
 $string['itemdelete'] = 'Excluir item';
 $string['itemempty'] = 'Clique para editar item';
-$string['itemfeedback'] = 'Comentários para &quot;{$a}&quot;';
-$string['itemremark'] = 'Comentário do item para &quot;{$a}&quot;';
+$string['itemfeedback'] = 'Comentários para "{$a}"';
+$string['itemremark'] = 'Comentário do item para "{$a}"';
 $string['itemscore'] = 'Pontuação do item';
 $string['name'] = 'Como você deseja chamar esta página?';
 $string['needregrademessage'] = 'A definição da lista de progresso foi alterada após este aluno ter sido avaliado. O aluno não poderá ver esta lista de progresso até que você a revise e atualize a nota.';
 $string['pluginname'] = 'Lista de progresso';
 $string['previewchecklist'] = 'Visualizar lista de progresso';
 $string['overallpoints'] = 'Total de pontos';
-$string['regrademessage1'] = 'Você está prestes a salvar as alterações em uma lista de verificação que já foi usada para avaliação.
-Indique se as notas existentes precisam ser revisadas. Se você definir isso, a lista de verificação ficará oculta dos alunos até que os itens sejam reavaliados.';
+$string['regrademessage1'] = 'Você está prestes a salvar alterações em uma lista de progresso que já foi utilizada para avaliação. Indique se as notas existentes precisam ser revisadas. Se você escolher essa opção, a lista de progresso ficará oculta para os alunos até que seus itens sejam reavaliados.';
 $string['regrademessage5'] = 'Você está prestes a salvar alterações significativas em uma lista de progresso que já foi utilizada para avaliação. O valor do boletim de notas não será alterado, mas a lista de progresso ficará oculta para os alunos até que seus itens sejam reavaliados.';
 $string['regradeoption0'] = 'Não marcar para reavaliação';
 $string['regradeoption1'] = 'Marcar para reavaliação';
-$string['restoredfromdraft'] = 'OBSERVAÇÃO: a última tentativa de avaliar esta pessoa não foi salva corretamente; portanto, um rascunho das notas foi restaurado. Se você quiser descartar essas alterações, use o botão &quot;Cancelar&quot; abaixo.';
+$string['restoredfromdraft'] = 'OBSERVAÇÃO: a última tentativa de avaliar esta pessoa não foi salva corretamente; portanto, um rascunho das notas foi restaurado. Se você quiser descartar essas alterações, use o botão "Cancelar" abaixo.';
 $string['save'] = 'Salvar preenchimento parcial';
 $string['savechecklist'] = 'Salvar e disponibilizar lista de progresso';
 $string['savechecklistdraft'] = 'Salvar como rascunho';
@@ -83,3 +79,4 @@ $string['enableitemremarks'] = 'Permitir que o avaliador adicione texto para cad
 $string['enablegroupremarks'] = 'Permitir que o avaliador adicione comentários de texto para cada grupo da lista de progresso';
 $string['showremarksstudent'] = 'Exibir todos os comentários para quem está sendo avaliado';
 $string['unchecked'] = 'Não marcado';
+$string['maxlengthalert'] = 'Essa entrada tem um comprimento máximo de {$a} caracteres';
