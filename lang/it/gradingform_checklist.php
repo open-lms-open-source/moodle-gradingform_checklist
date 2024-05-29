@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @copyright  Copyright (c) 2023 Open LMS (https://www.openlms.net)
+ * @copyright  Copyright (c) 2024 Open LMS (https://www.openlms.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,10 +28,9 @@ $string['checked'] = 'Spuntato';
 $string['checkitem'] = 'Contrassegna tutto il credito per "{$a}"';
 $string['checklist'] = 'Elenco di controllo';
 $string['checklistmapping'] = 'Punteggio per valutare regole di mapping';
-$string['checklistmappingexplained'] = 'Il punteggio minimo di questo elenco di controllo è <b>{$a->minscore} punti</b> e sarà convertito nel voto minimo disponibile per questo modulo (pari a zero a meno che non venga utilizzata una scala).
-Il punteggio massimo di <b>{$a->maxscore} punti</b> sarà convertito nel voto massimo.<br />
-I punteggi intermedi saranno rispettivamente convertiti e arrotondati al voto disponibile più vicino.<br />
-Se anziché il voto viene utilizzata una scala, il punteggio sarà convertito negli elementi della scala corrispondenti come se si trattasse di valori interi consecutivi.';
+$string['checklistmappingexplained'] = 'Il punteggio minimo di questo elenco di controllo è <b>{$a->minscore} punti</b> e sarà convertito nel voto minimo disponibile per questo modulo (pari a zero a meno che non venga utilizzata una scala). Il punteggio massimo <b>{$a->maxscore} points</b> sarà convertito nel voto massimo.<br />
+Intermediate scores will be converted respectively and rounded to the nearest available grade.<br />
+If a scale is used instead of a grade, the score will be converted to the scale elements as if they were consecutive integers.';
 $string['checklistoptions'] = 'Opzioni elenco di controllo';
 $string['checkliststatus'] = 'Stato corrente elenco di controllo';
 $string['confirmdeletegroup'] = 'Eliminare questo gruppo?';
@@ -67,8 +66,7 @@ $string['needregrademessage'] = 'La definizione dell\'elenco di controllo è sta
 $string['pluginname'] = 'Elenco di controllo';
 $string['previewchecklist'] = 'Anteprima elenco di controllo';
 $string['overallpoints'] = 'Punti totali';
-$string['regrademessage1'] = 'Stai per salvare le modifiche apportate su un elenco di controllo già utilizzato per la valutazione. Indica
-i voti esistenti da rivedere. Con questa impostazione, l\'elenco di controllo non sarà visualizzabile dagli studenti finché i loro elementi non verranno nuovamente valutati.';
+$string['regrademessage1'] = 'Stai per salvare le modifiche apportate su un elenco di controllo già utilizzato per la valutazione. Indica i voti esistenti da rivedere. Con questa impostazione, l\'elenco di controllo non sarà visualizzabile dagli studenti finché i loro elementi non verranno nuovamente valutati.';
 $string['regrademessage5'] = 'Stai per salvare modifiche rilevanti apportate a un elenco di controllo che è già stato utilizzato per la valutazione. I valori presenti nel registro voti non saranno modificati, ma l\'elenco di controllo non sarà visualizzabile dagli studenti finché i loro elementi non verranno nuovamente valutati.';
 $string['regradeoption0'] = 'Non contrassegnare per rivalutazione';
 $string['regradeoption1'] = 'Contrassegna per rivalutazione';
@@ -83,3 +81,4 @@ $string['enableitemremarks'] = 'Consenti al valutatore di aggiungere commenti te
 $string['enablegroupremarks'] = 'Consenti al valutatore di aggiungere commenti testuali a ogni gruppo dell\'elenco di controllo';
 $string['showremarksstudent'] = 'Mostra tutte le note a coloro che riceveranno la valutazione';
 $string['unchecked'] = 'Deselezionato';
+$string['maxlengthalert'] = 'La lunghezza massima per il campo di immissione è di {$a} caratteri';

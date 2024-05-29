@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @copyright  Copyright (c) 2023 Open LMS (https://www.openlms.net)
+ * @copyright  Copyright (c) 2024 Open LMS (https://www.openlms.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,10 +28,7 @@ $string['checked'] = 'チェック済み';
 $string['checkitem'] = '"{$a}"の満点をマークする';
 $string['checklist'] = 'チェックリスト';
 $string['checklistmapping'] = '評定マッピングルールの評点';
-$string['checklistmappingexplained'] = 'このチェックリストの最小可能スコアは <b>{$a->minscore} ポイント</b>です。これは、このモジュールで利用可能な最小評点に変換されます（スケールが使用されない限りゼロになります）。
-最高スコア <b>{$a->maxscore} ポイント</b>は、最大評点に変換されます。<br />
-中間スコアは個別に変換され、利用可能な評点に四捨五入されます。<br />
-評点の代わりにスケールが使用される場合、スコアは連続する整数のようにスケール要素に変換されます。';
+$string['checklistmappingexplained'] = 'このチェックリストの最小可能スコアは <b>{$a->minscore} ポイント</b>です。これは、このモジュールで利用可能な最小評点に変換されます（スケールが使用されない限りゼロになります）。最大スコア <b>{$a->maxscore} ポイント</b>が最大評点に変換されます。<br />中間スコアは個別に変換され、利用可能な評点に四捨五入されます。<br />評点の代わりにスケールが使用される場合、スコアは連続する整数のようにスケール要素に変換されます。';
 $string['checklistoptions'] = 'チェックリストオプション';
 $string['checkliststatus'] = '現在のチェックリストのステータス';
 $string['confirmdeletegroup'] = 'このグループを削除しますか？';
@@ -67,8 +64,7 @@ $string['needregrademessage'] = 'この学生の評定後に、チェックリ�
 $string['pluginname'] = 'チェックリスト';
 $string['previewchecklist'] = 'チェックリストをプレビューする';
 $string['overallpoints'] = '全体の評点';
-$string['regrademessage1'] = 'すでに評定に使用されているチェックリストの変更を保存しようとしています。
-既存の評定をレビューする必要があるかどうかを指定してください。この設定を有効にすると、再評定されるまでチェックリストは学生に表示されません。';
+$string['regrademessage1'] = 'すでに評定に使用されているチェックリストの変更を保存しようとしています。既存の評定をレビューする必要があるかどうかを指定してください。この設定を有効にすると、再評定されるまでチェックリストは学生に表示されません。';
 $string['regrademessage5'] = 'すでに評定に使用されているチェックリストの重要な変更を保存しようとしています。評定表の評点は変更されませんが、評定項目が再評定されるまで、チェックリストは学生に表示されません。';
 $string['regradeoption0'] = '再評定をマークしない';
 $string['regradeoption1'] = '再評定をマークする';
@@ -83,3 +79,4 @@ $string['enableitemremarks'] = '各チェックリストの項目に対して、
 $string['enablegroupremarks'] = '各チェックリストグループに対して、評定者によるコメントの追加を許可する';
 $string['showremarksstudent'] = '評定中の学生にコメントをすべて表示する';
 $string['unchecked'] = '未チェック';
+$string['maxlengthalert'] = 'この入力フィールドの最大文字数は {$a} 文字です。';

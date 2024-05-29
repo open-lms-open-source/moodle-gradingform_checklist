@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @copyright  Copyright (c) 2023 Open LMS (https://www.openlms.net)
+ * @copyright  Copyright (c) 2024 Open LMS (https://www.openlms.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,10 +28,7 @@ $string['checked'] = '已勾選';
 $string['checkitem'] = '標記「{$a}」的完整記分';
 $string['checklist'] = '檢查清單';
 $string['checklistmapping'] = '得分到成績的對應規則';
-$string['checklistmappingexplained'] = '此檢查清單的最低可能得分為 <b>{$a->minscore} 分</b>，且將轉換為此模組中可使用的最低成績 (即零分，除非使用量表)。
-最高得分 <b>{$a->maxscore} 分</b>將轉換為最高成績。<br />
-中等成績將分別轉換，並四捨五入至最低的可用成績。<br />
-如果使用量表而非成績，則得分將視為連續整數，轉換為量表元素。';
+$string['checklistmappingexplained'] = '此檢查清單的最低可能得分為 <b>{$a->minscore} 分</b>，且將轉換為此模組中可使用的最低成績 (即零分，除非使用量表)。最高分 <b>{$a->maxscore} 分</b>將轉換為最高成績。<br />中等成績將分別轉換，並四捨五入至最低的可用成績。<br />如果使用量表而非成績，則得分將視為連續整數，轉換為量表元素。';
 $string['checklistoptions'] = '檢查清單選項';
 $string['checkliststatus'] = '目前的檢查清單狀態';
 $string['confirmdeletegroup'] = '您確定要刪除此群組嗎？';
@@ -67,8 +64,7 @@ $string['needregrademessage'] = '此學員經評分後，檢查清單的定義�
 $string['pluginname'] = '檢查清單';
 $string['previewchecklist'] = '預覽檢查清單';
 $string['overallpoints'] = '整體分數';
-$string['regrademessage1'] = '您即將儲存變更至曾經用於評分的檢查清單。請
-指示是否需要檢閱現有的成績。若您設定此項目，則在學員的項目完成重新評分之前，系統將對學員隱藏檢查清單。';
+$string['regrademessage1'] = '您即將儲存變更至曾經用於評分的檢查清單。請指示是否需要審閱已有的成績。若您設定為是，在學員的項目完成重新評分之前，系統將對學員隱藏檢查清單。';
 $string['regrademessage5'] = '您即將儲存針對已用於評分的檢查清單所進行的重大變更。成績單的值將維持不變，但在學員的項目完成重新評分之前，系統將對學員隱藏檢查清單。';
 $string['regradeoption0'] = '不標記為重新評分';
 $string['regradeoption1'] = '標記為重新評分';
@@ -83,3 +79,4 @@ $string['enableitemremarks'] = '允許評分者針對各個檢查清單項目新
 $string['enablegroupremarks'] = '允許評分者針對各個檢查清單群組新增文字備註';
 $string['showremarksstudent'] = '向受評者顯示所有備註';
 $string['unchecked'] = '未檢查';
+$string['maxlengthalert'] = '此輸入欄位的字元最大長度為 {$a}';
