@@ -130,7 +130,7 @@ class fetch_test extends advanced_testcase {
         $this->assertIsInt($result['grade']['timemodified']);
 
         $this->assertArrayHasKey('usergrade', $result['grade']);
-        $this->assertEquals(null, $result['grade']['usergrade']);
+        $this->assertEquals('- / 100.00', $result['grade']['usergrade']);
 
         $this->assertArrayHasKey('maxgrade', $result['grade']);
         $this->assertIsInt($result['grade']['maxgrade']);
@@ -275,7 +275,7 @@ class fetch_test extends advanced_testcase {
         $this->assertIsInt($result['grade']['timemodified']);
 
         $this->assertArrayHasKey('usergrade', $result['grade']);
-        $this->assertEquals('50.00000', $result['grade']['usergrade']);
+        $this->assertEquals('50.00 / 100.00', $result['grade']['usergrade']);
 
         $this->assertArrayHasKey('maxgrade', $result['grade']);
         $this->assertIsInt($result['grade']['maxgrade']);
