@@ -198,10 +198,10 @@ class gradingform_checklist_generator extends component_generator_base {
     public function get_test_checklist(context $context, string $component, string $area): gradingform_checklist_controller {
         $criteria = [
             'Group 1' => [
-                'Has title' => 1
+                'Has title' => 1,
             ],
             'Group 2' => [
-                'Has references' => 1
+                'Has references' => 1,
             ],
         ];
 

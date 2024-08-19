@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -120,7 +119,7 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
             if ($mode == gradingform_checklist_controller::DISPLAY_EVAL) {
                 $labelforremark = html_writer::tag('label', get_string('groupremark', 'gradingform_checklist', $group['description']),
                         array('class' => 'hiddenelement', 'for' => '{NAME}-groups-{GROUP-id}-items-0-remark'));
-                $input = $labelforremark . html_writer::tag('textarea', htmlspecialchars($currentremark),
+                $input = $labelforremark . html_writer::tag('textarea', htmlspecialchars($currentremark, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401),
                         array('id' => '{NAME}-groups-{GROUP-id}-items-0-remark', 'name' => '{NAME}[groups][{GROUP-id}][items][0][remark]', 'cols' => '10', 'rows' => '5'));
                 $grouptemplate .= html_writer::tag('div', $input, array('class' => 'remark'));
             } else if ($mode == gradingform_checklist_controller::DISPLAY_EVAL_FROZEN) {
@@ -282,7 +281,7 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
             if ($mode == gradingform_checklist_controller::DISPLAY_EVAL) {
                 $labelforremark = html_writer::tag('label', get_string('itemremark', 'gradingform_checklist', $item['definition']),
                         array('class' => 'hiddenelement', 'for' => '{NAME}-groups-{GROUP-id}-items-{ITEM-id}-remark-input'));
-                $input = $labelforremark . html_writer::tag('textarea', htmlspecialchars($currentremark), array('id' => '{NAME}-groups-{GROUP-id}-items-{ITEM-id}-remark-input',
+                $input = $labelforremark . html_writer::tag('textarea', htmlspecialchars($currentremark, ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401), array('id' => '{NAME}-groups-{GROUP-id}-items-{ITEM-id}-remark-input',
                         'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][remark]', 'cols' => '20', 'rows' => '3'));
                 $itemtemplate .= html_writer::tag('div', $input, array('class' => 'remark'));
             } else if ($mode == gradingform_checklist_controller::DISPLAY_EVAL_FROZEN) {
@@ -325,20 +324,27 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
         $classsuffix = ''; // CSS suffix for class of the main div. Depends on the mode
         switch ($mode) {
             case gradingform_checklist_controller::DISPLAY_EDIT_FULL:
-                $classsuffix = ' editor editable'; break;
+                $classsuffix = ' editor editable'; 
+                break;
             case gradingform_checklist_controller::DISPLAY_EDIT_FROZEN:
-                $classsuffix = ' editor frozen';  break;
+                $classsuffix = ' editor frozen';
+                break;
             case gradingform_checklist_controller::DISPLAY_PREVIEW:
             case gradingform_checklist_controller::DISPLAY_PREVIEW_GRADED:
-                $classsuffix = ' editor preview';  break;
+                $classsuffix = ' editor preview';
+                break;
             case gradingform_checklist_controller::DISPLAY_EVAL:
-                $classsuffix = ' evaluate editable'; break;
+                $classsuffix = ' evaluate editable';
+                break;
             case gradingform_checklist_controller::DISPLAY_EVAL_FROZEN:
-                $classsuffix = ' evaluate frozen';  break;
+                $classsuffix = ' evaluate frozen';
+                break;
             case gradingform_checklist_controller::DISPLAY_REVIEW:
-                $classsuffix = ' review';  break;
+                $classsuffix = ' review';
+                break;
             case gradingform_checklist_controller::DISPLAY_VIEW:
-                $classsuffix = ' view';  break;
+                $classsuffix = ' view';
+                break;
         }
 
         $checklisttemplate = html_writer::start_tag('div', array('id' => 'checklist-{NAME}', 'class' => 'clearfix gradingform_checklist'.$classsuffix));
@@ -424,7 +430,7 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
         $scoredpoints = 0;
         $cnt = 0;
         foreach ($groups as $id => $group) {
-            $group['class'] = $this->get_css_class_suffix($cnt++, sizeof($groups) -1);
+            $group['class'] = $this->get_css_class_suffix($cnt++, count($groups) - 1);
             $group['id'] = $id;
             $itemsstr = '';
             $itemcnt = 0;
@@ -435,7 +441,7 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
             }
             foreach ($group['items'] as $itemid => $item) {
                 $item['id'] = $itemid;
-                $item['class'] = $this->get_css_class_suffix($itemcnt++, sizeof($group['items']) -1);
+                $item['class'] = $this->get_css_class_suffix($itemcnt++, count($group['items']) - 1);
                 $item['checked'] = !empty($groupvalue['items'][$itemid]['checked']);
                 if ($item['checked'] && ($mode == gradingform_checklist_controller::DISPLAY_EVAL_FROZEN || $mode == gradingform_checklist_controller::DISPLAY_REVIEW || $mode == gradingform_checklist_controller::DISPLAY_VIEW)) {
                     $item['class'] .= ' checked';
@@ -487,7 +493,7 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
         if ($idx == $maxidx) {
             $class .= ' last';
         }
-        if ($idx%2) {
+        if ($idx % 2) {
             $class .= ' odd';
         } else {
             $class .= ' even';
@@ -505,7 +511,7 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
      */
     public function display_instances($instances, $defaultcontent, $cangrade) {
         $return = '';
-        if (sizeof($instances)) {
+        if (count($instances)) {
             $return .= html_writer::start_tag('div', array('class' => 'advancedgrade'));
             $idx = 0;
             foreach ($instances as $instance) {
@@ -542,11 +548,11 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
 
     public function display_regrade_confirmation($elementname, $changelevel, $value) {
         $html = html_writer::start_tag('div', array('class' => 'gradingform_checklist-regrade'));
-        if ($changelevel<=2) {
+        if ($changelevel <= 2) {
             $html .= get_string('regrademessage1', 'gradingform_checklist');
             $selectoptions = array(
                 0 => get_string('regradeoption0', 'gradingform_checklist'),
-                1 => get_string('regradeoption1', 'gradingform_checklist')
+                1 => get_string('regradeoption1', 'gradingform_checklist'),
             );
             $html .= html_writer::select($selectoptions, $elementname.'[regrade]', $value, false);
         } else {
