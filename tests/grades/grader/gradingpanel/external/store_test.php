@@ -21,7 +21,7 @@ namespace gradingform_checklist\grades\grader\gradingpanel\external;
 use advanced_testcase;
 use coding_exception;
 use core_grades\component_gradeitem;
-use external_api;
+use core_external\external_api;
 use mod_forum\local\entities\forum as forum_entity;
 use moodle_exception;
 
@@ -33,13 +33,11 @@ use moodle_exception;
  * @copyright  Copyright (c) 2023 Open LMS (https://www.openlms.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * 
- * @runTestsInSeparateProcesses
  */
 class store_test extends advanced_testcase {
 
     protected function setUp(): void {
         global $CFG;
-        require_once("{$CFG->libdir}/externallib.php");
     }
 
     /**

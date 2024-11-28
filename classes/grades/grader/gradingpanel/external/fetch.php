@@ -39,6 +39,7 @@ use core_external\external_multiple_structure;
 use core_external\external_single_structure;
 use core_external\external_value;
 use core_external\external_warnings;
+use core_external\util;
 use stdClass;
 use moodle_exception;
 require_once($CFG->dirroot.'/grade/grading/form/checklist/lib.php');
@@ -341,7 +342,7 @@ class fetch extends external_api {
             'trusted' => false,
             'filter' => true,
         ];
-        [$newtext, ] = \core_external\util::format_text($text, $format, $context, 'grading', $filearea, $definitionid, $formatoptions);
+        [$newtext, ] = util::format_text($text, $format, $context, 'grading', $filearea, $definitionid, $formatoptions);
         return $newtext;
     }
 }
