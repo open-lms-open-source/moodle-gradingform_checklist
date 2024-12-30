@@ -28,9 +28,7 @@ $string['checked'] = 'Spuntato';
 $string['checkitem'] = 'Contrassegna tutto il credito per "{$a}"';
 $string['checklist'] = 'Elenco di controllo';
 $string['checklistmapping'] = 'Punteggio per valutare regole di mapping';
-$string['checklistmappingexplained'] = 'Il punteggio minimo di questo elenco di controllo è <b>{$a->minscore} punti</b> e sarà convertito nel voto minimo disponibile per questo modulo (pari a zero a meno che non venga utilizzata una scala). Il punteggio massimo <b>{$a->maxscore} points</b> sarà convertito nel voto massimo.<br />
-Intermediate scores will be converted respectively and rounded to the nearest available grade.<br />
-If a scale is used instead of a grade, the score will be converted to the scale elements as if they were consecutive integers.';
+$string['checklistmappingexplained'] = 'Il punteggio minimo di questo elenco di controllo è <b>{$a->minscore} punti</b> e sarà convertito nel voto minimo disponibile per questo modulo (pari a zero a meno che non venga utilizzata una scala). Il punteggio massimo <b>{$a->maxscore} points</b> sarà convertito nel voto massimo.<br />I punteggi intermedi saranno rispettivamente convertiti e arrotondati al voto disponibile più vicino.<br />Se anziché il voto viene utilizzata una scala, il punteggio sarà convertito negli elementi della scala corrispondenti come se si trattasse di valori interi consecutivi.';
 $string['checklistoptions'] = 'Opzioni elenco di controllo';
 $string['checkliststatus'] = 'Stato corrente elenco di controllo';
 $string['confirmdeletegroup'] = 'Eliminare questo gruppo?';
