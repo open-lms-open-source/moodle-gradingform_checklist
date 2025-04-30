@@ -155,7 +155,7 @@
     </div>
 </form>
 {{#js}}
-    require(['core/auto_rows'], function(AutoRows) {
+    require(['core/auto_rows', 'jquery'], function(AutoRows, $) {
         AutoRows.init(document.getElementById('gradingform_checklist-{{uniqid}}'));
         $('.form-check-input.item').change(function () {
             let criterion = $(this).closest('.criterion');
