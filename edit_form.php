@@ -61,8 +61,8 @@ class gradingform_checklist_editchecklist extends moodleform {
 
         // checklist completion status
         $choices = array();
-        $choices[gradingform_controller::DEFINITION_STATUS_DRAFT]    = html_writer::tag('span', get_string('statusdraft', 'core_grading'), array('class' => 'status draft'));
-        $choices[gradingform_controller::DEFINITION_STATUS_READY]    = html_writer::tag('span', get_string('statusready', 'core_grading'), array('class' => 'status ready'));
+        $choices[gradingform_controller::DEFINITION_STATUS_DRAFT]    = \core\output\html_writer::tag('span', get_string('statusdraft', 'core_grading'), array('class' => 'status draft'));
+        $choices[gradingform_controller::DEFINITION_STATUS_READY]    = \core\output\html_writer::tag('span', get_string('statusready', 'core_grading'), array('class' => 'status ready'));
         $form->addElement('select', 'status', get_string('checkliststatus', 'gradingform_checklist'), $choices)->freeze();
 
         // checklist editor

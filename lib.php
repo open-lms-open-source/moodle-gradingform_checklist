@@ -157,7 +157,7 @@ class gradingform_checklist_controller extends gradingform_controller {
     public function extend_settings_navigation(settings_navigation $settingsnav, navigation_node $node=null) {
         $node->add(get_string('definechecklist', 'gradingform_checklist'),
             $this->get_editor_url(), settings_navigation::TYPE_CUSTOM,
-            null, null, new pix_icon('icon', '', 'gradingform_checklist'));
+            null, null, new \core\output\pix_icon('icon', '', 'gradingform_checklist'));
     }
 
     /**
@@ -878,11 +878,11 @@ class gradingform_checklist_instance extends gradingform_instance {
         if ($value === null) {
             $value = $this->get_checklist_filling();
         } else if (!$this->validate_grading_element($value)) {
-            $html .= html_writer::tag('div', get_string('checklistnotcompleted', 'gradingform_checklist'), array('class' => 'gradingform_checklist-error'));
+            $html .= \core\output\html_writer::tag('div', get_string('checklistnotcompleted', 'gradingform_checklist'), array('class' => 'gradingform_checklist-error'));
         }
         $currentinstance = $this->get_current_instance();
         if ($currentinstance && $currentinstance->get_status() == gradingform_instance::INSTANCE_STATUS_NEEDUPDATE) {
-            $html .= html_writer::tag('div', get_string('needregrademessage', 'gradingform_checklist'), array('class' => 'gradingform_checklist-regrade'));
+            $html .= \core\output\html_writer::tag('div', get_string('needregrademessage', 'gradingform_checklist'), array('class' => 'gradingform_checklist-regrade'));
         }
         $haschanges = false;
         if ($currentinstance) {
@@ -901,10 +901,10 @@ class gradingform_checklist_instance extends gradingform_instance {
             }
         }
         if ($this->get_data('isrestored') && $haschanges) {
-            $html .= html_writer::tag('div', get_string('restoredfromdraft', 'gradingform_checklist'), array('class' => 'gradingform_checklist-restored'));
+            $html .= \core\output\html_writer::tag('div', get_string('restoredfromdraft', 'gradingform_checklist'), array('class' => 'gradingform_checklist-restored'));
         }
 
-        $html .= html_writer::tag('div', $this->get_controller()->get_formatted_description(), array('class' => 'gradingform_checklist-description clearfix'));
+        $html .= \core\output\html_writer::tag('div', $this->get_controller()->get_formatted_description(), array('class' => 'gradingform_checklist-description clearfix'));
 
         $html .= $this->get_controller()->get_renderer($page)->display_checklist($groups, $options, $mode, $gradingformelement->getName(), $value);
         return $html;

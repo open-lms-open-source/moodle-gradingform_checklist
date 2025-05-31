@@ -32,7 +32,7 @@ defined('MOODLE_INTERNAL') || die();
  * Checklist grading method plugin renderer
  *
  */
-class gradingform_checklist_renderer extends plugin_renderer_base {
+class gradingform_checklist_renderer extends \core\output\plugin_renderer_base {
     /**
      * This function returns html code for displaying group. Depending on $mode it may be the
      * code to edit checklist, to preview the checklist, to evaluate somebody or to review the evaluation.
@@ -68,27 +68,27 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
                 }
             }
         }
-        $grouptemplate = html_writer::start_tag('div', array('class' => 'group'. $group['class'], 'id' => '{NAME}-groups-{GROUP-id}'));
+        $grouptemplate = \core\output\html_writer::start_tag('div', array('class' => 'group'. $group['class'], 'id' => '{NAME}-groups-{GROUP-id}'));
         $controls = '';
         if ($mode == gradingform_checklist_controller::DISPLAY_EDIT_FULL) {
-            $controls .= html_writer::start_tag('div', array('class' => 'controls'));
+            $controls .= \core\output\html_writer::start_tag('div', array('class' => 'controls'));
             foreach (array('moveup', 'delete', 'movedown') as $key) {
                 $value = get_string('group'.$key, 'gradingform_checklist');
-                $labelforctrl = html_writer::tag('label', $value, array('class' => 'hiddenelement', 'for' => '{NAME}-groups-{GROUP-id}-'.$key));
-                $button = $labelforctrl . html_writer::empty_tag('input', array('type' => 'submit', 'name' => '{NAME}[groups][{GROUP-id}]['.$key.']',
+                $labelforctrl = \core\output\html_writer::tag('label', $value, array('class' => 'hiddenelement', 'for' => '{NAME}-groups-{GROUP-id}-'.$key));
+                $button = $labelforctrl . \core\output\html_writer::empty_tag('input', array('type' => 'submit', 'name' => '{NAME}[groups][{GROUP-id}]['.$key.']',
                     'id' => '{NAME}-groups-{GROUP-id}-'.$key, 'value' => $value, 'title' => $value, 'tabindex' => -1));
-                $controls .= html_writer::tag('div', $button, array('class' => $key));
+                $controls .= \core\output\html_writer::tag('div', $button, array('class' => $key));
             }
-            $controls .= html_writer::end_tag('div'); // .controls
-            $grouptemplate .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => '{NAME}[groups][{GROUP-id}][sortorder]', 'value' => $group['sortorder']));
-            $labelfordesc = html_writer::tag('label', get_string('groupdescription', 'gradingform_checklist'),
+            $controls .= \core\output\html_writer::end_tag('div'); // .controls
+            $grouptemplate .= \core\output\html_writer::empty_tag('input', array('type' => 'hidden', 'name' => '{NAME}[groups][{GROUP-id}][sortorder]', 'value' => $group['sortorder']));
+            $labelfordesc = \core\output\html_writer::tag('label', get_string('groupdescription', 'gradingform_checklist'),
                     array('class' => 'hiddenelement', 'for' => '{NAME}-groups-{GROUP-id}-description-input'));
-            $description = $labelfordesc . html_writer::empty_tag('input', array('type' => 'text', 'id' => '{NAME}-groups-{GROUP-id}-description-input',
+            $description = $labelfordesc . \core\output\html_writer::empty_tag('input', array('type' => 'text', 'id' => '{NAME}-groups-{GROUP-id}-description-input',
                     'name' => '{NAME}[groups][{GROUP-id}][description]', 'value' => $group['description']));
         } else {
             if ($mode == gradingform_checklist_controller::DISPLAY_EDIT_FROZEN) {
-                $grouptemplate .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => '{NAME}[groups][{GROUP-id}][sortorder]', 'value' => $group['sortorder']));
-                $grouptemplate .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => '{NAME}[groups][{GROUP-id}][description]', 'value' => $group['description']));
+                $grouptemplate .= \core\output\html_writer::empty_tag('input', array('type' => 'hidden', 'name' => '{NAME}[groups][{GROUP-id}][sortorder]', 'value' => $group['sortorder']));
+                $grouptemplate .= \core\output\html_writer::empty_tag('input', array('type' => 'hidden', 'name' => '{NAME}[groups][{GROUP-id}][description]', 'value' => $group['description']));
             }
             $description = $group['description'];
         }
@@ -96,20 +96,20 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
         if (isset($group['error_description'])) {
             $descriptionclass .= ' error';
         }
-        $grouptemplate .= html_writer::tag('div', $description, array('class' => $descriptionclass, 'id' => '{NAME}-groups-{GROUP-id}-description'));
+        $grouptemplate .= \core\output\html_writer::tag('div', $description, array('class' => $descriptionclass, 'id' => '{NAME}-groups-{GROUP-id}-description'));
         $grouptemplate .= $controls;
-        $itemsstrdiv = html_writer::tag('div', html_writer::tag('div', $itemsstr, array('id' => '{NAME}-groups-{GROUP-id}-items')));
+        $itemsstrdiv = \core\output\html_writer::tag('div', \core\output\html_writer::tag('div', $itemsstr, array('id' => '{NAME}-groups-{GROUP-id}-items')));
         $itemsclass = 'items';
         if (isset($group['error_items'])) {
             $itemsclass .= ' error';
         }
-        $grouptemplate .= html_writer::tag('div', $itemsstrdiv, array('class' => $itemsclass));
+        $grouptemplate .= \core\output\html_writer::tag('div', $itemsstrdiv, array('class' => $itemsclass));
         if ($mode == gradingform_checklist_controller::DISPLAY_EDIT_FULL) {
             $value = get_string('groupadditem', 'gradingform_checklist');
-            $labelforadditem = html_writer::tag('label', $value, array('class' => 'hiddenelement', 'for' => '{NAME}-groups-{GROUP-id}-items-additem'));
-            $button = $labelforadditem . html_writer::empty_tag('input', array('type' => 'submit', 'name' => '{NAME}[groups][{GROUP-id}][items][additem]',
+            $labelforadditem = \core\output\html_writer::tag('label', $value, array('class' => 'hiddenelement', 'for' => '{NAME}-groups-{GROUP-id}-items-additem'));
+            $button = $labelforadditem . \core\output\html_writer::empty_tag('input', array('type' => 'submit', 'name' => '{NAME}[groups][{GROUP-id}][items][additem]',
                     'id' => '{NAME}-groups-{GROUP-id}-items-additem', 'value' => $value, 'title' => $value));
-            $grouptemplate .= html_writer::tag('div', $button, array('class' => 'additem'));
+            $grouptemplate .= \core\output\html_writer::tag('div', $button, array('class' => 'additem'));
         }
         $displayremark = ($options['enablegroupremarks'] && ($mode != gradingform_checklist_controller::DISPLAY_VIEW || $options['showremarksstudent']));
         if ($displayremark) {
@@ -118,16 +118,16 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
                 $currentremark = $gvalue['items'][0]['remark'];
             }
             if ($mode == gradingform_checklist_controller::DISPLAY_EVAL) {
-                $labelforremark = html_writer::tag('label', get_string('groupremark', 'gradingform_checklist', $group['description']),
+                $labelforremark = \core\output\html_writer::tag('label', get_string('groupremark', 'gradingform_checklist', $group['description']),
                         array('class' => 'hiddenelement', 'for' => '{NAME}-groups-{GROUP-id}-items-0-remark'));
-                $input = $labelforremark . html_writer::tag('textarea', htmlspecialchars($currentremark),
+                $input = $labelforremark . \core\output\html_writer::tag('textarea', htmlspecialchars($currentremark),
                         array('id' => '{NAME}-groups-{GROUP-id}-items-0-remark', 'name' => '{NAME}[groups][{GROUP-id}][items][0][remark]', 'cols' => '10', 'rows' => '5'));
-                $grouptemplate .= html_writer::tag('div', $input, array('class' => 'remark'));
+                $grouptemplate .= \core\output\html_writer::tag('div', $input, array('class' => 'remark'));
             } else if ($mode == gradingform_checklist_controller::DISPLAY_EVAL_FROZEN) {
-                $grouptemplate .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => '{NAME}[groups][{GROUP-id}][items][0][remark]', 'value' => $currentremark));
+                $grouptemplate .= \core\output\html_writer::empty_tag('input', array('type' => 'hidden', 'name' => '{NAME}[groups][{GROUP-id}][items][0][remark]', 'value' => $currentremark));
             } else if ($mode == gradingform_checklist_controller::DISPLAY_REVIEW || $mode == gradingform_checklist_controller::DISPLAY_VIEW) {
-                $feedbackstr = empty($currentremark) ? '' : html_writer::tag('span', get_string('groupfeedback', 'gradingform_checklist', $group['description']) . ': ', array('class' => 'checklistfeedback'));
-                $grouptemplate .= html_writer::tag('div', $feedbackstr . $currentremark, array('class' => 'remark')); // TODO maybe some prefix here like 'Teacher remark:'
+                $feedbackstr = empty($currentremark) ? '' : \core\output\html_writer::tag('span', get_string('groupfeedback', 'gradingform_checklist', $group['description']) . ': ', array('class' => 'checklistfeedback'));
+                $grouptemplate .= \core\output\html_writer::tag('div', $feedbackstr . $currentremark, array('class' => 'remark')); // TODO maybe some prefix here like 'Teacher remark:'
             }
         }
 
@@ -145,13 +145,13 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
                     $checkedpts += $item['score'];
                 }
             }
-            $checkedpts = html_writer::tag('span', $checkedpts, array('class' => 'scoredpoints'));
-            $totalpts   = html_writer::tag('span', $totalpts, array('class' => 'outofpoints'));
+            $checkedpts = \core\output\html_writer::tag('span', $checkedpts, array('class' => 'scoredpoints'));
+            $totalpts   = \core\output\html_writer::tag('span', $totalpts, array('class' => 'outofpoints'));
 
             // add to the template
-            $grouptemplate .= html_writer::tag('div', get_string('grouppoints', 'gradingform_checklist') . ": $checkedpts/$totalpts", array('class' => 'pointstotals'));
+            $grouptemplate .= \core\output\html_writer::tag('div', get_string('grouppoints', 'gradingform_checklist') . ": $checkedpts/$totalpts", array('class' => 'pointstotals'));
         }
-        $grouptemplate .= html_writer::end_tag('div'); // .group
+        $grouptemplate .= \core\output\html_writer::end_tag('div'); // .group
 
         $grouptemplate = str_replace('{NAME}', $elementname, $grouptemplate);
         $grouptemplate = str_replace('{GROUP-id}', $group['id'], $grouptemplate);
@@ -196,38 +196,38 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
         // Template for one item within one group
         $divattributes = array('id' => '{NAME}-groups-{GROUP-id}-items-{ITEM-id}', 'class' => 'item'. $item['class']);
 
-        $itemtemplate = html_writer::start_tag('div', $divattributes);
-        $itemtemplate .= html_writer::start_tag('div', array('class' => 'item-wrapper'));
+        $itemtemplate = \core\output\html_writer::start_tag('div', $divattributes);
+        $itemtemplate .= \core\output\html_writer::start_tag('div', array('class' => 'item-wrapper'));
         if ($mode == gradingform_checklist_controller::DISPLAY_EDIT_FULL) {
-            $labelfordef = html_writer::tag('label', get_string('itemdefinition', 'gradingform_checklist'),
+            $labelfordef = \core\output\html_writer::tag('label', get_string('itemdefinition', 'gradingform_checklist'),
                     array('class' => 'hiddenelement', 'for' => '{NAME}-groups-{GROUP-id}-items-{ITEM-id}-definition-input'));
-            $definition = $labelfordef . html_writer::empty_tag('input', array('type' => 'text',
+            $definition = $labelfordef . \core\output\html_writer::empty_tag('input', array('type' => 'text',
                     'id' => '{NAME}-groups-{GROUP-id}-items-{ITEM-id}-definition-input',
                     'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][definition]', 'value' => $item['definition'],
                     'maxlength' => '255'));
 
-            $labelforscore = html_writer::tag('label', get_string('itemscore', 'gradingform_checklist'),
+            $labelforscore = \core\output\html_writer::tag('label', get_string('itemscore', 'gradingform_checklist'),
                     array('class' => 'hiddenelement', 'for' => '{NAME}-groups-{GROUP-id}-items-{ITEM-id}-score-input'));
-            $score = $labelforscore . html_writer::empty_tag('input', array('type' => 'text', 'id' => '{NAME}-groups-{GROUP-id}-items-{ITEM-id}-score-input',
+            $score = $labelforscore . \core\output\html_writer::empty_tag('input', array('type' => 'text', 'id' => '{NAME}-groups-{GROUP-id}-items-{ITEM-id}-score-input',
                     'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][score]', 'size' => '3', 'value' => $item['score']));
 
-            $itemtemplate .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][sortorder]', 'value' => $item['sortorder']));
+            $itemtemplate .= \core\output\html_writer::empty_tag('input', array('type' => 'hidden', 'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][sortorder]', 'value' => $item['sortorder']));
         } else {
             if ($mode == gradingform_checklist_controller::DISPLAY_EDIT_FROZEN) {
-                $itemtemplate .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][definition]', 'value' => $item['definition']));
-                $itemtemplate .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][score]', 'value' => $item['score']));
-                $itemtemplate .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][sortorder]', 'value' => $item['sortorder']));
+                $itemtemplate .= \core\output\html_writer::empty_tag('input', array('type' => 'hidden', 'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][definition]', 'value' => $item['definition']));
+                $itemtemplate .= \core\output\html_writer::empty_tag('input', array('type' => 'hidden', 'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][score]', 'value' => $item['score']));
+                $itemtemplate .= \core\output\html_writer::empty_tag('input', array('type' => 'hidden', 'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][sortorder]', 'value' => $item['sortorder']));
             }
             $definition = $item['definition'];
             $score = $item['score'];
         }
         if ($mode == gradingform_checklist_controller::DISPLAY_EVAL) {
-            $labelforcheckitem = html_writer::tag('label', get_string('checkitem', 'gradingform_checklist', $item['definition']),
+            $labelforcheckitem = \core\output\html_writer::tag('label', get_string('checkitem', 'gradingform_checklist', $item['definition']),
                     array('class' => 'hiddenelement', 'for' => '{NAME}-groups-{GROUP-id}-items-{ITEM-id}-id-input'));
-            $input = $labelforcheckitem . html_writer::empty_tag('input', array('type' => 'checkbox',
+            $input = $labelforcheckitem . \core\output\html_writer::empty_tag('input', array('type' => 'checkbox',
                     'id' => '{NAME}-groups-{GROUP-id}-items-{ITEM-id}-id-input', 'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][id]',
                     'value' => $item['id']) + ($item['checked'] ? array('checked' => 'checked') : array()));
-            $itemtemplate .= html_writer::tag('div', $input, array('class' => 'checkbox'));
+            $itemtemplate .= \core\output\html_writer::tag('div', $input, array('class' => 'checkbox'));
         } else if ($mode == gradingform_checklist_controller::DISPLAY_REVIEW || $mode == gradingform_checklist_controller::DISPLAY_VIEW) {
             if (empty($item['checked'])) {
                 $iconname = 'i/grade_incorrect';
@@ -236,22 +236,22 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
                 $iconname = 'i/grade_correct';
                 $alttext  = get_string('checked', 'gradingform_checklist');
             }
-            $itemtemplate .= html_writer::tag('div', $this->output->pix_icon($iconname, $alttext), array('class' => 'checkbox'));
+            $itemtemplate .= \core\output\html_writer::tag('div', $this->output->pix_icon($iconname, $alttext), array('class' => 'checkbox'));
         }
         if ($mode == gradingform_checklist_controller::DISPLAY_EVAL_FROZEN && $item['checked']) {
-            $itemtemplate .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][id]', 'value' => $item['id']));
+            $itemtemplate .= \core\output\html_writer::empty_tag('input', array('type' => 'hidden', 'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][id]', 'value' => $item['id']));
         }
 
         if ($mode == gradingform_checklist_controller::DISPLAY_REVIEW || $mode == gradingform_checklist_controller::DISPLAY_VIEW) {
             $realscore = !empty($item['checked']) ? $item['score'] : '0';
             $score = $realscore . '/' . $score;
         }
-        $score = html_writer::tag('span', $score, array('id' => '{NAME}-groups-{GROUP-id}-items-{ITEM-id}-score', 'class' => 'scorevalue'));
+        $score = \core\output\html_writer::tag('span', $score, array('id' => '{NAME}-groups-{GROUP-id}-items-{ITEM-id}-score', 'class' => 'scorevalue'));
         $definitionclass = 'definition';
         if (isset($item['error_definition'])) {
             $definitionclass .= ' error';
         }
-        $itemtemplate .= html_writer::tag('div', $definition, array('class' => $definitionclass, 'id' => '{NAME}-groups-{GROUP-id}-items-{ITEM-id}-definition'));
+        $itemtemplate .= \core\output\html_writer::tag('div', $definition, array('class' => $definitionclass, 'id' => '{NAME}-groups-{GROUP-id}-items-{ITEM-id}-definition'));
         $displayscore = true;
         if (!$options['showitempointseval'] && in_array($mode, array(gradingform_checklist_controller::DISPLAY_EVAL, gradingform_checklist_controller::DISPLAY_EVAL_FROZEN, gradingform_checklist_controller::DISPLAY_REVIEW))) {
             $displayscore = false;
@@ -264,14 +264,14 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
             if (isset($item['error_score'])) {
                 $scoreclass .= ' error';
             }
-            $itemtemplate .= html_writer::tag('div', get_string('scorepostfix', 'gradingform_checklist', $score), array('class' => $scoreclass));
+            $itemtemplate .= \core\output\html_writer::tag('div', get_string('scorepostfix', 'gradingform_checklist', $score), array('class' => $scoreclass));
         }
         if ($mode == gradingform_checklist_controller::DISPLAY_EDIT_FULL) {
             $value = get_string('itemdelete', 'gradingform_checklist');
-            $labelfordelete = html_writer::tag('label', $value, array('class' => 'hiddenelement', 'for' => '{NAME}-groups-{GROUP-id}-items-{ITEM-id}-delete'));
-            $button = $labelfordelete . html_writer::empty_tag('input', array('type' => 'submit', 'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][delete]',
+            $labelfordelete = \core\output\html_writer::tag('label', $value, array('class' => 'hiddenelement', 'for' => '{NAME}-groups-{GROUP-id}-items-{ITEM-id}-delete'));
+            $button = $labelfordelete . \core\output\html_writer::empty_tag('input', array('type' => 'submit', 'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][delete]',
                     'id' => '{NAME}-groups-{GROUP-id}-items-{ITEM-id}-delete', 'value' => $value, 'title' => $value, 'tabindex' => -1));
-            $itemtemplate .= html_writer::tag('div', $button, array('class' => 'delete'));
+            $itemtemplate .= \core\output\html_writer::tag('div', $button, array('class' => 'delete'));
         }
         $displayremark = ($options['enableitemremarks'] && ($mode != gradingform_checklist_controller::DISPLAY_VIEW || $options['showremarksstudent']));
         if ($displayremark) {
@@ -280,20 +280,20 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
                 $currentremark = $item['remark'];
             }
             if ($mode == gradingform_checklist_controller::DISPLAY_EVAL) {
-                $labelforremark = html_writer::tag('label', get_string('itemremark', 'gradingform_checklist', $item['definition']),
+                $labelforremark = \core\output\html_writer::tag('label', get_string('itemremark', 'gradingform_checklist', $item['definition']),
                         array('class' => 'hiddenelement', 'for' => '{NAME}-groups-{GROUP-id}-items-{ITEM-id}-remark-input'));
-                $input = $labelforremark . html_writer::tag('textarea', htmlspecialchars($currentremark), array('id' => '{NAME}-groups-{GROUP-id}-items-{ITEM-id}-remark-input',
+                $input = $labelforremark . \core\output\html_writer::tag('textarea', htmlspecialchars($currentremark), array('id' => '{NAME}-groups-{GROUP-id}-items-{ITEM-id}-remark-input',
                         'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][remark]', 'cols' => '20', 'rows' => '3'));
-                $itemtemplate .= html_writer::tag('div', $input, array('class' => 'remark'));
+                $itemtemplate .= \core\output\html_writer::tag('div', $input, array('class' => 'remark'));
             } else if ($mode == gradingform_checklist_controller::DISPLAY_EVAL_FROZEN) {
-                $itemtemplate .= html_writer::empty_tag('input', array('type' => 'hidden', 'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][remark]', 'value' => $currentremark));
+                $itemtemplate .= \core\output\html_writer::empty_tag('input', array('type' => 'hidden', 'name' => '{NAME}[groups][{GROUP-id}][items][{ITEM-id}][remark]', 'value' => $currentremark));
             } else if ($mode == gradingform_checklist_controller::DISPLAY_REVIEW || $mode == gradingform_checklist_controller::DISPLAY_VIEW) {
-                $feedbackstr = empty($currentremark) ? '' : html_writer::tag('span', get_string('itemfeedback', 'gradingform_checklist', $item['definition']) . ': ', array('class' => 'checklistfeedback'));
-                $itemtemplate .= html_writer::tag('div', $feedbackstr . $currentremark, array('class' => 'remark')); // TODO maybe some prefix here like 'Teacher remark:'
+                $feedbackstr = empty($currentremark) ? '' : \core\output\html_writer::tag('span', get_string('itemfeedback', 'gradingform_checklist', $item['definition']) . ': ', array('class' => 'checklistfeedback'));
+                $itemtemplate .= \core\output\html_writer::tag('div', $feedbackstr . $currentremark, array('class' => 'remark')); // TODO maybe some prefix here like 'Teacher remark:'
             }
         }
-        $itemtemplate .= html_writer::end_tag('div'); // .item-wrapper
-        $itemtemplate .= html_writer::end_tag('div'); // .item
+        $itemtemplate .= \core\output\html_writer::end_tag('div'); // .item-wrapper
+        $itemtemplate .= \core\output\html_writer::end_tag('div'); // .item
 
         $itemtemplate = str_replace('{NAME}', $elementname, $itemtemplate);
         $itemtemplate = str_replace('{GROUP-id}', $groupid, $itemtemplate);
@@ -341,18 +341,18 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
                 $classsuffix = ' view';  break;
         }
 
-        $checklisttemplate = html_writer::start_tag('div', array('id' => 'checklist-{NAME}', 'class' => 'clearfix gradingform_checklist'.$classsuffix));
-        $checklisttemplate .= html_writer::tag('div', $groupsstr, array('class' => 'groups', 'id' => '{NAME}-groups'));
+        $checklisttemplate = \core\output\html_writer::start_tag('div', array('id' => 'checklist-{NAME}', 'class' => 'clearfix gradingform_checklist'.$classsuffix));
+        $checklisttemplate .= \core\output\html_writer::tag('div', $groupsstr, array('class' => 'groups', 'id' => '{NAME}-groups'));
         if ($mode == gradingform_checklist_controller::DISPLAY_EDIT_FULL) {
             $value = get_string('addgroup', 'gradingform_checklist');
-            $labelforaddgroup = html_writer::tag('label', $value, array('class' => 'hiddenelement', 'for' => '{NAME}-groups-addgroup'));
-            $input = $labelforaddgroup . html_writer::empty_tag('input', array('type' => 'submit', 'name' => '{NAME}[groups][addgroup]',
+            $labelforaddgroup = \core\output\html_writer::tag('label', $value, array('class' => 'hiddenelement', 'for' => '{NAME}-groups-addgroup'));
+            $input = $labelforaddgroup . \core\output\html_writer::empty_tag('input', array('type' => 'submit', 'name' => '{NAME}[groups][addgroup]',
                     'id' => '{NAME}-groups-addgroup', 'value' => $value, 'title' => $value));
-            $checklisttemplate .= html_writer::tag('div', $input, array('class' => 'addgroup'));
+            $checklisttemplate .= \core\output\html_writer::tag('div', $input, array('class' => 'addgroup'));
         }
         $checklisttemplate .= $totalpointsstr;
         $checklisttemplate .= $this->checklist_edit_options($mode, $options);
-        $checklisttemplate .= html_writer::end_tag('div');
+        $checklisttemplate .= \core\output\html_writer::end_tag('div');
 
         return str_replace('{NAME}', $elementname, $checklisttemplate);
     }
@@ -372,15 +372,15 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
             // Options are displayed only for people who can manage
             return '';
         }
-        $html = html_writer::start_tag('div', array('class' => 'options'));
-        $html .= html_writer::tag('div', get_string('checklistoptions', 'gradingform_checklist'), array('class' => 'optionsheading'));
+        $html = \core\output\html_writer::start_tag('div', array('class' => 'options'));
+        $html .= \core\output\html_writer::tag('div', get_string('checklistoptions', 'gradingform_checklist'), array('class' => 'optionsheading'));
         $attrs = array('type' => 'hidden', 'name' => '{NAME}[options][optionsset]', 'value' => 1);
         foreach ($options as $option => $value) {
-            $html .= html_writer::start_tag('div', array('class' => 'option '.$option));
+            $html .= \core\output\html_writer::start_tag('div', array('class' => 'option '.$option));
             $attrs = array('name' => '{NAME}[options]['.$option.']', 'id' => '{NAME}-options-'.$option);
 
             if ($mode == gradingform_checklist_controller::DISPLAY_EDIT_FROZEN && $value) {
-                $html .= html_writer::empty_tag('input', $attrs + array('type' => 'hidden', 'value' => $value));
+                $html .= \core\output\html_writer::empty_tag('input', $attrs + array('type' => 'hidden', 'value' => $value));
             }
             // Display option as checkbox
             $attrs['type'] = 'checkbox';
@@ -392,12 +392,12 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
                 $attrs['disabled'] = 'disabled';
                 unset($attrs['name']);
             }
-            $html .= html_writer::empty_tag('input', $attrs);
-            $html .= html_writer::tag('label', get_string($option, 'gradingform_checklist'), array('for' => $attrs['id']));
+            $html .= \core\output\html_writer::empty_tag('input', $attrs);
+            $html .= \core\output\html_writer::tag('label', get_string($option, 'gradingform_checklist'), array('for' => $attrs['id']));
 
-            $html .= html_writer::end_tag('div'); // .option
+            $html .= \core\output\html_writer::end_tag('div'); // .option
         }
-        $html .= html_writer::end_tag('div'); // .options
+        $html .= \core\output\html_writer::end_tag('div'); // .options
         return $html;
     }
 
@@ -463,11 +463,11 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
         $displaypointsrev  = $options['showitempointstudent'] && ($mode == gradingform_checklist_controller::DISPLAY_VIEW);
 
         if ($displaypointseval || $displaypointsrev) {
-            $checkedpts = html_writer::tag('span', $scoredpoints, array('class' => 'scoredpoints'));
-            $totalpts   = html_writer::tag('span', $totalpoints, array('class' => 'outofpoints'));
+            $checkedpts = \core\output\html_writer::tag('span', $scoredpoints, array('class' => 'scoredpoints'));
+            $totalpts   = \core\output\html_writer::tag('span', $totalpoints, array('class' => 'outofpoints'));
 
             // add to the template
-            $totalpointsstr = html_writer::tag('div', get_string('overallpoints', 'gradingform_checklist') . ": $checkedpts/$totalpts", array('class' => 'pointstotals'));
+            $totalpointsstr = \core\output\html_writer::tag('div', get_string('overallpoints', 'gradingform_checklist') . ": $checkedpts/$totalpts", array('class' => 'pointstotals'));
         }
         return $this->checklist_template($mode, $options, $elementname, $groupsstr, $totalpointsstr);
     }
@@ -506,12 +506,12 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
     public function display_instances($instances, $defaultcontent, $cangrade) {
         $return = '';
         if (sizeof($instances)) {
-            $return .= html_writer::start_tag('div', array('class' => 'advancedgrade'));
+            $return .= \core\output\html_writer::start_tag('div', array('class' => 'advancedgrade'));
             $idx = 0;
             foreach ($instances as $instance) {
                 $return .= $this->display_instance($instance, $idx++, $cangrade);
             }
-            $return .= html_writer::end_tag('div');
+            $return .= \core\output\html_writer::end_tag('div');
         }
         return $return. $defaultcontent;
     }
@@ -541,19 +541,19 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
     }
 
     public function display_regrade_confirmation($elementname, $changelevel, $value) {
-        $html = html_writer::start_tag('div', array('class' => 'gradingform_checklist-regrade'));
+        $html = \core\output\html_writer::start_tag('div', array('class' => 'gradingform_checklist-regrade'));
         if ($changelevel<=2) {
             $html .= get_string('regrademessage1', 'gradingform_checklist');
             $selectoptions = array(
                 0 => get_string('regradeoption0', 'gradingform_checklist'),
                 1 => get_string('regradeoption1', 'gradingform_checklist')
             );
-            $html .= html_writer::select($selectoptions, $elementname.'[regrade]', $value, false);
+            $html .= \core\output\html_writer::select($selectoptions, $elementname.'[regrade]', $value, false);
         } else {
             $html .= get_string('regrademessage5', 'gradingform_checklist');
-            $html .= html_writer::empty_tag('input', array('name' => $elementname.'[regrade]', 'value' => 1, 'type' => 'hidden'));
+            $html .= \core\output\html_writer::empty_tag('input', array('name' => $elementname.'[regrade]', 'value' => 1, 'type' => 'hidden'));
         }
-        $html .= html_writer::end_tag('div');
+        $html .= \core\output\html_writer::end_tag('div');
         return $html;
     }
 
@@ -569,8 +569,8 @@ class gradingform_checklist_renderer extends plugin_renderer_base {
             return $html;
         }
         $html .= $this->box(
-            html_writer::tag('h4', get_string('checklistmapping', 'gradingform_checklist')).
-                html_writer::tag('div', get_string('checklistmappingexplained', 'gradingform_checklist', (object)$scores))
+            \core\output\html_writer::tag('h4', get_string('checklistmapping', 'gradingform_checklist')).
+                \core\output\html_writer::tag('div', get_string('checklistmappingexplained', 'gradingform_checklist', (object)$scores))
             , 'generalbox checklistmappingexplained');
         return $html;
     }
