@@ -176,7 +176,7 @@ class gradingform_checklist_controller extends gradingform_controller {
         }
         if ($this->is_form_defined() && ($options = $this->get_options()) && !empty($options['alwaysshowdefinition'])) {
             $node->add(get_string('gradingof', 'gradingform_checklist', get_grading_manager($this->get_areaid())->get_area_title()),
-                new moodle_url('/grade/grading/form/'.$this->get_method_name().'/preview.php', array('areaid' => $this->get_areaid())),
+                new \core\url('/grade/grading/form/'.$this->get_method_name().'/preview.php', array('areaid' => $this->get_areaid())),
                 settings_navigation::TYPE_CUSTOM);
         }
     }

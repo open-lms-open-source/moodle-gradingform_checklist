@@ -42,7 +42,7 @@ require_capability('moodle/grade:managegradingforms', $context);
 
 $controller = $manager->get_controller('checklist');
 
-$PAGE->set_url(new moodle_url('/grade/grading/form/checklist/edit.php', array('areaid' => $areaid)));
+$PAGE->set_url(new \core\url('/grade/grading/form/checklist/edit.php', array('areaid' => $areaid)));
 $PAGE->set_title(get_string('definechecklist', 'gradingform_checklist'));
 $PAGE->set_heading(get_string('definechecklist', 'gradingform_checklist'));
 
