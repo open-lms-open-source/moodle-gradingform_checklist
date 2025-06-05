@@ -61,7 +61,7 @@ class gradingform_checklist_generator extends component_generator_base {
         global $USER;
 
         if ($USER->id === 0) {
-            throw new \coding_exception('Creation of a checklist must currently be run as a user.');
+            throw new \core\exception\coding_exception('Creation of a checklist must currently be run as a user.');
         }
 
         // Fetch the controller for this context/component/area.

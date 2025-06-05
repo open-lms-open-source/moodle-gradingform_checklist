@@ -19,12 +19,12 @@ declare(strict_types = 1);
 namespace gradingform_checklist\grades\grader\gradingpanel\external;
 
 use advanced_testcase;
-use coding_exception;
+use \core\exception\coding_exception;
 use core_grades\component_gradeitem;
 use core_grades\component_gradeitems;
 use core_external\external_api;
 use mod_forum\local\entities\forum as forum_entity;
-use moodle_exception;
+use \core\exception\moodle_exception;
 
 /**
  * Unit tests for core_grades\component_gradeitems;
@@ -206,7 +206,7 @@ class fetch_test extends advanced_testcase {
 
         $evilstudent = $this->getDataGenerator()->create_and_enrol($course, 'student');
 
-        $this->expectException(\required_capability_exception::class);
+        $this->expectException(\core\exception\required_capability_exception::class);
         $this->execute_and_assert_fetch($forum, $controller, $definition, $evilstudent, $teacher, $student);
     }
 

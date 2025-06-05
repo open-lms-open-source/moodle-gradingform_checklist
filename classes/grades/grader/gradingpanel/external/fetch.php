@@ -28,7 +28,7 @@ namespace gradingform_checklist\grades\grader\gradingpanel\external;
 
 global $CFG;
 
-use coding_exception;
+use \core\exception\coding_exception;
 use context;
 use core_grades\component_gradeitem as gradeitem;
 use core_grades\component_gradeitems;
@@ -41,7 +41,7 @@ use core_external\external_value;
 use core_external\external_warnings;
 use core_external\util;
 use stdClass;
-use moodle_exception;
+use \core\exception\moodle_exception;
 require_once($CFG->dirroot.'/grade/grading/form/checklist/lib.php');
 
 /**

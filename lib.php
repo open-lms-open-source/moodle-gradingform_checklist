@@ -70,13 +70,13 @@ class gradingform_checklist_controller extends gradingform_controller {
     /**
      * Returns the HTML code displaying the preview of the checklist grading form
      *
-     * @throws coding_exception
+     * @throws \core\exception\coding_exception
      * @param moodle_page $page the target page
      * @return string
      */
     public function render_preview(moodle_page $page) {
         if (!$this->is_form_defined()) {
-            throw new coding_exception('It is the caller\'s responsibility to make sure that the form is actually defined');
+            throw new \core\exception\coding_exception('It is the caller\'s responsibility to make sure that the form is actually defined');
         }
 
         $output = $this->get_renderer($page);

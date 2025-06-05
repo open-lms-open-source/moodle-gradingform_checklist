@@ -43,7 +43,7 @@ $controller = $manager->get_controller('checklist');
 $options = $controller->get_options();
 
 if (!$controller->is_form_defined() || empty($options['alwaysshowdefinition'])) {
-    throw new moodle_exception('nopermissions', 'error', '', get_string('previewchecklist', 'gradingform_checklist'));
+    throw new \core\exception\moodle_exception('nopermissions', 'error', '', get_string('previewchecklist', 'gradingform_checklist'));
 }
 
 $title = get_string('gradingof', 'gradingform_checklist', $manager->get_area_title());
