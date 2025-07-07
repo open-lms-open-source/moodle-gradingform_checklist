@@ -769,20 +769,21 @@ class gradingform_checklist_instance extends gradingform_instance {
 
         foreach ($data['groups'] as $groupid => $group) {
             foreach($group['items'] as $itemid => $record) {
+                $record['remarkformat'] = FORMAT_HTML;
                 //handle deletions later
                 if (empty($record['remark']) && empty($record['id'])) {
                     continue;
                 }
                 if (!array_key_exists($groupid, $currentgrade['groups']) || !array_key_exists($itemid, $currentgrade['groups'][$groupid]['items'])) {
                     $newrecord = array('instanceid' => $this->get_id(), 'groupid' => $groupid,
-                        'itemid' => $itemid, 'checked' => !empty($record['id']), 'remarkformat' => FORMAT_MOODLE);
+                        'itemid' => $itemid, 'checked' => !empty($record['id']), 'remarkformat' => $record['remarkformat']);
                     if (isset($record['remark'])) {
                         $newrecord['remark'] = clean_param($record['remark'], PARAM_TEXT);
                     }
                     $DB->insert_record('gradingform_checklist_fills', $newrecord);
                 } else {
                     $newrecord = array('id' => $currentgrade['groups'][$groupid]['items'][$itemid]['id']);
-                    foreach (array('remark'/*, 'remarkformat' TODO */) as $key) {
+                    foreach (array('remark', 'remarkformat') as $key) {
                         if (isset($record[$key]) && $key == 'remark') {
                             $record[$key] = clean_param($record[$key], PARAM_TEXT);
                         }

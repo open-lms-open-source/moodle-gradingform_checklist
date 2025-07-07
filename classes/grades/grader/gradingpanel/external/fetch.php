@@ -224,7 +224,7 @@ class fetch extends external_api {
                                 $definitionid,
                                 'remark',
                                 $filling['remark'],
-                                (int) $filling['remarkformat']
+                                (int) FORMAT_HTML
                             );
                         }
                     }
