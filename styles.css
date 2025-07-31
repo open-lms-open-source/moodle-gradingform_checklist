@@ -73,8 +73,8 @@
 
 .gradingform_checklist.editor .addgroup input,
 .gradingform_checklist.editor .additem input {background: transparent url([[pix:t/add]]) no-repeat;display:block;color:#555555;font-weight:bold;text-decoration:none;}
-.gradingform_checklist.editor .addgroup input {background-position: 5px 8px;height:30px;line-height:29px;margin-bottom:14px;padding-left:20px;padding-right:10px;}
-.gradingform_checklist.editor .additem input {background-position: 5px 6px;height:25px;line-height:24px;margin-bottom:10px;padding-left:18px;padding-right:8px;}
+.gradingform_checklist.editor .addgroup input {height:30px;line-height:29px;margin-bottom:14px;padding-left:20px;padding-right:10px;}
+.gradingform_checklist.editor .additem input {height:25px;line-height:24px;margin-bottom:10px;padding-left:18px;padding-right:8px;}
 
 .gradingform_checklist .options .optionsheading {font-weight:bold;font-size:1.1em;padding-bottom:5px;}
 .gradingform_checklist .options .option {padding-bottom:2px;}
@@ -102,6 +102,10 @@
 /* Hide extra popout buttons added by js that assumes only one label tag per grade-panel fitem MDL-59264 */
 .path-mod-assign [data-region="grade-panel"] .gradingform_checklist a[data-region="popout-button"] {
     display: none;
+}
+
+.path-mod-assign #checklist-advancedgrading {
+    width: 100%;
 }
 
 /* Wrap checklist option if word is too long */
