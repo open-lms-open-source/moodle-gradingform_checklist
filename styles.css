@@ -14,9 +14,30 @@
 .gradingform_checklist .group .items .item .definition,
 .gradingform_checklist .group .items .item {vertical-align: top;}
 
-.gradingform_checklist .group .items .item .definition {width: 50%;}
-.gradingform_checklist .group .items .item .score {width: 15%;}
-.gradingform_checklist .group .items .item .remark {width: 25%;}
+.gradingform_checklist .group .items .item {
+    .definition {
+        width: 80%;
+    }
+    .score {
+        width: 32%;
+        margin-left: 3px;
+    }
+    .remark {
+        width: auto;
+    }
+}
+
+#fitem_id_advancedgrading.popout .gradingform_checklist .group .items .item {
+    .definition {
+        width: 50%;
+    }
+    .score {
+        width: 15%;
+    }
+    .remark {
+        width: 25%;
+    }
+}
 
 .gradingform_checklist.editor .group .controls,
 .gradingform_checklist .group .description,
@@ -116,4 +137,13 @@
 /* Increase definition input size to be more comfortable */
 #page-grade-grading-form-checklist-edit .gradingform_checklist input[id$="-definition-input"] {
     width: calc(100% - 2rem);
+}
+
+@media (max-width: 992px) {
+    .gradingform_checklist .group .items .item .score {
+        width: 50%;
+    }
+    .gradingform_checklist .group .items .item .remark textarea {
+        width: 120px;
+    }
 }
