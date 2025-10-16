@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @copyright  Copyright (c) 2024 Open LMS (https://www.openlms.net)
+ * @copyright  Copyright (c) 2025 Open LMS (https://www.openlms.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,7 +28,10 @@ $string['checked'] = 'Kontrol edildi';
 $string['checkitem'] = '"{$a}" için tam kredi işaretle';
 $string['checklist'] = 'Kontrol listesi';
 $string['checklistmapping'] = 'Puanı nota dönüştürme kuralları';
-$string['checklistmappingexplained'] = 'Bu kontrol listesi için mümkün olan en düşük puan&nbsp;<b>{$a->minscore} puandır</b>&nbsp;ve bu modül için geçerli en düşük nota dönüştürülür (ölçek kullanılmıyorsa bu değer sıfırdır). Maksimum puan, yani&nbsp;<b>{$a->maxscore} puan,</b>&nbsp;maksimum nota dönüştürülür.<br />Ara puanlar sırasıyla dönüştürülür ve geçerli en yakın puana yuvarlanır.<br />Not yerine ölçek kullanılıyorsa puan ardışık tamsayılar gibi ölçek öğelerine dönüştürülür.';
+$string['checklistmappingexplained'] = 'Bu kontrol listesi için mümkün olan en düşük puan <b>{$a->minscore} puandır</b> ve bu modül için geçerli en düşük nota dönüştürülür (Ölçek kullanılmıyorsa bu değer sıfırdır).
+Maksimum puan (<b>{$a->maxscore} puan</b>), maksimum nota dönüştürülür.<br />
+Ara puanlar sırasıyla dönüştürülür ve geçerli en yakın puana yuvarlanır.<br />
+Not yerine ölçek kullanılıyorsa puan ardışık tamsayılar gibi ölçek öğelerine dönüştürülür.';
 $string['checklistoptions'] = 'Kontrol listesi seçenekleri';
 $string['checkliststatus'] = 'Mevcut kontrol listesi durumu';
 $string['confirmdeletegroup'] = 'Bu grubu silmek istediğinize emin misiniz?';
@@ -41,10 +44,10 @@ $string['err_nodefinition'] = 'Öğe tanımı boş olamaz';
 $string['err_nodescription'] = 'Grup açıklaması boş olamaz';
 $string['err_nogroups'] = 'Kontrol listesi en az bir grup içermeli';
 $string['err_scoreformat'] = 'Her öğe için puan sayısı, geçerli bir negatif olmayan sayı olmalı';
-$string['err_scoremax'] = 'Her öğe için puan sayısı 1000\'den büyük olmamalı';
+$string['err_scoremax'] = 'Her öğe için puan sayısı 1000\'den büyük olmamalıdır';
 $string['err_totalscore'] = 'Kontrol listesi tarafından not verilirken maksimum puan sayısı sıfırdan büyük olmalı';
 $string['groupfeedback'] = '"{$a}" için grup geri bildirimi';
-$string['gradingof'] = '{$a} için not verme';
+$string['gradingof'] = '{$a} not verme';
 $string['groupadditem'] = 'Öğe ekle';
 $string['groupdelete'] = 'Grubu sil';
 $string['groupdescription'] = 'Grup tanımı';
@@ -64,7 +67,8 @@ $string['needregrademessage'] = 'Kontrol listesi tanımı, bu öğrenciye not ve
 $string['pluginname'] = 'Kontrol listesi';
 $string['previewchecklist'] = 'Kontrol listesini ön izle';
 $string['overallpoints'] = 'Genel puan';
-$string['regrademessage1'] = 'Zaten not vermek için kullanılmış bir kontrol listesinde yapılan değişiklikleri kaydetmek üzeresiniz. Lütfen mevcut notların gözden geçirilmesinin gerekip gerekmediğini belirtin. Bunu ayarlarsanız öğelerine yeniden not verilene kadar kontrol listesi öğrencilerden gizlenir.';
+$string['regrademessage1'] = 'Zaten not vermek için kullanılmış bir kontrol listesinde yapılan değişiklikleri kaydetmek üzeresiniz. Lütfen
+mevcut notların gözden geçirilmesinin gerekip gerekmediğini belirtin. Bunu ayarlarsanız öğelerine yeniden not verilene kadar kontrol listesi öğrencilerden gizlenir.';
 $string['regrademessage5'] = 'Zaten not vermek için kullanılmış bir kontrol listesinde yapılan önemli değişiklikleri kaydetmek üzeresiniz. Not defteri değeri değişmeyecek ancak öğelerine yeniden not verilene kadar kontrol listesi öğrencilerden gizlenecektir.';
 $string['regradeoption0'] = 'Yeniden not verilmek üzere işaretleme';
 $string['regradeoption1'] = 'Yeniden not verilmek üzere işaretle';
