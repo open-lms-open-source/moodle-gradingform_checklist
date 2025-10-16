@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @copyright  Copyright (c) 2024 Open LMS (https://www.openlms.net)
+ * @copyright  Copyright (c) 2025 Open LMS (https://www.openlms.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,7 +28,10 @@ $string['checked'] = 'Verificado';
 $string['checkitem'] = 'Marcar crédito completo para "{$a}"';
 $string['checklist'] = 'Lista de verificación';
 $string['checklistmapping'] = 'Reglas de mapeo de puntaje a calificación';
-$string['checklistmappingexplained'] = 'La puntuación mínima posible para esta lista de comprobación es de <b>{$a->minscore} puntos</b> y se convertirá a la calificación mínima disponible en este módulo (que es cero, a menos que se utilice la escala). La puntuación máxima&nbsp;<b>{$a->maxscore} puntos</b>&nbsp;se convertirá en la calificación máxima.<br />Las puntuaciones intermedias se convertirán respectivamente y se redondearán a la calificación disponible más cercana.<br />Si se utiliza una escala en lugar de una calificación, la puntuación se convertirá a los elementos de la escala como si fueran valores enteros consecutivos.';
+$string['checklistmappingexplained'] = 'La puntuación mínima posible para esta lista de comprobación es de <b>{$a->minscore} puntos</b> y se convertirá a la calificación mínima disponible en este módulo (que es cero, a menos que se utilice la escala).
+La puntuación máxima de <b>{$a->maxscore} puntos</b> se convertirá en la calificación máxima.<br />
+Las puntuaciones intermedias se convertirán respectivamente y se redondearán a la calificación disponible más cercana.<br />
+Si se utiliza una escala en lugar de una calificación, la puntuación se convertirá a los elementos de la escala como si fueran valores enteros consecutivos.';
 $string['checklistoptions'] = 'Opciones de la lista de verificación';
 $string['checkliststatus'] = 'Estado actual de la lista de verificación';
 $string['confirmdeletegroup'] = '¿Está seguro de que desea eliminar este grupo?';
@@ -44,7 +47,7 @@ $string['err_scoreformat'] = 'El número de puntos para cada elemento debe ser u
 $string['err_scoremax'] = 'El número de puntos para cada elemento debe ser mayor que 1000';
 $string['err_totalscore'] = 'El número máximo de puntos posible cuando se califique según la lista de verificación debe ser superior a cero';
 $string['groupfeedback'] = 'Retroalimentación de grupo para "{$a}"';
-$string['gradingof'] = '{$a} calificación';
+$string['gradingof'] = 'Calificaciones {$a}';
 $string['groupadditem'] = 'Agregar elemento';
 $string['groupdelete'] = 'Eliminar grupo';
 $string['groupdescription'] = 'Descripción del grupo';
@@ -56,7 +59,7 @@ $string['groupremark'] = 'Observación de grupo para "{$a}"';
 $string['itemdefinition'] = 'Definición del elemento';
 $string['itemdelete'] = 'Eliminar elemento';
 $string['itemempty'] = 'Haga clic para editar el elemento.';
-$string['itemfeedback'] = 'Retroalimentación para "{$a}"';
+$string['itemfeedback'] = 'Comentarios sobre "{$a}"';
 $string['itemremark'] = 'Observación del elemento para "{$a}"';
 $string['itemscore'] = 'Puntuación del elemento';
 $string['name'] = '¿Cómo quiere llamar a esta página?';
@@ -64,7 +67,8 @@ $string['needregrademessage'] = 'La definición de la lista de verificación se 
 $string['pluginname'] = 'Lista de verificación';
 $string['previewchecklist'] = 'Vista previa de la lista de verificación';
 $string['overallpoints'] = 'Puntos generales';
-$string['regrademessage1'] = 'Está a punto de guardar cambios en una lista de verificación que ya se usó para poner calificaciones. Indique si las calificaciones existentes deben revisarse. Si establece esto, las listas de verificación se ocultarán de los estudiantes hasta que su elemento se vuelva a calificar.';
+$string['regrademessage1'] = 'Va a guardar cambios en una lista de verificación que ya se ha usado para poner calificaciones.
+Indique si las calificaciones existentes deben revisarse. En caso afirmativo, la lista de verificación se ocultará de los estudiantes hasta que se vuelvan a calificar sus elementos.';
 $string['regrademessage5'] = 'Está a punto de guardar cambios importantes en una lista de verificación que ya se usó para poner calificaciones. El valor del libro de calificaciones no se cambiará, pero la lista de verificación se ocultará de los estudiantes hasta que su elemento se vuelva a calificar.';
 $string['regradeoption0'] = 'No marcar para volver a calificar';
 $string['regradeoption1'] = 'Marcar para volver a calificar';
@@ -72,7 +76,7 @@ $string['restoredfromdraft'] = 'NOTA: El último intento por calificar a esta pe
 $string['save'] = 'Guardar';
 $string['savechecklist'] = 'Guarde la lista de verificación y prepárela';
 $string['savechecklistdraft'] = 'Guardar como borrador';
-$string['scorepostfix'] = '{$a}&nbsp;puntos';
+$string['scorepostfix'] = '{$a} puntos';
 $string['showitempointseval'] = 'Mostrar los puntos de cada elemento durante la evaluación.';
 $string['showitempointstudent'] = 'Mostrar los puntos de cada elemento que se va a calificar.';
 $string['enableitemremarks'] = 'Permite a los calificadores agregar observaciones en cada uno de los elementos de la lista de verificación.';
