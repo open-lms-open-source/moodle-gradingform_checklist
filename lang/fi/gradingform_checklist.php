@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @copyright  Copyright (c) 2024 Open LMS (https://www.openlms.net)
+ * @copyright  Copyright (c) 2025 Open LMS (https://www.openlms.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,7 +28,10 @@ $string['checked'] = 'Valittu';
 $string['checkitem'] = 'Merkitse täydet pisteet kohteelle {$a}';
 $string['checklist'] = 'Tarkistuslista';
 $string['checklistmapping'] = 'Pisteiden arvosanoihin yhdistämisen säännöt';
-$string['checklistmappingexplained'] = 'Tämän tarkistuslistan pienin mahdollinen tulos on&nbsp;<b>{$a->minscore} pistettä</b>&nbsp;ja se muunnetaan alhaisimmaksi tässä moduulissa saatavilla olevaksi arvosanaksi (joka on nolla, ellei asteikkoa käytetä). Suurin mahdollinen tulos&nbsp;<b>{$a->maxscore} pistettä</b>&nbsp;muunnetaan korkeimmaksi arvosanaksi.<br />Keskitason tulokset muunnetaan vastaavasti ja pyöristetään lähimmäksi saatavilla olevaksi arvosanaksi.<br />Jos arvosanan sijaan käytetään asteikkoa, pisteet muunnetaan asteikon elementeiksi aivan kuin ne olisivat peräkkäisiä kokonaislukuja.';
+$string['checklistmappingexplained'] = 'Tämän tarkistuslistan pienin mahdollinen tulos on <b>{$a->minscore} pistettä</b> ja se muunnetaan alhaisimmaksi tässä moduulissa saatavilla olevaksi arvosanaksi (joka on nolla, ellei asteikkoa käytetä).
+Suurin mahdollinen tulos <b>{$a->maxscore} pistettä</b> muunnetaan korkeimmaksi arvosanaksi.<br />
+Keskitason tulokset muunnetaan vastaavasti ja pyöristetään lähimmäksi saatavilla olevaksi arvosanaksi.<br />
+Jos arvosanan sijaan käytetään asteikkoa, pisteet muunnetaan asteikon elementeiksi aivan kuin ne olisivat peräkkäisiä kokonaislukuja.';
 $string['checklistoptions'] = 'Tarkistuslistan asetukset';
 $string['checkliststatus'] = 'Tarkistuslistan tilanne';
 $string['confirmdeletegroup'] = 'Haluatko varmasti poistaa tämän ryhmän?';
@@ -44,7 +47,7 @@ $string['err_scoreformat'] = 'Kunkin kohteen pistemäärän on oltava kelvolline
 $string['err_scoremax'] = 'Kunkin kohteen pistemäärä ei voi olla suurempi kuin 1000';
 $string['err_totalscore'] = 'Tarkistuslistaa käyttävän arvioinnin enimmäispistemäärän on oltava suurempi kuin nolla';
 $string['groupfeedback'] = 'Ryhmäpalaute: {$a}';
-$string['gradingof'] = '{$a}: arviointi';
+$string['gradingof'] = 'Arviointi: {$a}';
 $string['groupadditem'] = 'Lisää kohde';
 $string['groupdelete'] = 'Poista ryhmä';
 $string['groupdescription'] = 'Ryhmän kuvaus';
@@ -64,7 +67,8 @@ $string['needregrademessage'] = 'Tarkistuslistan määritelmää on muokattu tä
 $string['pluginname'] = 'Tarkistuslista';
 $string['previewchecklist'] = 'Esikatsele tarkistuslistaa';
 $string['overallpoints'] = 'Kokonaispisteet';
-$string['regrademessage1'] = 'Olet tallentamassa muutoksia tarkistuslistaan, jota on jo käytetty arviointiin. Osoita, onko jo annettuja arvosanoja tarpeen korjata. Jos valitset tämän, tarkistuslista piilotetaan opiskelijoilta, kunnes olet korjannut heidän arvosanansa.';
+$string['regrademessage1'] = 'Olet tallentamassa muutoksia tarkistuslistaan, jota on jo käytetty arviointiin. Osoita,
+onko jo annettuja arvosanoja tarpeen korjata. Jos valitset tämän, tarkistuslista piilotetaan opiskelijoilta, kunnes olet korjannut heidän arvosanansa.';
 $string['regrademessage5'] = 'Olet tallentamassa merkittäviä muutoksia tarkistuslistaan, jota on jo käytetty arviointiin. Arviointikirjan arvoa ei muuteta, mutta tarkistuslista piilotetaan opiskelijoilta, kunnes olet korjannut heidän arvosanansa.';
 $string['regradeoption0'] = 'Älä merkitse uudelleenarvioitavaksi';
 $string['regradeoption1'] = 'Merkitse uudelleenarvioitavaksi';
