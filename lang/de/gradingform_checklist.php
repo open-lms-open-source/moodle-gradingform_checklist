@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @copyright  Copyright (c) 2024 Open LMS (https://www.openlms.net)
+ * @copyright  Copyright (c) 2025 Open LMS (https://www.openlms.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,7 +28,10 @@ $string['checked'] = 'Geprüft';
 $string['checkitem'] = 'Volle Punktzahl vergeben für "{$a}"';
 $string['checklist'] = 'Checkliste';
 $string['checklistmapping'] = 'Regeln der Zuordnung von Punkten zu Bewertungen';
-$string['checklistmappingexplained'] = 'Die Mindestpunktzahl für diese Checkliste beträgt <b>{$a->minscore} Punkte</b> und wird in die in diesem Modul verfügbare Mindestnote umgerechnet (die außer bei Verwendung der Skala null ist). Die Maximalpunktzahl von&nbsp;<b>{$a->maxscore} Punkten</b>&nbsp;wird in die höchstmögliche Note umgerechnet.<br />Zwischenwerte werden entsprechend umgerechnet und auf die nächste verfügbare Bewertungsgruppe gerundet.<br />Wenn anstelle einer Bewertung eine Skala verwendet wird, wird die Punktzahl in die Skalenelemente konvertiert, als ob es sich um fortlaufende Ganzzahlen handeln würde.';
+$string['checklistmappingexplained'] = 'Die Mindestpunktzahl für diese Checkliste beträgt <b>{$a->minscore} Punkte</b> und wird in die in diesem Modul verfügbare Mindestbewertung umgerechnet (die außer bei Verwendung der Skala null ist).
+Die maximale Punktzahl <b>{$a->maxscore} Punkte</b> wird in die maximale Bewertung umgerechnet.<br />
+Zwischenwerte werden entsprechend umgerechnet und auf die nächste verfügbare Bewertungsgruppe gerundet.<br />
+Wenn anstelle einer Bewertung eine Skala verwendet wird, wird die Punktzahl in die Skalenelemente konvertiert, als ob es sich um fortlaufende Ganzzahlen handeln würde.';
 $string['checklistoptions'] = 'Checklistenoptionen';
 $string['checkliststatus'] = 'Aktueller Checklistenstatus';
 $string['confirmdeletegroup'] = 'Möchten Sie diese Gruppe wirklich löschen?';
@@ -43,8 +46,8 @@ $string['err_nogroups'] = 'Die Checkliste muss mindestens 1 Gruppe enthalten.';
 $string['err_scoreformat'] = 'Die Anzahl der Punkte für jedes Element muss eine gültige, nicht negative Zahl sein.';
 $string['err_scoremax'] = 'Die Anzahl der Punkte für jedes Element darf nicht größer als 1000 sein.';
 $string['err_totalscore'] = 'Die höchste zu vergebende Punktzahl, wenn nach der Checkliste bewertet wird, muss größer als 0 sein.';
-$string['groupfeedback'] = 'Gruppen-Feedback für "{$a}"';
-$string['gradingof'] = '{$a} Bewertung';
+$string['groupfeedback'] = 'Gruppenfeedback für "{$a}"';
+$string['gradingof'] = '{$a}-Bewertung';
 $string['groupadditem'] = 'Objekt hinzufügen';
 $string['groupdelete'] = 'Gruppe löschen';
 $string['groupdescription'] = 'Gruppenbeschreibung';
@@ -64,7 +67,8 @@ $string['needregrademessage'] = 'Die Checklistendefinition wurde geändert, nach
 $string['pluginname'] = 'Checkliste';
 $string['previewchecklist'] = 'Vorschau der Checkliste';
 $string['overallpoints'] = 'Gesamtpunktzahl';
-$string['regrademessage1'] = 'Sie sind dabei, Änderungen an einer Checkliste zu speichern, die bereits zur Bewertung verwendet wurde. Geben Sie bitte an, ob die vorhandenen Bewertungen überprüft werden müssen. Wenn Sie diese Option festlegen, wird die Checkliste den Teilnehmern/innen erst wieder angezeigt, nachdem ihre Elemente neu bewertet wurden.';
+$string['regrademessage1'] = 'Sie sind dabei, wesentliche Änderungen an einer Checkliste zu speichern, die bereits zum Bewerten verwendet wurde. Bitte
+geben Sie an, ob vorhandene Bewertungen geprüft werden müssen. Wenn Sie dies festlegen, wird die Checkliste für die Kursteilnehmer/innen ausgeblendet, bis ihre Elemente neu bewertet wurden.';
 $string['regrademessage5'] = 'Sie sind dabei, wesentliche Änderungen an einer Checkliste zu speichern, die bereits zum Bewerten verwendet wurde. Der Bewertungsberichtwert bleibt unverändert, jedoch wird die Checkliste den Teilnehmern erst wieder angezeigt, nachdem ihre Elemente neu bewertet wurden.';
 $string['regradeoption0'] = 'Nicht für Neubewertung markieren';
 $string['regradeoption1'] = 'Für Neubewertung markieren';
@@ -72,11 +76,11 @@ $string['restoredfromdraft'] = 'HINWEIS: Der letzte Versuch zur Bewertung dieses
 $string['save'] = 'Speichern';
 $string['savechecklist'] = 'Checkliste speichern und als fertig markieren';
 $string['savechecklistdraft'] = 'Als Entwurf speichern';
-$string['scorepostfix'] = '{$a} Punkte';
+$string['scorepostfix'] = '{$a} Punkte';
 $string['showitempointseval'] = 'Punkte für jedes Element während der Beurteilung anzeigen.';
 $string['showitempointstudent'] = 'Punkte für jedes Element denjenigen anzeigen, die gerade bewertet werden.';
 $string['enableitemremarks'] = 'Bewerter/in gestatten, Textanmerkungen bei jedem Checklistenelement hinzuzufügen.';
 $string['enablegroupremarks'] = 'Bewerter/in gestatten, Textanmerkungen bei jeder Checklistengruppe hinzuzufügen.';
 $string['showremarksstudent'] = 'Alle Anmerkungen denjenigen anzeigen, die gerade bewertet werden.';
 $string['unchecked'] = 'Nicht geprüft';
-$string['maxlengthalert'] = 'Für dieses Eingabefeld gilt eine maximale Länge von {$a} Zeichen';
+$string['maxlengthalert'] = 'Für dieses Eingabefeld gilt eine maximale Länge von {$a} Zeichen';
