@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @copyright  Copyright (c) 2024 Open LMS (https://www.openlms.net)
+ * @copyright  Copyright (c) 2025 Open LMS (https://www.openlms.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,11 +28,14 @@ $string['checked'] = 'Ingeschakeld';
 $string['checkitem'] = 'Markeer volledige bonus voor "{$a}"';
 $string['checklist'] = 'Checklist';
 $string['checklistmapping'] = 'Score volgens regels voor cijferkoppelingen';
-$string['checklistmappingexplained'] = 'De kleinst mogelijke score voor deze checklist is <b>{$a->minscore} punten</b>. Deze&nbsp;wordt omgezet naar het minimumcijfer dat beschikbaar is in deze module (wat nul is, tenzij de schaal wordt gebruikt). De maximumscore <b>{$a->maxscore} points</b>&nbsp;wordt omgezet in het maximumcijfer.<br />Tussenliggende scores worden omgezet en afgerond naar het dichtstbijzijnde beschikbare cijfer.<br />Als een schaal wordt gebruikt in plaats van een cijfer, wordt de score omgezet naar de schaalelementen alsof dit opeenvolgende gehele getallen waren.';
+$string['checklistmappingexplained'] = 'De kleinst mogelijke score voor deze checklist is <b>{$a->minscore} punten</b>. Deze wordt omgezet naar het minimumcijfer dat beschikbaar is in deze module (wat nul is, tenzij de schaal wordt gebruikt).
+De maximumscore <b>{$a->maxscore} punten</b> wordt omgezet naar het maximumcijfer.<br />
+Tussenliggende scores worden omgezet en afgerond naar het dichtstbijzijnde beschikbare cijfer.<br />
+Als een schaal wordt gebruikt in plaats van een cijfer, wordt de score omgezet naar de schaalelementen alsof dit opeenvolgende gehele getallen waren.';
 $string['checklistoptions'] = 'Opties checklist';
 $string['checkliststatus'] = 'Huidige status checklist';
-$string['confirmdeletegroup'] = 'Weet je zeker dat je deze groep wilt verwijderen?';
-$string['confirmdeleteitem'] = 'Weet je zeker dat je dit item wil verwijderen?';
+$string['confirmdeletegroup'] = 'Weet u zeker dat u deze groep wilt verwijderen?';
+$string['confirmdeleteitem'] = 'Weet u zeker dat u dit item wil verwijderen?';
 $string['definechecklist'] = 'Definieer checklist';
 $string['description'] = 'Inleidende tekst';
 $string['err_definitionmax'] = 'De beschrijving van het item mag niet meer dan 255 tekens bevatten';
@@ -60,15 +63,16 @@ $string['itemfeedback'] = 'Feedback voor "{$a}"';
 $string['itemremark'] = 'Itemopmerking voor "{$a}"';
 $string['itemscore'] = 'Itemscore';
 $string['name'] = 'Naam';
-$string['needregrademessage'] = 'De checklistdefinitie is gewijzigd nadat deze student werd beoordeeld. De student kan deze checklist pas zien nadat je de checklist hebt beoordeeld en het cijfer heb aangepast.';
+$string['needregrademessage'] = 'De checklistdefinitie is gewijzigd nadat deze student werd beoordeeld. De student kan deze checklist pas zien nadat u de checklist hebt beoordeeld en het cijfer heb aangepast.';
 $string['pluginname'] = 'Checklist';
 $string['previewchecklist'] = 'Voorbeeld checklist';
 $string['overallpoints'] = 'Totale aantal punten';
-$string['regrademessage1'] = 'Je staat op het punt om wijzigingen op te slaan in een checklist die al is gebruikt voor beoordeling. Geef aan of bestaande cijfers moeten worden herzien. Als je deze optie instelt, wordt de checklist verborgen voor studenten tot hun items opnieuw zijn beoordeeld.';
-$string['regrademessage5'] = 'Je staat op het punt om belangrijke wijzigingen op te slaan in een checklist die al is gebruikt voor beoordeling. Het cijfer in de cijferlijst wordt niet gewijzigd, maar de checklist wordt verborgen voor studenten tot hun items opnieuw zijn beoordeeld.';
+$string['regrademessage1'] = 'U staat op het punt om wijzigingen op te slaan in een checklist die al is gebruikt voor beoordeling.
+Geef aan of bestaande cijfers moeten worden herzien. Als u deze optie instelt, wordt de checklist verborgen voor studenten tot hun items opnieuw zijn beoordeeld.';
+$string['regrademessage5'] = 'U staat op het punt om belangrijke wijzigingen op te slaan in een checklist die al is gebruikt voor beoordeling. Het cijfer in de cijferlijst wordt niet gewijzigd, maar de checklist wordt verborgen voor studenten tot hun items opnieuw zijn beoordeeld.';
 $string['regradeoption0'] = 'Niet markeren voor opnieuw beoordelen.';
 $string['regradeoption1'] = 'Markeren voor opnieuw beoordelen';
-$string['restoredfromdraft'] = 'OPMERKING: de laatste beoordelingspoging voor deze persoon is niet behoorlijk bewaard en daarom zijn de voorlopige cijfers teruggezet. Als je deze wijzigingen wilt annuleren, klik dan op de knop \'Annuleer\' onderaan.';
+$string['restoredfromdraft'] = 'OPMERKING: de laatste beoordelingspoging voor deze persoon is niet behoorlijk bewaard en daarom zijn de voorlopige cijfers teruggezet. Als u deze wijzigingen wilt annuleren, klik dan op de knop \'Annuleer\' onderaan.';
 $string['save'] = 'Opslaan';
 $string['savechecklist'] = 'Bewaar checklist en maak deze gereed';
 $string['savechecklistdraft'] = 'Bewaar als concept';
