@@ -221,7 +221,7 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
                                 $errors['err_definitionmax'] = 1;
                                 $item['error_definition'] = true;
                             }
-                            if (!preg_match('#^[\+]?\d*$#', trim($item['score'])) && !preg_match('#^[\+]?\d*[\.,]\d+$#', trim($item['score']))) {
+                            if (isset($item['score']) && (!is_numeric(trim($item['score'])) || (float)(trim($item['score']) < 0))) {
                                 // TODO why we can't allow negative score for checklist?
                                 $errors['err_scoreformat'] = 1;
                                 $item['error_score'] = true;

@@ -302,8 +302,8 @@ class fetch extends external_api {
                         'id' => new external_value(PARAM_INT, 'ID of the Criteria'),
                         'description' => new external_value(PARAM_RAW, 'Description of the Criteria'),
                         'groupfeedback' => new external_value(PARAM_RAW, 'Group feedback', VALUE_OPTIONAL),
-                        'maxgrouppoints' => new external_value(PARAM_INT, 'Maximum number of criterion points', VALUE_OPTIONAL),
-                        'grouppoints' => new external_value(PARAM_INT, 'Criterion points', VALUE_OPTIONAL),
+                        'maxgrouppoints' => new external_value(PARAM_LOCALISEDFLOAT, 'Maximum number of criterion points', VALUE_OPTIONAL),
+                        'grouppoints' => new external_value(PARAM_LOCALISEDFLOAT, 'Criterion points', VALUE_OPTIONAL),
                         'items' => new external_multiple_structure(new external_single_structure([
                             'id' => new external_value(PARAM_INT, 'ID of item'),
                             'criterionid' => new external_value(PARAM_INT, 'ID of the criterion this matches to'),
@@ -314,8 +314,8 @@ class fetch extends external_api {
                         ])),
                     ])
                 ),
-                'maxpoints' => new external_value(PARAM_INT, 'Maximum number of points for all criteria', VALUE_OPTIONAL),
-                'points' => new external_value(PARAM_INT, 'Points obtained for all criteria', VALUE_OPTIONAL),
+                'maxpoints' => new external_value(PARAM_LOCALISEDFLOAT, 'Maximum number of points for all criteria', VALUE_OPTIONAL),
+                'points' => new external_value(PARAM_LOCALISEDFLOAT, 'Points obtained for all criteria', VALUE_OPTIONAL),
                 'timecreated' => new external_value(PARAM_INT, 'The time that the grade was created'),
                 'usergrade' => new external_value(PARAM_RAW, 'Current user grade'),
                 'maxgrade' => new external_value(PARAM_RAW, 'Max possible grade'),

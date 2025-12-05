@@ -157,17 +157,42 @@
 {{#js}}
     require(['core/auto_rows', 'jquery'], function(AutoRows, $) {
         AutoRows.init(document.getElementById('gradingform_checklist-{{uniqid}}'));
+
+        /**
+         * Formats numeric points for display based on decimal precision.
+         *
+         * - Whole numbers are displayed without decimals.
+         * - Numbers with decimal components are rounded to one decimal place.
+         *
+         * @param {string|number} points - The points value to format (will be parsed as float)
+         * @returns {string} Formatted points as a string
+         */
+        function formatPoints(points) {
+            const num = parseFloat(points);
+            if (num % 1 === 0) {
+                return num.toString();
+            } else {
+                return num.toFixed(1);
+            }
+        }
+
         $('.form-check-input.item').change(function () {
             let criterion = $(this).closest('.criterion');
-            let grouppoints = 0;
+            let grouppointscents = 0;
+
             criterion.find('.form-check-input.item:checked').each(function() {
-                grouppoints += parseInt($(this).attr('score'), 10) || 0;
+                const score = parseFloat($(this).attr('score')) || 0;
+                grouppointscents += Math.round(score * 100);
             });
+            const grouppoints = formatPoints(grouppointscents / 100);
             criterion.find('.pointsgroup').find('.scoredpoints').text(grouppoints);
-            let totalpoints = 0;
+
+            let totalpointscents = 0;
             $('.form-check-input.item:checked').each(function() {
-                totalpoints += parseInt($(this).attr('score'), 10) || 0;
+                const score = parseFloat($(this).attr('score')) || 0;
+                totalpointscents += Math.round(score * 100);
             });
+            const totalpoints = formatPoints(totalpointscents / 100);
             $('#pointstotals').find('.scoredpoints').text(totalpoints);
         });
     });

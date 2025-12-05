@@ -449,8 +449,10 @@ class gradingform_checklist_renderer extends \core\output\plugin_renderer_base {
                 }
                 $itemsstr .= $this->item_template($mode, $options, $elementname, $id, $item);
 
-                // tally for total and scored points
-                $totalpoints += $item['score'];
+                // Tally for total and scored points.
+                if (empty($item['error_score'])) {
+                    $totalpoints += $item['score'];
+                }
                 if (!empty($groupvalue['items'][$itemid]['checked'])) {
                     $scoredpoints += $item['score'];
                 }
