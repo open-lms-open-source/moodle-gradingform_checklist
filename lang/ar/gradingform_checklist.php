@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @copyright  Copyright (c) 2026 Open LMS (https://www.openlms.net)
+ * @copyright  Copyright (c) 2025 Open LMS (https://www.openlms.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -25,12 +25,12 @@ $string['addgroup'] = 'إضافة مجموعة';
 $string['alwaysshowdefinition'] = 'السماح للمستخدمين بمعاينة قائمة الاختيارات المستخدمة في الوحدة النمطية (وإلا لن تكون قائمة التحقق مرئية إلا بعد منح التقدير فقط)';
 $string['backtoediting'] = 'الرجوع إلى التحرير';
 $string['checked'] = 'تم التحقق';
-$string['checkitem'] = 'منح رصيد كامل للعلامة &quot;{$a}&quot;';
+$string['checkitem'] = 'منح رصيد كامل للعلامة "{$a}"';
 $string['checklist'] = 'قائمة الاختيارات';
 $string['checklistmapping'] = 'درجة إلى قواعد تعيين التقدير';
-$string['checklistmappingexplained'] = 'يمثل الحد الأدنى للدرجات الممكنة لقائمة الاختيارات هذه &lt;b&gt;{$a-&gt;minscore} من النقاط&lt;/b&gt; وسيتم تحويله إلى الحد الأدنى للتقدير المتاح في هذه الوحدة النمطية (وهو صفر ما لم يتم استخدام المقياس).
-سيتم تحويل الحد الأقصى &lt;b&gt;{$a-&gt;maxscore} للنقاط&lt;/b&gt; من النقاط إلى الحد الأقصى للتقدير.&lt;br /&gt;
-سيتم تحويل الدرجات المتوسطة على التوالي وتقريبها إلى أقرب تقدير متاح.&lt;br /&gt;
+$string['checklistmappingexplained'] = 'يمثل الحد الأدنى للدرجات الممكنة لقائمة الاختيارات هذه <b>{$a->minscore} من النقاط</b> وسيتم تحويله إلى الحد الأدنى للتقدير المتاح في هذه الوحدة النمطية (وهو صفر ما لم يتم استخدام المقياس).
+سيتم تحويل الحد الأقصى <b>{$a->maxscore} للنقاط</b> من النقاط إلى الحد الأقصى للتقدير.<br />
+سيتم تحويل الدرجات المتوسطة على التوالي وتقريبها إلى أقرب تقدير متاح.<br />
 إذا تم استخدام مقياس بدلاً من تقدير، فسيتم تحويل الدرجات إلى عناصر المقياس كما لو كانت أعدادًا صحيحة متتالية.';
 $string['checklistoptions'] = 'خيارات قائمة الاختيارات';
 $string['checkliststatus'] = 'حالة قائمة الاختيارات الحالية';
@@ -46,7 +46,7 @@ $string['err_nogroups'] = 'يجب أن تحتوي قائمة الاختيارا�
 $string['err_scoreformat'] = 'يجب أن يكون عدد النقاط لكل عنصر رقم غير سالب صالح';
 $string['err_scoremax'] = 'يجب ألا يكون عدد النقاط الخاص بكل عنصر أكبر من 1000';
 $string['err_totalscore'] = 'يجب أن يكون الحد الأقصى لعدد النقاط المحتملة عند تقديرها باستخدام قائمة الاختيارات أكبر من صفر';
-$string['groupfeedback'] = 'ملاحظات المجموعة لـ &quot;{$a}&quot;';
+$string['groupfeedback'] = 'ملاحظات المجموعة لـ "{$a}"';
 $string['gradingof'] = 'تقدير {$a}';
 $string['groupadditem'] = 'إضافة عنصر';
 $string['groupdelete'] = 'حذف المجموعة';
@@ -55,12 +55,12 @@ $string['groupempty'] = 'انقر لتحرير المجموعة';
 $string['groupmovedown'] = 'نقل لأسفل';
 $string['groupmoveup'] = 'نقل لأعلى';
 $string['grouppoints'] = 'نقاط المجموعة';
-$string['groupremark'] = 'ملاحظة المجموعة لـ &quot;{$a}&quot;';
+$string['groupremark'] = 'ملاحظة المجموعة لـ "{$a}"';
 $string['itemdefinition'] = 'تعريف عنصر';
 $string['itemdelete'] = 'حذف عنصر';
 $string['itemempty'] = 'انقر لتحرير عنصر';
-$string['itemfeedback'] = 'ملاحظات لـ &quot;{$a}&quot;';
-$string['itemremark'] = 'ملاحظة العنصر لـ &quot;{$a}&quot;';
+$string['itemfeedback'] = 'ملاحظات لـ "{$a}"';
+$string['itemremark'] = 'ملاحظة العنصر لـ "{$a}"';
 $string['itemscore'] = 'درجة العنصر';
 $string['name'] = 'الاسم';
 $string['needregrademessage'] = 'تم تغيير تعريف قائمة الاختيارات بعد منح تقدير لهذا الطالب. لا يمكن للطالب رؤية قائمة الاختيارات هذه حتى تقوم بمراجعة قائمة الاختيارات وتحديث التقدير.';
@@ -72,7 +72,7 @@ $string['regrademessage1'] = 'أنت على وشك حفظ التغييرات إ�
 $string['regrademessage5'] = 'أنت على وشك حفظ تغييرات مهمة إلى قائمة الاختيارات التي تم استخدامها بالفعل في التقدير. لن تتغير قيمة دفتر التقديرات ولكن سيتم إخفاء قائمة الاختيارات عن الطلاب حتى يتم إعادة تقدير العناصر الخاصة بهم.';
 $string['regradeoption0'] = 'عدم وضع علامة لإعادة التقدير';
 $string['regradeoption1'] = 'وضع علامة لإعادة التقدير';
-$string['restoredfromdraft'] = 'ملاحظة: لم يتم حفظ المحاولة الأخيرة لإعطاء تقدير لهذا الشخص بشكل سليم لذا فقد تم استرداد تقديرات المسودة. إذا كنت ترغب في إلغاء هذه التغييرات فاستخدم الزر &apos;إلغاء الأمر&apos; الموجود أدناه.';
+$string['restoredfromdraft'] = 'ملاحظة: لم يتم حفظ المحاولة الأخيرة لإعطاء تقدير لهذا الشخص بشكل سليم لذا فقد تم استرداد تقديرات المسودة. إذا كنت ترغب في إلغاء هذه التغييرات فاستخدم الزر \'إلغاء الأمر\' الموجود أدناه.';
 $string['save'] = 'حفظ';
 $string['savechecklist'] = 'حفظ قائمة الاختيارات وجعلها جاهزة';
 $string['savechecklistdraft'] = 'حفظ كمسودة';
