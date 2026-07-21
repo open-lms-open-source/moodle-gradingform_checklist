@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @copyright  Copyright (c) 2025 Open LMS (https://www.openlms.net)
+ * @copyright  Copyright (c) 2026 Open LMS (https://www.openlms.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -72,7 +72,7 @@ $string['regrademessage1'] = 'أنت على وشك حفظ التغييرات إ�
 $string['regrademessage5'] = 'أنت على وشك حفظ تغييرات مهمة إلى قائمة الاختيارات التي تم استخدامها بالفعل في التقدير. لن تتغير قيمة دفتر التقديرات ولكن سيتم إخفاء قائمة الاختيارات عن الطلاب حتى يتم إعادة تقدير العناصر الخاصة بهم.';
 $string['regradeoption0'] = 'عدم وضع علامة لإعادة التقدير';
 $string['regradeoption1'] = 'وضع علامة لإعادة التقدير';
-$string['restoredfromdraft'] = 'ملاحظة: لم يتم حفظ المحاولة الأخيرة لإعطاء تقدير لهذا الشخص بشكل سليم لذا فقد تم استرداد تقديرات المسودة. إذا كنت ترغب في إلغاء هذه التغييرات فاستخدم الزر \'إلغاء الأمر\' الموجود أدناه.';
+$string['restoredfromdraft'] = 'ملاحظة: لم يتم حفظ المحاولة الأخيرة لإعطاء تقدير لهذا الشخص بشكل سليم لذا فقد تم استرداد تقديرات المسودة. إذا كنت ترغب في إلغاء هذه التغييرات فاستخدم الزر &apos;إلغاء الأمر&apos; الموجود أدناه.';
 $string['save'] = 'حفظ';
 $string['savechecklist'] = 'حفظ قائمة الاختيارات وجعلها جاهزة';
 $string['savechecklistdraft'] = 'حفظ كمسودة';
