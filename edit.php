@@ -18,8 +18,7 @@
 /**
  * Checklist editor page
  *
- * @package    gradingform
- * @subpackage checklist
+ * @package    gradingform_checklist
  * @author     Sam Chaffee
  * @copyright  2011 Marina Glancy
  * @copyright  Copyright (c) 2012 Open LMS (https://www.openlms.net)
@@ -46,9 +45,14 @@ $PAGE->set_url(new \core\url('/grade/grading/form/checklist/edit.php', array('ar
 $PAGE->set_title(get_string('definechecklist', 'gradingform_checklist'));
 $PAGE->set_heading(get_string('definechecklist', 'gradingform_checklist'));
 
-$mform = new gradingform_checklist_editchecklist(null, array('areaid' => $areaid, 'context' => $context, 'allowdraft' => !$controller->has_active_instances()), 'post', '', array('class' => 'gradingform_checklist_editform'));
-$data = $controller->get_definition_for_editing(true);
 $returnurl = optional_param('returnurl', $manager->get_management_url(), PARAM_LOCALURL);
+$mform = new gradingform_checklist_editchecklist(null, [
+    'areaid' => $areaid,
+    'context' => $context,
+    'allowdraft' => !$controller->has_active_instances(),
+    'returnurl' => $returnurl,
+], 'post', '', ['class' => 'gradingform_checklist_editform']);
+$data = $controller->get_definition_for_editing(true);
 $data->returnurl = $returnurl;
 $mform->set_data($data);
 if ($mform->is_cancelled()) {

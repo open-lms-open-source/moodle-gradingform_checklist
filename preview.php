@@ -18,8 +18,7 @@
 /**
  * Checklist preview page
  *
- * @package    gradingform
- * @subpackage checklist
+ * @package    gradingform_checklist
  * @author     Sam Chaffee
  * @copyright  2011 Marina Glancy
  * @copyright  Copyright (c) 2012 Open LMS (https://www.openlms.net)

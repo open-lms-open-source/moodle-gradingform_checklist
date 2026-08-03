@@ -40,4 +40,11 @@ $functions = [
         'type' => 'write',
         'ajax' => true,
     ],
+    'gradingform_checklist_import_definition' => [
+        'classname' => 'gradingform_checklist\\external\\import_definition',
+        'methodname' => 'execute',
+        'description' => 'Import a checklist definition from canonical JSON.',
+        'type' => 'write',
+        'ajax' => false,
+    ],
 ];

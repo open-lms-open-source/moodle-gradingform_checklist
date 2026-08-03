@@ -106,6 +106,23 @@ class store_test extends advanced_testcase {
     }
 
     /**
+     * Ensure that an execute with an invalid graded user is rejected.
+     */
+    public function test_execute_invalid_graded_user(): void {
+        $this->resetAfterTest();
+
+        [
+            'forum' => $forum,
+            'teacher' => $teacher,
+        ] = $this->get_test_data();
+
+        $this->setUser($teacher);
+
+        $this->expectException(moodle_exception::class);
+        store::execute('mod_forum', (int) $forum->get_context()->id, 'forum', 0, false, 'formdata');
+    }
+
+    /**
      * Ensure that an execute against the correct grading method returns the current state of the user.
      */
     public function test_execute_store_graded(): void {
@@ -166,6 +183,17 @@ class store_test extends advanced_testcase {
 
         $this->assertArrayHasKey('gradedby', $result['grade']);
         $this->assertEquals(fullname($teacher), $result['grade']['gradedby']);
+
+        $this->assertArrayHasKey('options', $result['grade']);
+        $this->assertArrayHasKey('enablebulkcheck', $result['grade']['options']);
+        $this->assertTrue($result['grade']['options']['enablebulkcheck']);
+        $this->assertArrayHasKey('showitempoints', $result['grade']['options']);
+        $this->assertFalse($result['grade']['options']['showitempoints']);
+        $this->assertArrayHasKey('showgrouppoints', $result['grade']['options']);
+        $this->assertFalse($result['grade']['options']['showgrouppoints']);
+        $this->assertArrayHasKey('groupremarkheading', $result['grade']['options']);
+        $this->assertEquals(get_string('groupremarkheadingdefault', 'gradingform_checklist'),
+            $result['grade']['options']['groupremarkheading']);
 
         $this->assertArrayHasKey('criteria', $result['grade']);
         $criteria = $result['grade']['criteria'];

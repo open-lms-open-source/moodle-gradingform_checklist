@@ -137,7 +137,24 @@ class fetch_test extends advanced_testcase {
         $this->assertArrayHasKey('gradedby', $result['grade']);
         $this->assertEquals(null, $result['grade']['gradedby']);
 
+        $this->assertArrayHasKey('options', $result['grade']);
+        $this->assertArrayHasKey('enablebulkcheck', $result['grade']['options']);
+        $this->assertTrue($result['grade']['options']['enablebulkcheck']);
+        $this->assertArrayHasKey('showitempoints', $result['grade']['options']);
+        $this->assertFalse($result['grade']['options']['showitempoints']);
+        $this->assertArrayHasKey('showgrouppoints', $result['grade']['options']);
+        $this->assertFalse($result['grade']['options']['showgrouppoints']);
+        $this->assertArrayHasKey('groupremarkheading', $result['grade']['options']);
+        $this->assertEquals(get_string('groupremarkheadingdefault', 'gradingform_checklist'),
+            $result['grade']['options']['groupremarkheading']);
+        $this->assertArrayHasKey('isgrading', $result['grade']['options']);
+        $this->assertTrue($result['grade']['options']['isgrading']);
+
         $this->assertArrayHasKey('criteria', $result['grade']);
+        $this->assertArrayHasKey('benchmark', $result['grade']);
+        $this->assertStringContainsString('Teacher benchmark for checklist', $result['grade']['benchmark']['content']);
+        $this->assertEquals('Open to view Benchmarks', $result['grade']['benchmark']['buttonlabel']);
+        $this->assertEquals('fa-solid fa-file-circle-check', $result['grade']['benchmark']['buttonicon']);
         $criteria = $result['grade']['criteria'];
         $this->assertCount(count($definition->checklist_groups), $criteria);
         foreach ($criteria as $criterion) {
@@ -147,6 +164,7 @@ class fetch_test extends advanced_testcase {
 
             $this->assertArrayHasKey('description', $criterion);
             $this->assertEquals($sourcecriterion['description'], $criterion['description']);
+            $this->assertArrayNotHasKey('benchmark', $criterion);
 
             $this->assertArrayHasKey('items', $criterion);
 
@@ -282,7 +300,24 @@ class fetch_test extends advanced_testcase {
         $this->assertArrayHasKey('gradedby', $result['grade']);
         $this->assertEquals(fullname($grader), $result['grade']['gradedby']);
 
+        $this->assertArrayHasKey('options', $result['grade']);
+        $this->assertArrayHasKey('enablebulkcheck', $result['grade']['options']);
+        $this->assertEquals($fetcheruser->id !== $gradeduser->id, $result['grade']['options']['enablebulkcheck']);
+        $this->assertArrayHasKey('showitempoints', $result['grade']['options']);
+        $this->assertArrayHasKey('showgrouppoints', $result['grade']['options']);
+        $this->assertArrayHasKey('groupremarkheading', $result['grade']['options']);
+        $this->assertEquals(get_string('groupremarkheadingdefault', 'gradingform_checklist'),
+            $result['grade']['options']['groupremarkheading']);
+        $this->assertArrayHasKey('isgrading', $result['grade']['options']);
+        $this->assertEquals($fetcheruser->id !== $gradeduser->id, $result['grade']['options']['isgrading']);
+
         $this->assertArrayHasKey('criteria', $result['grade']);
+        if ($fetcheruser->id !== $gradeduser->id) {
+            $this->assertArrayHasKey('benchmark', $result['grade']);
+            $this->assertStringContainsString('Teacher benchmark for checklist', $result['grade']['benchmark']['content']);
+        } else {
+            $this->assertArrayNotHasKey('benchmark', $result['grade']);
+        }
         $criteria = $result['grade']['criteria'];
         $this->assertCount(count($definition->checklist_groups), $criteria);
         foreach ($criteria as $criterion) {
@@ -292,6 +327,7 @@ class fetch_test extends advanced_testcase {
 
             $this->assertArrayHasKey('description', $criterion);
             $this->assertEquals($sourcecriterion['description'], $criterion['description']);
+            $this->assertArrayNotHasKey('benchmark', $criterion);
 
             $this->assertArrayHasKey('remark', $criterion['items'][0]);
 

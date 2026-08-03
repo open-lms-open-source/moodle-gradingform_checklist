@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Generator for the gradingforum_checklist plugin.
+ * Generator for the gradingform_checklist plugin.
  *
  * @package    gradingform_checklist
  * @copyright  Copyright (c) 2023 Open LMS (https://www.openlms.net)
@@ -31,7 +31,7 @@ use tests\gradingform_checklist\generator\checklist;
 use tests\gradingform_checklist\generator\criterion;
 
 /**
- * Generator for the gradingforum_checklist plugintype.
+ * Generator for the gradingform_checklist plugin type.
  *
  * @package    gradingform_checklist
  * @copyright  Copyright (c) 2023 Open LMS (https://www.openlms.net)
@@ -48,6 +48,7 @@ class gradingform_checklist_generator extends component_generator_base {
      * @param string $name
      * @param string $description
      * @param array $criteria The list of criteria to add to the generated checklist
+     * @param array $options Checklist options to override.
      * @return gradingform_checklist_controller
      */
     public function create_instance(
@@ -56,7 +57,8 @@ class gradingform_checklist_generator extends component_generator_base {
         string $area,
         string $name,
         string $description,
-        array $criteria
+        array $criteria,
+        array $options = []
     ): gradingform_checklist_controller {
         global $USER;
 
@@ -71,11 +73,20 @@ class gradingform_checklist_generator extends component_generator_base {
 
         // Generate a definition for the supplied checklist.
         $checklist = $this->get_checklist($name, $description);
+        $benchmark = $options['benchmark'] ?? '';
+        $benchmarkformat = $options['benchmarkformat'] ?? FORMAT_HTML;
+        $benchmarkbuttonlabel = $options['benchmarkbuttonlabel'] ?? 'Open to view Benchmarks';
+        $benchmarkbuttonicon = $options['benchmarkbuttonicon'] ?? 'fa-solid fa-file-circle-check';
+        unset($options['benchmark'], $options['benchmarkformat'], $options['benchmarkbuttonlabel'], $options['benchmarkbuttonicon']);
+        $checklist->set_benchmark($benchmark, $benchmarkformat, $benchmarkbuttonlabel, $benchmarkbuttonicon);
+        foreach ($options as $key => $value) {
+            $checklist->set_option($key, $value);
+        }
         foreach ($criteria as $name => $criterion) {
             $checklist->add_criteria($this->get_criterion($name, $criterion));
         }
 
-        // Update the controller wih the checklist definition.
+        // Update the controller with the checklist definition.
         $controller->update_definition($checklist->get_definition());
 
         return $controller;
@@ -198,14 +209,17 @@ class gradingform_checklist_generator extends component_generator_base {
     public function get_test_checklist(context $context, string $component, string $area): gradingform_checklist_controller {
         $criteria = [
             'Group 1' => [
-                'Has title' => 1
+                'items' => [
+                    'Has title' => 1,
+                ],
             ],
             'Group 2' => [
                 'Has references' => 1
             ],
         ];
 
-        return $this->create_instance($context, $component, $area, 'testchecklist', 'Description text', $criteria);
+        return $this->create_instance($context, $component, $area, 'testchecklist', 'Description text', $criteria,
+            ['enableitemremarks' => 1, 'benchmark' => '<p>Teacher benchmark for checklist</p>']);
     }
 
     /**

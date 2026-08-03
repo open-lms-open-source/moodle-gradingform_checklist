@@ -18,8 +18,7 @@
 /**
  * Checklist editor form
  *
- * @package    gradingform
- * @subpackage checklist
+ * @package    gradingform_checklist
  * @author     Sam Chaffee
  * @copyright  2011 Marina Glancy <marina@moodle.com>
  * @copyright  Copyright (c) 2012 Open LMS (https://www.openlms.net)
@@ -59,14 +58,58 @@ class gradingform_checklist_editchecklist extends moodleform {
         $form->addElement('editor', 'description_editor', get_string('description', 'gradingform_checklist'), null, $options);
         $form->setType('description_editor', PARAM_RAW);
 
-        // checklist completion status
-        $choices = array();
-        $choices[gradingform_controller::DEFINITION_STATUS_DRAFT]    = \core\output\html_writer::tag('span', get_string('statusdraft', 'core_grading'), array('class' => 'status draft'));
-        $choices[gradingform_controller::DEFINITION_STATUS_READY]    = \core\output\html_writer::tag('span', get_string('statusready', 'core_grading'), array('class' => 'status ready'));
-        $form->addElement('select', 'status', get_string('checkliststatus', 'gradingform_checklist'), $choices)->freeze();
+        // benchmark
+        $form->addElement('hidden', 'usebenchmark', 0);
+        $form->setType('usebenchmark', PARAM_BOOL);
+        $form->setDefault('usebenchmark', 0);
+        $form->addElement('hidden', 'removebenchmark', 0);
+        $form->setType('removebenchmark', PARAM_BOOL);
+        $form->setDefault('removebenchmark', 0);
+
+        $benchmarkbuttons = \core\output\html_writer::start_div('form-group row fitem');
+        $benchmarkbuttons .= \core\output\html_writer::div('', 'col-md-3 col-form-label d-flex pb-0 pr-md-0');
+        $benchmarkbuttons .= \core\output\html_writer::start_div('col-md-9 form-inline align-items-start felement pt-1 pb-1');
+        $benchmarkbuttons .= \core\output\html_writer::start_div('gradingform-checklist-benchmark-actions');
+        $benchmarkbuttons .= \core\output\html_writer::tag('button', get_string('addbenchmark', 'gradingform_checklist'), [
+            'type' => 'button',
+            'class' => 'btn btn-primary',
+            'id' => 'gradingform-checklist-add-benchmark',
+        ]);
+        $benchmarkbuttons .= \core\output\html_writer::tag('button', get_string('removebenchmark', 'gradingform_checklist'), [
+            'type' => 'button',
+            'class' => 'btn btn-primary ml-2',
+            'id' => 'gradingform-checklist-remove-benchmark',
+        ]);
+        $benchmarkbuttons .= \core\output\html_writer::end_div();
+        $benchmarkbuttons .= \core\output\html_writer::end_div();
+        $benchmarkbuttons .= \core\output\html_writer::end_div();
+        $form->addElement('html', $benchmarkbuttons);
+
+        $benchmarkoptions = gradingform_checklist_controller::benchmark_form_field_options($this->_customdata['context']);
+        $form->addElement('editor', 'benchmark_editor', get_string('benchmark', 'gradingform_checklist'), null, $benchmarkoptions);
+        $form->setType('benchmark_editor', PARAM_RAW);
+
+        $form->addElement('text', 'benchmarkbuttonlabel', get_string('benchmarkbuttonlabel', 'gradingform_checklist'),
+            ['size' => 52]);
+        $form->setType('benchmarkbuttonlabel', PARAM_TEXT);
+        $form->setDefault('benchmarkbuttonlabel', get_string('benchmarkbuttondefault', 'gradingform_checklist'));
+
+        $form->addElement('text', 'benchmarkbuttonicon', get_string('benchmarkbuttonicon', 'gradingform_checklist'),
+            ['size' => 52]);
+        $form->setType('benchmarkbuttonicon', PARAM_TEXT);
+        $form->setDefault('benchmarkbuttonicon', 'fa-solid fa-file-circle-check');
+
+        $this->add_benchmark_toggle_script();
 
         // checklist editor
-        $element = $form->addElement('checklisteditor', 'checklist', get_string('checklist', 'gradingform_checklist'));
+        $form->addElement('html',
+            \core\output\html_writer::div(
+                \core\output\html_writer::tag('h3', get_string('checklist', 'gradingform_checklist'),
+                    ['class' => 'gradingform-checklist-section-heading']),
+                'form-group row fitem gradingform-checklist-heading-row'
+            )
+        );
+        $element = $form->addElement('checklisteditor', 'checklist', '');
         $form->setType('checklist', PARAM_RAW);
         //$element->freeze(); // TODO freeze checklist editor if needed
 
@@ -88,20 +131,48 @@ class gradingform_checklist_editchecklist extends moodleform {
      * data submission and set_data().
      * All form setup that is dependent on form values should go in here.
      *
-     * We remove the element status if there is no current status (i.e. checklist is only being created)
-     * so the users do not get confused
+     * Update button text for ready checklists.
      */
     public function definition_after_data() {
-        $form = $this->_form;
-        $el = $form->getElement('status');
-        if (!$el->getValue()) {
-            $form->removeElement('status');
-        } else {
-            $vals = array_values($el->getValue());
-            if ($vals[0] == gradingform_controller::DEFINITION_STATUS_READY) {
-                $this->findButton('savechecklist')->setValue(get_string('save', 'gradingform_checklist'));
-            }
+        if (($this->_defaultValues['status'] ?? null) == gradingform_controller::DEFINITION_STATUS_READY) {
+            $this->findButton('savechecklist')->setValue(get_string('save', 'gradingform_checklist'));
         }
+    }
+
+    /**
+     * Adds client-side benchmark controls.
+     */
+    protected function add_benchmark_toggle_script(): void {
+        global $PAGE;
+
+        $PAGE->requires->js_init_code(<<<JS
+require(['jquery'], function($) {
+    const useBenchmark = $('#id_usebenchmark, input[name="usebenchmark"]').first();
+    const removeBenchmark = $('#id_removebenchmark, input[name="removebenchmark"]').first();
+    const addButton = $('#gradingform-checklist-add-benchmark');
+    const removeButton = $('#gradingform-checklist-remove-benchmark');
+    const benchmarkFields = $('#fitem_id_benchmark_editor, #fitem_id_benchmarkbuttonlabel, #fitem_id_benchmarkbuttonicon');
+
+    function setBenchmarkEnabled(enabled, remove) {
+        useBenchmark.val(enabled ? 1 : 0);
+        removeBenchmark.val(remove ? 1 : 0);
+        benchmarkFields.toggleClass('d-none', !enabled);
+        addButton.toggleClass('d-none', enabled);
+        removeButton.toggleClass('d-none', !enabled);
+    }
+
+    addButton.on('click', function() {
+        setBenchmarkEnabled(true, false);
+    });
+    removeButton.on('click', function() {
+        setBenchmarkEnabled(false, true);
+    });
+    if (!useBenchmark.length || !removeBenchmark.length) {
+        return;
+    }
+    setBenchmarkEnabled(useBenchmark.val() === '1', removeBenchmark.val() === '1');
+});
+JS);
     }
 
     /**
