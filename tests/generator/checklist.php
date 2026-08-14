@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Generator for the gradingforum_checklist plugin.
+ * Generator for the gradingform_checklist plugin.
  *
  * @package    gradingform_checklist
  * @copyright  Copyright (c) 2023 Open LMS (https://www.openlms.net)
@@ -24,6 +24,7 @@
 
 namespace tests\gradingform_checklist\generator;
 
+use gradingform_checklist_controller;
 use gradingform_controller;
 use stdClass;
 
@@ -48,6 +49,18 @@ class checklist {
     /** @var array The checklist options. */
     protected $options = [];
 
+    /** @var string Teacher-only benchmark content for this checklist. */
+    protected $benchmark = '';
+
+    /** @var int Text format for benchmark content. */
+    protected $benchmarkformat = FORMAT_HTML;
+
+    /** @var string Benchmark button label. */
+    protected $benchmarkbuttonlabel = 'Open to view Benchmarks';
+
+    /** @var string Benchmark button icon. */
+    protected $benchmarkbuttonicon = 'fa-solid fa-file-circle-check';
+
     /**
      * Create a new gradingform_checklist_generator_checklist.
      *
@@ -59,11 +72,17 @@ class checklist {
         $this->description = $description;
 
         $this->set_option('alwaysshowdefinition', 1);
-        $this->set_option('showitempointseval', 1);
-        $this->set_option('showitempointstudent', 1);
-        $this->set_option('enableitemremarks', 1);
+        $this->set_option('showitempointseval', 0);
+        $this->set_option('showitempointstudent', 0);
+        $this->set_option('showgrouppointseval', 0);
+        $this->set_option('showgrouppointstudent', 0);
+        $this->set_option('enableitemremarks', 0);
         $this->set_option('enablegroupremarks', 1);
         $this->set_option('showremarksstudent', 1);
+        $this->set_option('enablebulkcheck', 1);
+        $this->set_option('groupremarkheading', '');
+        $this->set_option('observationmode', gradingform_checklist_controller::OBSERVATION_MODE_DISABLED);
+        $this->set_option('observationdefault', gradingform_checklist_controller::OBSERVATION_DEFAULT_NOW);
 
     }
 
@@ -78,6 +97,15 @@ class checklist {
                 'format' => FORMAT_HTML,
                 'itemid' => 1
             ],
+            'benchmark_editor' => [
+                'text' => $this->benchmark,
+                'format' => $this->benchmarkformat,
+                'itemid' => 0,
+            ],
+            'usebenchmark' => trim($this->benchmark) === '' ? 0 : 1,
+            'removebenchmark' => 0,
+            'benchmarkbuttonlabel' => $this->benchmarkbuttonlabel,
+            'benchmarkbuttonicon' => $this->benchmarkbuttonicon,
             'checklist' => [
                 'groups' => $this->get_all_criterion_values(),
                 'options' => $this->options,
@@ -96,6 +124,25 @@ class checklist {
      */
     public function set_option(string $key, $value): self {
         $this->options[$key] = $value;
+        return $this;
+    }
+
+    /**
+     * Sets checklist benchmark content.
+     *
+     * @param string $benchmark
+     * @param int $format
+     * @param string $buttonlabel
+     * @param string $buttonicon
+     * @return self
+     */
+    public function set_benchmark(string $benchmark, int $format = FORMAT_HTML,
+            string $buttonlabel = 'Open to view Benchmarks',
+            string $buttonicon = 'fa-solid fa-file-circle-check'): self {
+        $this->benchmark = $benchmark;
+        $this->benchmarkformat = $format;
+        $this->benchmarkbuttonlabel = $buttonlabel;
+        $this->benchmarkbuttonicon = $buttonicon;
         return $this;
     }
 

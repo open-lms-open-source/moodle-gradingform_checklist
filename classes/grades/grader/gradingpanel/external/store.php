@@ -79,7 +79,7 @@ class store extends external_api {
             ),
             'notifyuser' => new external_value(
                 PARAM_BOOL,
-                'Wheteher to notify the user or not',
+                'Whether to notify the user or not',
                 VALUE_DEFAULT,
                 false
             ),
@@ -143,7 +143,7 @@ class store extends external_api {
         }
 
         // Fetch the record for the graded user.
-        $gradeduser = \core_user::get_user($gradeduserid);
+        $gradeduser = \core_user::get_user($gradeduserid, '*', MUST_EXIST);
 
         // Require that this user can save grades.
         $gradeitem->require_user_can_grade($gradeduser, $USER);
@@ -157,6 +157,19 @@ class store extends external_api {
         // Parse the serialised string into an object.
         $data = [];
         parse_str($formdata, $data);
+
+        if (!empty($data['advancedgrading']) && isset($data['instanceid'])) {
+            $grade = $gradeitem->get_grade_for_user($gradeduser, $USER);
+            $gradinginstance = $gradeitem->get_advanced_grading_instance($USER, $grade, (int) $data['instanceid']);
+            if ($gradinginstance instanceof \gradingform_checklist_instance
+                    && !$gradinginstance->validate_grading_element($data['advancedgrading'])) {
+                $errors = $gradinginstance->get_grading_validation_error_messages();
+                if (empty($errors)) {
+                    $errors[] = get_string('checklistnotcompleted', 'gradingform_checklist');
+                }
+                throw new moodle_exception('requiredcommentserror', 'gradingform_checklist', '', implode(' ', $errors));
+            }
+        }
 
         // Grade.
         $gradeitem->store_grade_from_formdata($gradeduser, $USER, (object) $data);

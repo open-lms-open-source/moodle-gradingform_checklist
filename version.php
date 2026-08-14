@@ -18,8 +18,7 @@
 /**
  * Version file for the Checklist plugin
  *
- * @package    gradingform
- * @subpackage checklist
+ * @package    gradingform_checklist
  * @author     Sam Chaffee
  * @copyright  2011 David Mudrak <david@moodle.com>
  * @copyright  2012 Open LMS (https://www.openlms.net)
@@ -29,7 +28,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component  = 'gradingform_checklist';
-$plugin->version    = 2026011300;
+$plugin->version    = 2026081200;
 $plugin->requires   = 2024100700;
-$plugin->release    = '4.5.4';
+$plugin->release    = '4.5.6';
 $plugin->maturity   = MATURITY_STABLE;

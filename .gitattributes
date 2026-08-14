@@ -1,0 +1,6 @@
+# Files needed for development or repository maintenance, not Moodle packages.
+.DS_Store export-ignore
+*.map export-ignore
+.gitattributes export-ignore
+.gitignore export-ignore
+docs/checklist-import-template-candidate.docx export-ignore

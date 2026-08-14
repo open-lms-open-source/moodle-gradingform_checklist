@@ -24,9 +24,20 @@
 import {call as fetchMany} from 'core/ajax';
 import {normaliseResult} from 'core_grades/grades/grader/gradingpanel/normalise';
 import {compareData} from 'core_grades/grades/grader/gradingpanel/comparison';
+import {initBenchmarkDisplay as initBenchmarkControls} from 'gradingform_checklist/benchmark';
 
 // Note: We use jQuery.serializer here until we can rewrite Ajax to use XHR.send()
 import jQuery from 'jquery';
+
+/**
+ * Initializes benchmark panel/modal controls inside a checklist root.
+ *
+ * @param {String|null} rootSelector Root selector, or null to bind to the document.
+ * @param {String} closeLabel Accessible label for close controls.
+ */
+export const initBenchmarkDisplay = (rootSelector, closeLabel) => {
+    initBenchmarkControls(rootSelector, closeLabel);
+};
 
 /**
  * For a given component, contextid, itemname & gradeduserid we can fetch the currently assigned grade.

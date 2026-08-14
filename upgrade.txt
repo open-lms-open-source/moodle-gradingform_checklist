@@ -1,0 +1,18 @@
+Checklist grading form upgrade notes
+=====================================
+
+2026080700
+----------
+
+This release aligns the final upgrade savepoint with the plugin version and
+contains administration-setting, documentation, and accessibility updates.
+No database schema migration is required for this release.
+
+Earlier migrations in this release line:
+
+* 2026073000 introduced temporary benchmark fields on checklist groups.
+* 2026073100 defensively migrates any temporary group benchmark content into
+  the dedicated checklist-level benchmark table, copies legacy benchmark files
+  to the definition-level file area when this can be done without overwriting
+  different target files, and then removes the obsolete group fields.
+* 2026080200 introduced observation-date storage for checklist grading instances.

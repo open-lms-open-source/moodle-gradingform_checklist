@@ -18,8 +18,7 @@
 /**
  * Grading method controller for the Checklist plugin
  *
- * @package    gradingform
- * @subpackage checklist
+ * @package    gradingform_checklist
  * @author     Sam Chaffee
  * @copyright  2011 Marina Glancy
  * @copyright  Copyright (c) 2012 Open LMS (https://www.openlms.net)
@@ -31,6 +30,30 @@ defined('MOODLE_INTERNAL') || die();
 require_once("HTML/QuickForm/input.php");
 
 class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
+    /** Historical fallback maximum length for group descriptions. */
+    public const GROUP_DESCRIPTION_MAX_LENGTH = 500;
+
+    /** Historical fallback maximum length for item definitions. */
+    public const ITEM_DEFINITION_MAX_LENGTH = 1500;
+
+    /**
+     * Get the configured maximum length for group descriptions.
+     *
+     * @return int
+     */
+    public static function get_group_description_max_length(): int {
+        return \gradingform_checklist\local\config::limit('groupdescriptionmaxchars');
+    }
+
+    /**
+     * Get the configured maximum length for item definitions.
+     *
+     * @return int
+     */
+    public static function get_item_definition_max_length(): int {
+        return \gradingform_checklist\local\config::limit('itemdefinitionmaxchars');
+    }
+
     /** help message */
     public $_helpbutton = '';
     /** stores the result of the last validation: null - undefined, false - no errors, string - error(s) text */
@@ -41,6 +64,18 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
     protected $nonjsbuttonpressed = false;
     /** Message to display in front of the editor (that there exist grades on this checklist being edited) */
     protected $regradeconfirmation = false;
+
+    /**
+     * Cleans checklist plain text while preserving line breaks entered in textareas.
+     *
+     * @param string $value
+     * @return string
+     */
+    public static function clean_multiline_text($value) {
+        $value = str_replace(["\r\n", "\r"], "\n", $value);
+        $value = clean_param($value, PARAM_NOTAGS);
+        return trim($value);
+    }
 
     function __construct($elementName=null, $elementLabel=null, $attributes=null) {
         parent::__construct($elementName, $elementLabel, $attributes);
@@ -131,7 +166,7 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
     }
 
     /**
-     * Prepares the data passed in $_POST:
+     * Prepares the submitted form data:
      * - processes the pressed buttons 'additem', 'addgroup', 'moveup', 'movedown', 'delete' (when JavaScript is disabled)
      *   sets $this->nonjsbuttonpressed to true/false if such button was pressed
      * - if options not passed (i.e. we create a new checklist) fills the options array with the default values
@@ -160,6 +195,25 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
         // If options are present in $value, replace default values with submitted values
         if (!empty($value['options'])) {
             foreach (array_keys($return['options']) as $option) {
+                if ($option == 'groupremarkheading') {
+                    $return['options'][$option] = '';
+                    if (array_key_exists($option, $value['options'])) {
+                        $return['options'][$option] = trim(clean_param($value['options'][$option], PARAM_TEXT));
+                    }
+                    continue;
+                }
+                if ($option == 'observationmode') {
+                    $return['options'][$option] = gradingform_checklist_controller::clean_observation_mode(
+                        $value['options'][$option] ?? null
+                    );
+                    continue;
+                }
+                if ($option == 'observationdefault') {
+                    $return['options'][$option] = gradingform_checklist_controller::clean_observation_default(
+                        $value['options'][$option] ?? null
+                    );
+                    continue;
+                }
                 // special treatment for checkboxes
                 if (!empty($value['options'][$option])) {
                     $return['options'][$option] = $value['options'][$option];
@@ -183,25 +237,16 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
         foreach ($value['groups'] as $id => $group) {
             if ($id == 'addgroup') {
                 $id = $this->get_next_id(array_keys($value['groups']));
-                $group = array('description' => '', 'items' => array());
-                $i = 0;
-
-                // score is 1 by default
-                $group['items']['NEWID'.($i++)]['score'] = 1;
-
-                // add more items so there are at least 3 in the new group. Score is 1 by default
-                for ($i= $i; $i < 3; $i++) {
-                    $group['items']['NEWID'.$i]['score'] = 1;
-                }
-                // set other necessary fields (definition) for the items in the new group
-                foreach (array_keys($group['items']) as $i) {
-                    $group['items'][$i]['definition'] = '';
-                }
+                $group = $this->get_empty_group();
                 $this->nonjsbuttonpressed = true;
             }
+            $addgroupafter = !empty($group['addgroupafter']);
+            unset($group['addgroupafter']);
             $items = array();
             $maxscore = null;
             if (array_key_exists('items', $group)) {
+                $lastitemaction = null;
+                $lastitemid = null;
                 foreach ($group['items'] as $itemid => $item) {
                     if ($itemid == 'additem') {
                         $itemid = $this->get_next_id(array_keys($group['items']));
@@ -213,16 +258,15 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
                     }
                     if (!array_key_exists('delete', $item)) {
                         if ($withvalidation) {
-                            $deflength = strlen(trim(clean_param($item['definition'], PARAM_TEXT)));
+                            $deflength = \core_text::strlen(self::clean_multiline_text($item['definition']));
                             if (!$deflength) {
                                 $errors['err_nodefinition'] = 1;
                                 $item['error_definition'] = true;
-                            } else if ($deflength > 255) {
+                            } else if ($deflength > self::get_item_definition_max_length()) {
                                 $errors['err_definitionmax'] = 1;
                                 $item['error_definition'] = true;
                             }
                             if (isset($item['score']) && (!is_numeric(trim($item['score'])) || (float)(trim($item['score']) < 0))) {
-                                // TODO why we can't allow negative score for checklist?
                                 $errors['err_scoreformat'] = 1;
                                 $item['error_score'] = true;
                             } else if ($item['score'] > 1000) {
@@ -230,9 +274,30 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
                                 $item['error_score'] = true;
                             }
                         }
-                        $items[$itemid] = $item;
                         if ($maxscore === null || (float)$item['score'] > $maxscore) {
                             $maxscore = (float)$item['score'];
+                        }
+                        if (array_key_exists('moveup', $item) || $lastitemaction == 'movedown') {
+                            unset($item['moveup']);
+                            if ($lastitemid !== null) {
+                                $lastitem = $items[$lastitemid];
+                                unset($items[$lastitemid]);
+                                $items[$itemid] = $item;
+                                $items[$lastitemid] = $lastitem;
+                            } else {
+                                $items[$itemid] = $item;
+                            }
+                            $lastitemaction = null;
+                            $lastitemid = $itemid;
+                            $this->nonjsbuttonpressed = true;
+                        } else {
+                            if (array_key_exists('movedown', $item)) {
+                                unset($item['movedown']);
+                                $lastitemaction = 'movedown';
+                                $this->nonjsbuttonpressed = true;
+                            }
+                            $items[$itemid] = $item;
+                            $lastitemid = $itemid;
                         }
                     } else {
                         $this->nonjsbuttonpressed = true;
@@ -252,11 +317,11 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
                     $errors['err_minoneitems'] = 1;
                     $group['error_items'] = true;
                 }
-                $descriptionlen = strlen(trim(clean_param($group['description'], PARAM_TEXT)));
+                $descriptionlen = \core_text::strlen(self::clean_multiline_text($group['description']));
                 if (!$descriptionlen) {
                     $errors['err_nodescription'] = 1;
                     $group['error_description'] = true;
-                } else if ($descriptionlen > 255) {
+                } else if ($descriptionlen > self::get_group_description_max_length()) {
                     $errors['err_descriptionmax'] = 1;
                     $group['error_description'] = true;
                 }
@@ -285,6 +350,12 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
                 $return['groups'][$id] = $group;
                 $lastid = $id;
             }
+            if ($addgroupafter) {
+                $newid = $this->get_next_id(array_merge(array_keys($value['groups']), array_keys($return['groups'])));
+                $return['groups'][$newid] = $this->get_empty_group();
+                $lastid = $newid;
+                $this->nonjsbuttonpressed = true;
+            }
         }
 
         if ($totalscore <= 0) {
@@ -302,7 +373,13 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
             if (count($errors)) {
                 $rv = array();
                 foreach ($errors as $error => $v) {
-                    $rv[] = get_string($error, 'gradingform_checklist');
+                    if ($error === 'err_definitionmax') {
+                        $rv[] = get_string($error, 'gradingform_checklist', self::get_item_definition_max_length());
+                    } else if ($error === 'err_descriptionmax') {
+                        $rv[] = get_string($error, 'gradingform_checklist', self::get_group_description_max_length());
+                    } else {
+                        $rv[] = get_string($error, 'gradingform_checklist');
+                    }
                 }
                 $this->validationerrors = implode('<br/ >', $rv);
             } else {
@@ -311,6 +388,22 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
             $this->wasvalidated = true;
         }
         return $return;
+    }
+
+    /**
+     * Returns a new empty group with the default three checklist items.
+     *
+     * @return array
+     */
+    protected function get_empty_group(): array {
+        $group = array('description' => '', 'items' => array());
+        for ($i = 0; $i < 3; $i++) {
+            $group['items']['NEWID'.$i] = array(
+                'definition' => '',
+                'score' => 1,
+            );
+        }
+        return $group;
     }
 
     /**

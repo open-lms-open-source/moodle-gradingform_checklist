@@ -17,8 +17,7 @@
 /**
  * Support for restore API
  *
- * @package    gradingform
- * @subpackage checklist
+ * @package    gradingform_checklist
  * @author     Sam Chaffee
  * @copyright  2011 David Mudrak <david@moodle.com>
  * @copyright  Copyright (c) 2012 Open LMS (https://www.openlms.net)
@@ -40,6 +39,9 @@ class restore_gradingform_checklist_plugin extends restore_gradingform_plugin {
 
         $paths = array();
 
+        $paths[] = new restore_path_element('gradingform_checklist_benchmark',
+            $this->get_pathfor('/benchmark'));
+
         $paths[] = new restore_path_element('gradingform_checklist_group',
             $this->get_pathfor('/groups/group'));
 
@@ -47,6 +49,13 @@ class restore_gradingform_checklist_plugin extends restore_gradingform_plugin {
             $this->get_pathfor('/groups/group/items/item'));
 
         return $paths;
+    }
+
+    /**
+     * Processes files after restore.
+     */
+    protected function after_execute_definition() {
+        $this->add_related_files('gradingform_checklist', 'benchmark', 'grading_definition');
     }
 
     /**
@@ -61,7 +70,25 @@ class restore_gradingform_checklist_plugin extends restore_gradingform_plugin {
         $paths[] = new restore_path_element('gradingform_checklist_filling',
             $this->get_pathfor('/fillings/filling'));
 
+        $paths[] = new restore_path_element('gradingform_checklist_observation',
+            $this->get_pathfor('/observations/observation'));
+
         return $paths;
+    }
+
+    /**
+     * Processes benchmark element data.
+     *
+     * @param stdClass $data
+     */
+    public function process_gradingform_checklist_benchmark($data) {
+        global $DB;
+
+        $data = (object)$data;
+        $data->definitionid = $this->get_new_parentid('grading_definition');
+        unset($data->id);
+
+        $DB->insert_record('gradingform_checklist_bench', $data);
     }
 
     /**
@@ -80,7 +107,7 @@ class restore_gradingform_checklist_plugin extends restore_gradingform_plugin {
         $data->definitionid = $this->get_new_parentid('grading_definition');
 
         $newid = $DB->insert_record('gradingform_checklist_groups', $data);
-        $this->set_mapping('gradingform_checklist_group', $oldid, $newid);
+        $this->set_mapping('gradingform_checklist_group', $oldid, $newid, true);
     }
 
     /**
@@ -113,8 +140,39 @@ class restore_gradingform_checklist_plugin extends restore_gradingform_plugin {
         $data = (object)$data;
         $data->instanceid = $this->get_new_parentid('grading_instance');
         $data->groupid = $this->get_mappingid('gradingform_checklist_group', $data->groupid);
-        $data->itemid = $this->get_mappingid('gradingform_checklist_item', $data->itemid);
+        $data->itemid = $this->get_restored_filling_itemid((int)$data->itemid);
 
         $DB->insert_record('gradingform_checklist_fills', $data);
+    }
+
+    /**
+     * Returns the restored item id for a checklist filling.
+     *
+     * Group feedback uses itemid 0 as a sentinel and is not backed by an item mapping.
+     *
+     * @param int $itemid The backed-up item id.
+     * @return int The restored item id.
+     */
+    protected function get_restored_filling_itemid(int $itemid): int {
+        if ($itemid === 0) {
+            return 0;
+        }
+
+        return (int)$this->get_mappingid('gradingform_checklist_item', $itemid);
+    }
+
+    /**
+     * Processes observation element data.
+     *
+     * @param stdClass $data
+     */
+    public function process_gradingform_checklist_observation($data) {
+        global $DB;
+
+        $data = (object)$data;
+        $data->instanceid = $this->get_new_parentid('grading_instance');
+        unset($data->id);
+
+        $DB->insert_record('gradingform_checklist_obs', $data);
     }
 }

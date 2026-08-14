@@ -59,7 +59,28 @@
 }}
 <form id="gradingform_checklist-{{uniqid}}">
     <input type="hidden" name="instanceid" value="{{instanceid}}">
-    <div id="checklist-advancedgrading-{{uniqid}}" class="criterion gradingform_checklist">
+    <div id="checklist-advancedgrading-{{uniqid}}" class="gradingform_checklist">
+        {{#benchmark}}
+            <div class="benchmark-control benchmark-control-single d-flex justify-content-center w-100 py-3 my-2">
+                <button type="button"
+                        class="benchmark-toggle btn btn-primary"
+                        data-benchmark-id="{{id}}"
+                        aria-expanded="false"
+                        title="{{buttonlabel}}">
+                    <i class="{{buttonicon}} mr-2" aria-hidden="true"></i>
+                    <span class="benchmark-button-label">{{buttonlabel}}</span>
+                </button>
+                <div class="benchmark-content hiddenelement" data-benchmark-content="{{id}}" hidden>
+                    <h5 class="benchmark-content-title">{{title}}</h5>
+                    <div class="benchmark-content-body">{{{content}}}</div>
+                </div>
+            </div>
+        {{/benchmark}}
+        {{#options.enablebulkcheck}}
+            <div class="bulkcheckcontrols">
+                <button type="button" class="btn btn-primary" data-action="tickall">{{#str}} tickall, gradingform_checklist {{/str}}</button>
+            </div>
+        {{/options.enablebulkcheck}}
         {{#criteria}}
             <div class="mb-3">
                 <div class="d-flex align-items-center mb-2">
@@ -80,7 +101,7 @@
                             </span>
                     </button>
                 </div>
-                <div class="collapse show criterion" id="criteria-{{id}}" role="radiogroup" aria-labelledby="criterion-description-{{id}}">
+                <div class="collapse show checklist-criterion" id="criteria-{{id}}" aria-labelledby="criterion-description-{{id}}">
                     {{#items}}
                         <div class="form-check">
                             <input class="form-check-input item"
@@ -88,26 +109,20 @@
                                    name="advancedgrading[groups][{{criterionid}}][items][{{id}}][id]"
                                    id="advancedgrading-groups-{{criterionid}}-items-{{id}}-id-input"
                                    value="{{id}}"
-                                   score="{{score}}"
+                                   data-score="{{score}}"
                                 {{#checked}}
-                                   aria-checked="true"
-                                   tabindex="0"
                                    checked
-                                {{/checked}}
-                                {{^checked}}
-                                   aria-checked="false"
-                                   tabindex="-1"
                                 {{/checked}}
                             >
                             <label class="w-100" for="advancedgrading-groups-{{criterionid}}-items-{{id}}-id-input">
                                 <span>
                                     {{{definition}}}
                                 </span>
-                                {{#options.showpoints}}
+                                {{#options.showitempoints}}
                                     <span class="pull-right">
                                         {{#str}}scorepostfix, gradingform_checklist, {{score}}{{/str}}
                                     </span>
-                                {{/options.showpoints}}
+                                {{/options.showitempoints}}
                             </label>
                         </div>
                         {{#options.showitemfeedback}}
@@ -125,7 +140,9 @@
                         {{/options.showitemfeedback}}
                     {{/items}}
                     {{#options.showgroupfeedback}}
-                        <label class="hiddenelement" for="advancedgrading-groups-{{id}}-items-0-remark">{{#str}}groupremark, gradingform_checklist, {{description}} {{/str}}</label>
+                        <label class="text-muted checklistremarkheading" for="advancedgrading-groups-{{id}}-items-0-remark">
+                            {{options.groupremarkheading}}
+                        </label>
                         <textarea class="form-control"
                                   name="advancedgrading[groups][{{id}}][items][0][remark]"
                                   id="advancedgrading-groups-{{id}}-items-0-remark"
@@ -135,28 +152,66 @@
                                   data-auto-rows="true"
                         >{{{groupfeedback}}}</textarea>
                     {{/options.showgroupfeedback}}
-                {{#options.showpoints}}
+                {{#options.showgrouppoints}}
                     <div id="pointsgroup-{{id}}" class="pointsgroup">
                         <strong>
                             <span>{{#str}} grouppoints, gradingform_checklist {{/str}}: <span class="scoredpoints">{{grouppoints}}</span>/<span class="outofpoints">{{maxgrouppoints}}</span></span>
                         </strong>
                     </div>
-                {{/options.showpoints}}
+                {{/options.showgrouppoints}}
                 </div>
             </div>
         {{/criteria}}
-        {{#options.showpoints}}
+        {{#options.enablebulkcheck}}
+            <div class="bulkcheckcontrols">
+                <button type="button" class="btn btn-primary" data-action="tickall">{{#str}} tickall, gradingform_checklist {{/str}}</button>
+            </div>
+        {{/options.enablebulkcheck}}
+        {{#options.showgrouppoints}}
             <div id="pointstotals">
                 <strong>
                     <span>{{#str}} overallpoints, gradingform_checklist {{/str}}: <span class="scoredpoints">{{points}}</span>/<span class="outofpoints">{{maxpoints}}</span></span>
                 </strong>
             </div>
-        {{/options.showpoints}}
+        {{/options.showgrouppoints}}
+        {{#options.showobservationdate}}
+            {{#observation}}
+                <div class="observationdate">
+                    <div class="observationdate-title">{{#str}} observationdate, gradingform_checklist {{/str}}</div>
+                    {{#isgrading}}
+                        <label class="hiddenelement" for="advancedgrading-observation-date">{{#str}} observationdate, gradingform_checklist {{/str}}</label>
+                        <input type="date"
+                               id="advancedgrading-observation-date"
+                               name="advancedgrading[observation][date]"
+                               value="{{date}}"
+                               class="form-control observationdate-date"
+                               required>
+                        {{#showtime}}
+                            <label class="hiddenelement" for="advancedgrading-observation-time">{{#str}} observationtime, gradingform_checklist {{/str}}</label>
+                            <input type="time"
+                                   id="advancedgrading-observation-time"
+                                   name="advancedgrading[observation][time]"
+                                   value="{{time}}"
+                                   class="form-control observationdate-time"
+                                   required>
+                        {{/showtime}}
+                    {{/isgrading}}
+                    {{^isgrading}}
+                        <div class="observationdate-value">{{displayvalue}}</div>
+                    {{/isgrading}}
+                </div>
+            {{/observation}}
+        {{/options.showobservationdate}}
     </div>
 </form>
 {{#js}}
-    require(['core/auto_rows', 'jquery'], function(AutoRows, $) {
+    require(['core/auto_rows', 'jquery', 'gradingform_checklist/benchmark'], function(AutoRows, $, Benchmark) {
         AutoRows.init(document.getElementById('gradingform_checklist-{{uniqid}}'));
+        Benchmark.initBenchmarkDisplay(
+            '#gradingform_checklist-{{uniqid}}',
+            {{#quote}}{{#str}} closebenchmark, gradingform_checklist {{/str}}{{/quote}}
+        );
+        const checklistRoot = $('#gradingform_checklist-{{uniqid}}');
 
         /**
          * Formats numeric points for display based on decimal precision.
@@ -176,24 +231,55 @@
             }
         }
 
-        $('.form-check-input.item').change(function () {
-            let criterion = $(this).closest('.criterion');
-            let grouppointscents = 0;
+        $('#gradingform_checklist-{{uniqid}} .form-check-input.item').change(function () {
+            updatePoints();
+            updateBulkCheckButton();
+        });
 
-            criterion.find('.form-check-input.item:checked').each(function() {
-                const score = parseFloat($(this).attr('score')) || 0;
-                grouppointscents += Math.round(score * 100);
+        function updatePoints() {
+            $('#gradingform_checklist-{{uniqid}} .checklist-criterion').each(function() {
+                const criterion = $(this);
+                let grouppointscents = 0;
+
+                criterion.find('.form-check-input.item:checked').each(function() {
+                    const score = parseFloat($(this).attr('data-score')) || 0;
+                    grouppointscents += Math.round(score * 100);
+                });
+                const grouppoints = formatPoints(grouppointscents / 100);
+                criterion.find('.pointsgroup').find('.scoredpoints').text(grouppoints);
             });
-            const grouppoints = formatPoints(grouppointscents / 100);
-            criterion.find('.pointsgroup').find('.scoredpoints').text(grouppoints);
 
             let totalpointscents = 0;
-            $('.form-check-input.item:checked').each(function() {
-                const score = parseFloat($(this).attr('score')) || 0;
+            $('#gradingform_checklist-{{uniqid}} .form-check-input.item:checked').each(function() {
+                const score = parseFloat($(this).attr('data-score')) || 0;
                 totalpointscents += Math.round(score * 100);
             });
             const totalpoints = formatPoints(totalpointscents / 100);
-            $('#pointstotals').find('.scoredpoints').text(totalpoints);
+            $('#gradingform_checklist-{{uniqid}} #pointstotals').find('.scoredpoints').text(totalpoints);
+        }
+
+        $('#gradingform_checklist-{{uniqid}} .bulkcheckcontrols button').click(function() {
+            const checked = $(this).data('action') === 'tickall';
+            $('#gradingform_checklist-{{uniqid}} .form-check-input.item').prop('checked', checked);
+            updatePoints();
+            updateBulkCheckButton();
         });
+
+        function updateBulkCheckButton() {
+            const button = $('#gradingform_checklist-{{uniqid}} .bulkcheckcontrols button');
+            if (!button.length) {
+                return;
+            }
+            const items = $('#gradingform_checklist-{{uniqid}} .form-check-input.item');
+            const allchecked = items.length > 0 && items.filter(':checked').length === items.length;
+            if (allchecked) {
+                button.data('action', 'untickall');
+                button.text({{#quote}}{{#str}} untickall, gradingform_checklist {{/str}}{{/quote}});
+            } else {
+                button.data('action', 'tickall');
+                button.text({{#quote}}{{#str}} tickall, gradingform_checklist {{/str}}{{/quote}});
+            }
+        }
+        updateBulkCheckButton();
     });
 {{/js}}
