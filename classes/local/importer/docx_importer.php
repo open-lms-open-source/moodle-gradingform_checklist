@@ -5,6 +5,14 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * DOCX checklist importer.
@@ -16,7 +24,6 @@
 
 namespace gradingform_checklist\local\importer;
 
-defined('MOODLE_INTERNAL') || die();
 
 /**
  * Parses the checklist Word template.
@@ -56,6 +63,16 @@ class docx_importer {
         if ($documentxml === false) {
             $this->zip->close();
             return new canonical_import_data([], [], [get_string('importerrordocxdocument', 'gradingform_checklist')]);
+        }
+        if (strlen($documentxml) > \gradingform_checklist\local\config::import_max_bytes()) {
+            $this->zip->close();
+            return new canonical_import_data([], [], [
+                get_string(
+                    'importerrorfilesize',
+                    'gradingform_checklist',
+                    \gradingform_checklist\local\config::import_max_bytes()
+                ),
+            ]);
         }
         $this->load_relationships();
 
@@ -168,9 +185,11 @@ class docx_importer {
 
         $this->zip->close();
         $result = import_validator::validate($raw, true);
-        return new canonical_import_data($result->get_data(),
+        return new canonical_import_data(
+            $result->get_data(),
             array_values(array_unique(array_merge($this->warnings, $result->get_warnings()))),
-            $result->get_errors());
+            $result->get_errors()
+        );
     }
 
     /**

@@ -15,7 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Language strings for the Checklist plugin.
+ *
  * @copyright  Copyright (c) 2025 Open LMS (https://www.openlms.net)
+ * @package    gradingform_checklist
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -38,6 +41,8 @@ $string['confirmdeletegroup'] = 'Bu grubu silmek istediğinize emin misiniz?';
 $string['confirmdeleteitem'] = 'Bu öğeyi silmek istediğinize emin misiniz?';
 $string['definechecklist'] = 'Kontrol listesi tanımla';
 $string['description'] = 'Açıklama';
+$string['enablegroupremarks'] = 'Not verenin her bir kontrol listesi grubu için metin açıklamaları eklemesine izin ver';
+$string['enableitemremarks'] = 'Not verenin her bir kontrol listesi öğesi için metin açıklamaları eklemesine izin ver';
 $string['err_definitionmax'] = 'Öğe tanımı, 255 karakterden uzun olamaz';
 $string['err_descriptionmax'] = 'Grup açıklaması, 255 karakterden uzun olamaz';
 $string['err_nodefinition'] = 'Öğe tanımı boş olamaz';
@@ -46,12 +51,12 @@ $string['err_nogroups'] = 'Kontrol listesi en az bir grup içermeli';
 $string['err_scoreformat'] = 'Her öğe için puan sayısı, geçerli bir negatif olmayan sayı olmalı';
 $string['err_scoremax'] = 'Her öğe için puan sayısı 1000\'den büyük olmamalıdır';
 $string['err_totalscore'] = 'Kontrol listesi tarafından not verilirken maksimum puan sayısı sıfırdan büyük olmalı';
-$string['groupfeedback'] = '"{$a}" için grup geri bildirimi';
 $string['gradingof'] = '{$a} not verme';
 $string['groupadditem'] = 'Öğe ekle';
 $string['groupdelete'] = 'Grubu sil';
 $string['groupdescription'] = 'Grup tanımı';
 $string['groupempty'] = 'Grubu düzenlemek için tıklat';
+$string['groupfeedback'] = '"{$a}" için grup geri bildirimi';
 $string['groupmovedown'] = 'Aşağıya taşı';
 $string['groupmoveup'] = 'Yukarıya taşı';
 $string['grouppoints'] = 'Grup puanları';
@@ -62,11 +67,12 @@ $string['itemempty'] = 'Öğeyi düzenlemek için tıklat';
 $string['itemfeedback'] = '"{$a}" için geri bildirim';
 $string['itemremark'] = '"{$a}" için öğe açıklaması';
 $string['itemscore'] = 'Öğe puanı';
+$string['maxlengthalert'] = 'Bu giriş alanının maksimum uzunluğu {$a} karakterdir';
 $string['name'] = 'Ad';
 $string['needregrademessage'] = 'Kontrol listesi tanımı, bu öğrenciye not verdikten sonra değişti. Öğrenci, siz kontrol listesini kontrol edip notu güncelleştirene kadar bu kontrol listesini göremez.';
+$string['overallpoints'] = 'Genel puan';
 $string['pluginname'] = 'Kontrol listesi';
 $string['previewchecklist'] = 'Kontrol listesini ön izle';
-$string['overallpoints'] = 'Genel puan';
 $string['regrademessage1'] = 'Zaten not vermek için kullanılmış bir kontrol listesinde yapılan değişiklikleri kaydetmek üzeresiniz. Lütfen
 mevcut notların gözden geçirilmesinin gerekip gerekmediğini belirtin. Bunu ayarlarsanız öğelerine yeniden not verilene kadar kontrol listesi öğrencilerden gizlenir.';
 $string['regrademessage5'] = 'Zaten not vermek için kullanılmış bir kontrol listesinde yapılan önemli değişiklikleri kaydetmek üzeresiniz. Not defteri değeri değişmeyecek ancak öğelerine yeniden not verilene kadar kontrol listesi öğrencilerden gizlenecektir.';
@@ -79,8 +85,5 @@ $string['savechecklistdraft'] = 'Taslak olarak kaydet';
 $string['scorepostfix'] = '{$a} puan';
 $string['showitempointseval'] = 'Değerlendirme sırasında her öğe için puanları göster';
 $string['showitempointstudent'] = 'Her öğe için puanları not verilenlere göster';
-$string['enableitemremarks'] = 'Not verenin her bir kontrol listesi öğesi için metin açıklamaları eklemesine izin ver';
-$string['enablegroupremarks'] = 'Not verenin her bir kontrol listesi grubu için metin açıklamaları eklemesine izin ver';
 $string['showremarksstudent'] = 'Tüm açıklamaları not verilenlere göster';
 $string['unchecked'] = 'Kontrol edilmedi';
-$string['maxlengthalert'] = 'Bu giriş alanının maksimum uzunluğu {$a} karakterdir';

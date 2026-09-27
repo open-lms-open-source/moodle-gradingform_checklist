@@ -1,0 +1,59 @@
+name: Publish Verified Release
+run-name: Publish ${{ github.ref_name }}
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    name: Validate and package immutable release
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Validate release identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="${GITHUB_REF_NAME#v}"
+          release=$(sed -n "s/.*release[[:space:]]*=[[:space:]]*'\([^']*\)'.*/\1/p" version.php)
+          version=$(sed -n 's/.*version[[:space:]]*=[[:space:]]*\([0-9]*\).*/\1/p' version.php)
+          savepoint=$(grep -oE "upgrade_plugin_savepoint\(true, [0-9]+, 'gradingform', 'checklist'\)" db/upgrade.php | grep -oE '[0-9]+' | tail -1)
+          firstnote=$(grep -m1 -E '^[0-9]{10}$' upgrade.txt)
+          test "$tag" = "$release"
+          test "$version" = "$savepoint"
+          test "$version" = "$firstnote"
+          test "$(git rev-list -n1 "$GITHUB_REF_NAME")" = "$GITHUB_SHA"
+      - name: Build package from tagged Git tree
+        run: git archive --format=zip --prefix=checklist/ "$GITHUB_SHA" -o enhanced-checklist-4.5.8.zip
+      - name: Validate package contents
+        shell: bash
+        run: |
+          set -euo pipefail
+          unzip -Z1 enhanced-checklist-4.5.8.zip > package-files.txt
+          test "$(cut -d/ -f1 package-files.txt | sort -u)" = checklist
+          grep -qx 'checklist/version.php' package-files.txt
+          grep -qx 'checklist/docs/checklist-import-template.docx' package-files.txt
+          ! grep -Eq '(^|/)(\.git|\.github|\.DS_Store)(/|$)|\.map$|checklist-import-template-candidate\.docx$' package-files.txt
+          unzip -p enhanced-checklist-4.5.8.zip checklist/version.php | grep -q "release.*'4.5.8'"
+          sha256sum enhanced-checklist-4.5.8.zip > enhanced-checklist-4.5.8.zip.sha256
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: enhanced-checklist-4.5.8
+          path: |
+            enhanced-checklist-4.5.8.zip
+            enhanced-checklist-4.5.8.zip.sha256
+      - name: Publish GitHub release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh release upload "$GITHUB_REF_NAME"
+          enhanced-checklist-4.5.8.zip enhanced-checklist-4.5.8.zip.sha256
+          --clobber

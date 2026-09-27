@@ -38,7 +38,7 @@ class criterion {
     /** @var array $items The items for this criterion. */
     public $items = [];
 
-    /** @var integer $sortorder sort order of the criterion. */
+    /** @var int $sortorder sort order of the criterion. */
     public $sortorder = 0;
 
     /**

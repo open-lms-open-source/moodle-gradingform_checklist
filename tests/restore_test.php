@@ -25,6 +25,8 @@
 
 namespace gradingform_checklist;
 
+defined('MOODLE_INTERNAL') || die();
+
 use advanced_testcase;
 
 global $CFG;
@@ -39,9 +41,9 @@ require_once($CFG->dirroot . '/grade/grading/form/checklist/backup/moodle2/resto
  * @category   test
  * @copyright  2026 Open LMS (https://www.openlms.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @coversNothing
  */
 final class restore_test extends advanced_testcase {
-
     /**
      * Test group feedback sentinel item ids are not remapped as checklist items.
      */

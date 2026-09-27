@@ -15,7 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Language strings for the Checklist plugin.
+ *
  * @copyright  Copyright (c) 2025 Open LMS (https://www.openlms.net)
+ * @package    gradingform_checklist
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -38,6 +41,8 @@ $string['confirmdeletegroup'] = 'このグループを削除しますか？';
 $string['confirmdeleteitem'] = 'この項目を削除しますか？';
 $string['definechecklist'] = 'チェックリストを定義する';
 $string['description'] = '記述内容';
+$string['enablegroupremarks'] = '各チェックリストグループに対して、評定者によるコメントの追加を許可する';
+$string['enableitemremarks'] = '各チェックリストの項目に対して、評定者によるコメントの追加を許可する';
 $string['err_definitionmax'] = '255文字を超える項目定義は指定できません';
 $string['err_descriptionmax'] = '255文字を超えるグループ説明は指定できません';
 $string['err_nodefinition'] = '項目定義は空白にできません';
@@ -46,12 +51,12 @@ $string['err_nogroups'] = 'チェックリストには少なくとも1つのグ�
 $string['err_scoreformat'] = '各項目の点数には、有効な正の数字を指定する必要があります。';
 $string['err_scoremax'] = '各項目の点数には、1000以下の値を指定する必要があります';
 $string['err_totalscore'] = 'チェックリストで評定する場合、最大評点にはゼロ以上の値を指定する必要があります';
-$string['groupfeedback'] = '"{$a}"のグループフィードバック';
 $string['gradingof'] = '{$a} 評定';
 $string['groupadditem'] = 'アイテムを追加する';
 $string['groupdelete'] = 'グループを削除する';
 $string['groupdescription'] = 'グループ説明';
 $string['groupempty'] = 'グループを編集するにはクリック';
+$string['groupfeedback'] = '"{$a}"のグループフィードバック';
 $string['groupmovedown'] = '下へ';
 $string['groupmoveup'] = '上へ';
 $string['grouppoints'] = 'グループの評点';
@@ -62,11 +67,12 @@ $string['itemempty'] = '項目を編集するにはクリック';
 $string['itemfeedback'] = '"{$a}" のフィードバック';
 $string['itemremark'] = '"{$a}"の項目のコメント';
 $string['itemscore'] = '項目の評点';
+$string['maxlengthalert'] = 'この入力フィールドの最大文字数は {$a} 文字です。';
 $string['name'] = '名前';
 $string['needregrademessage'] = 'この学生の評定後に、チェックリスト定義が変更されました。チェックリストをレビューして評定を更新するまで、学生はこのチェックリストを閲覧できません。';
+$string['overallpoints'] = '全体の評点';
 $string['pluginname'] = 'チェックリスト';
 $string['previewchecklist'] = 'チェックリストをプレビューする';
-$string['overallpoints'] = '全体の評点';
 $string['regrademessage1'] = 'すでに評定に使用されているチェックリストの変更を保存しようとしています。既存の評定を
 レビューする必要があるかどうかを指定してください。この設定を有効にすると、再評定されるまでチェックリストは学生に表示されません。';
 $string['regrademessage5'] = 'すでに評定に使用されているチェックリストの重要な変更を保存しようとしています。評定表の評点は変更されませんが、評定項目が再評定されるまで、チェックリストは学生に表示されません。';
@@ -79,8 +85,5 @@ $string['savechecklistdraft'] = '下書きとして保存する';
 $string['scorepostfix'] = '{$a} 点';
 $string['showitempointseval'] = '評定中に各項目の評点を表示する';
 $string['showitempointstudent'] = '評定中の学生に各項目の評点を表示する';
-$string['enableitemremarks'] = '各チェックリストの項目に対して、評定者によるコメントの追加を許可する';
-$string['enablegroupremarks'] = '各チェックリストグループに対して、評定者によるコメントの追加を許可する';
 $string['showremarksstudent'] = '評定中の学生にコメントをすべて表示する';
 $string['unchecked'] = '未チェック';
-$string['maxlengthalert'] = 'この入力フィールドの最大文字数は {$a} 文字です。';

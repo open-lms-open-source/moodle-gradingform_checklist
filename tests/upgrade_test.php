@@ -25,6 +25,8 @@
 
 namespace gradingform_checklist;
 
+defined('MOODLE_INTERNAL') || die();
+
 use advanced_testcase;
 use context_module;
 
@@ -40,9 +42,9 @@ require_once($CFG->dirroot . '/grade/grading/form/checklist/db/upgrade.php');
  * @category   test
  * @copyright  2026 Open LMS (https://www.openlms.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @coversNothing
  */
 final class upgrade_test extends advanced_testcase {
-
     /**
      * Test legacy group benchmark content and files are preserved during upgrade.
      */
@@ -59,11 +61,19 @@ final class upgrade_test extends advanced_testcase {
         $this->add_legacy_benchmark_fields();
 
         $DB->delete_records('gradingform_checklist_bench', ['definitionid' => $definitionid]);
-        $DB->set_field('gradingform_checklist_groups', 'benchmark', '<p>First benchmark</p>',
-            ['id' => $groupids[0]]);
+        $DB->set_field(
+            'gradingform_checklist_groups',
+            'benchmark',
+            '<p>First benchmark</p>',
+            ['id' => $groupids[0]]
+        );
         $DB->set_field('gradingform_checklist_groups', 'benchmarkformat', FORMAT_HTML, ['id' => $groupids[0]]);
-        $DB->set_field('gradingform_checklist_groups', 'benchmark', '<p>Second benchmark</p>',
-            ['id' => $groupids[1]]);
+        $DB->set_field(
+            'gradingform_checklist_groups',
+            'benchmark',
+            '<p>Second benchmark</p>',
+            ['id' => $groupids[1]]
+        );
         $DB->set_field('gradingform_checklist_groups', 'benchmarkformat', FORMAT_HTML, ['id' => $groupids[1]]);
 
         $fs = get_file_storage();
@@ -84,10 +94,22 @@ final class upgrade_test extends advanced_testcase {
         $this->assertSame((int)FORMAT_HTML, (int)$record->benchmarkformat);
         $this->assertSame(get_string('benchmarkbuttondefault', 'gradingform_checklist'), $record->buttonlabel);
 
-        $this->assertFalse($fs->file_exists($context->id, 'gradingform_checklist', 'benchmark', $groupids[0], '/',
-            'legacy-benchmark.txt'));
-        $storedfile = $fs->get_file($context->id, 'gradingform_checklist', 'benchmark', $definitionid, '/',
-            'legacy-benchmark.txt');
+        $this->assertFalse($fs->file_exists(
+            $context->id,
+            'gradingform_checklist',
+            'benchmark',
+            $groupids[0],
+            '/',
+            'legacy-benchmark.txt'
+        ));
+        $storedfile = $fs->get_file(
+            $context->id,
+            'gradingform_checklist',
+            'benchmark',
+            $definitionid,
+            '/',
+            'legacy-benchmark.txt'
+        );
         $this->assertNotFalse($storedfile);
         $this->assertSame('legacy benchmark file', $storedfile->get_content());
 
@@ -150,15 +172,21 @@ final class upgrade_test extends advanced_testcase {
         $context = context_module::instance($module->cmid);
 
         $this->setUser($user);
-        $controller = $checklistgenerator->create_instance($context, 'mod_assign', 'submission', 'upgradechecklist',
-            'Description', [
+        $controller = $checklistgenerator->create_instance(
+            $context,
+            'mod_assign',
+            'submission',
+            'upgradechecklist',
+            'Description',
+            [
                 'Group 1' => [
                     'Has title' => 1,
                 ],
                 'Group 2' => [
                     'Has references' => 1,
                 ],
-            ]);
+            ]
+        );
         $definition = $controller->get_definition();
 
         return [

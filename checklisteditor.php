@@ -1,19 +1,18 @@
 <?php
-
-// This file is part of Moodle - http://moodle.org/
+// This file is part of Moodle - http://moodle.org/.
 //
-// Moodle is free software: you can redistribute it and/or modify
+// Moodle is free software: you can redistribute it and/or modify.
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// Moodle is distributed in the hope that it will be useful,
+// Moodle is distributed in the hope that it will be useful,.
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
-// You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+// You should have received a copy of the GNU General Public License.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Grading method controller for the Checklist plugin
@@ -29,6 +28,9 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once("HTML/QuickForm/input.php");
 
+/**
+ * QuickForm element for editing checklist grading definitions.
+ */
 class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
     /** Historical fallback maximum length for group descriptions. */
     public const GROUP_DESCRIPTION_MAX_LENGTH = 500;
@@ -54,15 +56,15 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
         return \gradingform_checklist\local\config::limit('itemdefinitionmaxchars');
     }
 
-    /** help message */
-    public $_helpbutton = '';
-    /** stores the result of the last validation: null - undefined, false - no errors, string - error(s) text */
+    /** @var string Help button HTML. */
+    public $_helpbutton = ''; // phpcs:ignore PSR2.Classes.PropertyDeclaration.Underscore
+    /** @var string|false|null Result of the last validation. */
     protected $validationerrors = null;
-    /** if element has already been validated **/
+    /** @var bool Whether the element has already been validated. */
     protected $wasvalidated = false;
-    /** If non-submit (JS) button was pressed: null - unknown, true/false - button was/wasn't pressed */
+    /** @var bool|null Whether a non-submit JavaScript button was pressed. */
     protected $nonjsbuttonpressed = false;
-    /** Message to display in front of the editor (that there exist grades on this checklist being edited) */
+    /** @var int|false Regrade confirmation level to display. */
     protected $regradeconfirmation = false;
 
     /**
@@ -77,37 +79,35 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
         return trim($value);
     }
 
-    function __construct($elementName=null, $elementLabel=null, $attributes=null) {
-        parent::__construct($elementName, $elementLabel, $attributes);
-    }
-
+    // phpcs:disable moodle.NamingConventions.ValidFunctionName.LowercaseMethod
     /**
-     * set html for help button
+     * Set html for help button.
      *
-     * @access public
      * @param array $helpbuttonargs array of arguments to make a help button
      * @param string $function function name to call to get html
      */
-    public function setHelpButton($helpbuttonargs, $function='helpbutton'){
+    public function setHelpButton($helpbuttonargs, $function = 'helpbutton') {
         debugging('component setHelpButton() is not used any more, please use $mform->setHelpButton() instead');
     }
+    // phpcs:enable moodle.NamingConventions.ValidFunctionName.LowercaseMethod
 
+    // phpcs:disable moodle.NamingConventions.ValidFunctionName.LowercaseMethod
     /**
-     * get html for help button
+     * Get html for help button.
      *
-     * @access   public
      * @return  string html for help button
      */
     public function getHelpButton() {
         return $this->_helpbutton;
     }
+    // phpcs:enable moodle.NamingConventions.ValidFunctionName.LowercaseMethod
 
     /**
      * The renderer will take care itself about different display in normal and frozen states
      *
      * @return string
      */
-    public function getElementTemplateType() {
+    public function getElementTemplateType() { // phpcs:ignore moodle.NamingConventions.ValidFunctionName.LowercaseMethod
         return 'default';
     }
 
@@ -127,25 +127,31 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
      *
      * @return string
      */
-    public function toHtml() {
+    public function toHtml() { // phpcs:ignore moodle.NamingConventions.ValidFunctionName.LowercaseMethod
         global $PAGE;
         $html = $this->_getTabs();
         $renderer = $PAGE->get_renderer('gradingform_checklist');
         $data = $this->prepare_data(null, $this->wasvalidated);
         if (!$this->_flagFrozen) {
             $mode = gradingform_checklist_controller::DISPLAY_EDIT_FULL;
-            $module = array('name'=>'gradingform_checklisteditor', 'fullpath'=>'/grade/grading/form/checklist/js/checklisteditor.js',
-                'strings' => array(array('confirmdeletegroup', 'gradingform_checklist'), array('confirmdeleteitem', 'gradingform_checklist'),
-                    array('groupempty', 'gradingform_checklist'), array('itemempty', 'gradingform_checklist'), ['maxlengthalert', 'gradingform_checklist']
-                ));
-            $PAGE->requires->js_init_call('M.gradingform_checklisteditor.init', array(
-                    array('name' => $this->getName(),
+            $module = ['name' => 'gradingform_checklisteditor',
+                'fullpath' => '/grade/grading/form/checklist/js/checklisteditor.js',
+                'strings' => [['confirmdeletegroup', 'gradingform_checklist'], ['confirmdeleteitem', 'gradingform_checklist'],
+                    ['groupempty', 'gradingform_checklist'], ['itemempty', 'gradingform_checklist'],
+                    ['maxlengthalert', 'gradingform_checklist'],
+                ]];
+            $PAGE->requires->js_init_call(
+                'M.gradingform_checklisteditor.init',
+                [
+                    ['name' => $this->getName(),
                         'grouptemplate' => $renderer->group_template($mode, $data['options'], $this->getName()),
-                        'itemtemplate' => $renderer->item_template($mode, $data['options'], $this->getName())
-                    )),
-                true, $module);
+                        'itemtemplate' => $renderer->item_template($mode, $data['options'], $this->getName()),
+                    ]],
+                true,
+                $module
+            );
         } else {
-            // Checklist is frozen, no javascript needed
+            // Checklist is frozen, no javascript needed.
             if ($this->_persistantFreeze) {
                 $mode = gradingform_checklist_controller::DISPLAY_EDIT_FROZEN;
             } else {
@@ -186,13 +192,13 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
             $this->nonjsbuttonpressed = false;
         }
         $totalscore = 0;
-        $errors = array();
-        $return = array('groups' => array(), 'options' => gradingform_checklist_controller::get_default_options());
+        $errors = [];
+        $return = ['groups' => [], 'options' => gradingform_checklist_controller::get_default_options()];
         if (!isset($value['groups'])) {
-            $value['groups'] = array();
+            $value['groups'] = [];
             $errors['err_nogroups'] = 1;
         }
-        // If options are present in $value, replace default values with submitted values
+        // If options are present in $value, replace default values with submitted values.
         if (!empty($value['options'])) {
             foreach (array_keys($return['options']) as $option) {
                 if ($option == 'groupremarkheading') {
@@ -214,7 +220,7 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
                     );
                     continue;
                 }
-                // special treatment for checkboxes
+                // Special treatment for checkboxes.
                 if (!empty($value['options'][$option])) {
                     $return['options'][$option] = $value['options'][$option];
                 } else {
@@ -223,7 +229,7 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
             }
         }
         if (is_array($value)) {
-            // for other array keys of $value no special treatmeant neeeded, copy them to return value as is
+            // For other array keys of $value no special treatmeant neeeded, copy them to return value as is.
             foreach (array_keys($value) as $key) {
                 if ($key != 'options' && $key != 'groups') {
                     $return[$key] = $value[$key];
@@ -231,7 +237,7 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
             }
         }
 
-        // iterate through groups
+        // Iterate through groups.
         $lastaction = null;
         $lastid = null;
         foreach ($value['groups'] as $id => $group) {
@@ -242,7 +248,7 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
             }
             $addgroupafter = !empty($group['addgroupafter']);
             unset($group['addgroupafter']);
-            $items = array();
+            $items = [];
             $maxscore = null;
             if (array_key_exists('items', $group)) {
                 $lastitemaction = null;
@@ -250,10 +256,10 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
                 foreach ($group['items'] as $itemid => $item) {
                     if ($itemid == 'additem') {
                         $itemid = $this->get_next_id(array_keys($group['items']));
-                        $item = array(
+                        $item = [
                             'definition' => '',
                             'score' => 1,
-                        );
+                        ];
                         $this->nonjsbuttonpressed = true;
                     }
                     if (!array_key_exists('delete', $item)) {
@@ -304,7 +310,7 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
                     }
                 }
 
-                //sortorder for items
+                // Sortorder for items.
                 $itemsortorder = 1;
                 foreach (array_keys($items) as $itemid) {
                     $items[$itemid]['sortorder'] = $itemsortorder++;
@@ -362,16 +368,16 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
             $errors['err_totalscore'] = 1;
         }
 
-        // add sort order field to groups
+        // Add sort order field to groups.
         $csortorder = 1;
         foreach (array_keys($return['groups']) as $id) {
             $return['groups'][$id]['sortorder'] = $csortorder++;
         }
 
-        // create validation error string (if needed)
+        // Create validation error string (if needed).
         if ($withvalidation) {
             if (count($errors)) {
-                $rv = array();
+                $rv = [];
                 foreach ($errors as $error => $v) {
                     if ($error === 'err_definitionmax') {
                         $rv[] = get_string($error, 'gradingform_checklist', self::get_item_definition_max_length());
@@ -396,12 +402,12 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
      * @return array
      */
     protected function get_empty_group(): array {
-        $group = array('description' => '', 'items' => array());
+        $group = ['description' => '', 'items' => []];
         for ($i = 0; $i < 3; $i++) {
-            $group['items']['NEWID'.$i] = array(
+            $group['items']['NEWID' . $i] = [
                 'definition' => '',
                 'score' => 1,
-            );
+            ];
         }
         return $group;
     }
@@ -419,7 +425,7 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
                 $maxid = (int)$matches[1];
             }
         }
-        return 'NEWID'.($maxid+1);
+        return 'NEWID' . ($maxid + 1);
     }
 
 
@@ -454,16 +460,18 @@ class MoodleQuickForm_checklisteditor extends HTML_QuickForm_input {
         return $this->validationerrors;
     }
 
+    // phpcs:disable moodle.NamingConventions.ValidFunctionName.LowercaseMethod
     /**
      * Prepares the data for saving
      * @see prepare_data()
      *
-     * @param array $submitValues
+     * @param array $submitvalues
      * @param boolean $assoc
      * @return array
      */
-    public function exportValue(&$submitValues, $assoc = false) {
-        $value =  $this->prepare_data($this->_findValue($submitValues));
+    public function exportValue(&$submitvalues, $assoc = false) {
+        $value = $this->prepare_data($this->_findValue($submitvalues));
         return $this->_prepareValue($value, $assoc);
     }
+    // phpcs:enable moodle.NamingConventions.ValidFunctionName.LowercaseMethod
 }

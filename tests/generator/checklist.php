@@ -36,7 +36,6 @@ use stdClass;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class checklist {
-
     /** @var array $criteria The criteria for this checklist. */
     protected $criteria = [];
 
@@ -83,7 +82,6 @@ class checklist {
         $this->set_option('groupremarkheading', '');
         $this->set_option('observationmode', gradingform_checklist_controller::OBSERVATION_MODE_DISABLED);
         $this->set_option('observationdefault', gradingform_checklist_controller::OBSERVATION_DEFAULT_NOW);
-
     }
 
     /**
@@ -95,7 +93,7 @@ class checklist {
             'description_editor' => [
                 'text' => $this->description,
                 'format' => FORMAT_HTML,
-                'itemid' => 1
+                'itemid' => 1,
             ],
             'benchmark_editor' => [
                 'text' => $this->benchmark,
@@ -136,9 +134,12 @@ class checklist {
      * @param string $buttonicon
      * @return self
      */
-    public function set_benchmark(string $benchmark, int $format = FORMAT_HTML,
-            string $buttonlabel = 'Open to view Benchmarks',
-            string $buttonicon = 'fa-solid fa-file-circle-check'): self {
+    public function set_benchmark(
+        string $benchmark,
+        int $format = FORMAT_HTML,
+        string $buttonlabel = 'Open to view Benchmarks',
+        string $buttonicon = 'fa-solid fa-file-circle-check'
+    ): self {
         $this->benchmark = $benchmark;
         $this->benchmarkformat = $format;
         $this->benchmarkbuttonlabel = $buttonlabel;
@@ -172,6 +173,5 @@ class checklist {
         }
 
         return $result;
-
     }
 }

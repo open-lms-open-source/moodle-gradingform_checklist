@@ -5,6 +5,14 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Checklist importer tests.
@@ -17,6 +25,8 @@
 
 namespace gradingform_checklist\local\importer;
 
+defined('MOODLE_INTERNAL') || die();
+
 use advanced_testcase;
 use gradingform_checklist\external\import_definition;
 use gradingform_checklist\local\config;
@@ -27,9 +37,10 @@ require_once($CFG->dirroot . '/grade/grading/form/checklist/lib.php');
 
 /**
  * Checklist importer tests.
+ *
+ * @coversNothing
  */
-class importer_test extends advanced_testcase {
-
+final class importer_test extends advanced_testcase {
     /**
      * Administrator limits are used by both import validation and the schema.
      */
@@ -54,8 +65,10 @@ class importer_test extends advanced_testcase {
 
         $schema = canonical_import_data::json_schema();
         $this->assertSame(12, $schema['properties']['groups']['items']['properties']['description']['maxLength']);
-        $this->assertSame(13, $schema['properties']['groups']['items']['properties']['items']['items']
-            ['properties']['definition']['maxLength']);
+        $this->assertSame(
+            13,
+            $schema['properties']['groups']['items']['properties']['items']['items']['properties']['definition']['maxLength']
+        );
     }
 
     /**
@@ -100,6 +113,64 @@ class importer_test extends advanced_testcase {
         $this->expectExceptionMessage('The import status must be draft or ready.');
 
         import_definition::execute(0, '{}', 'published');
+    }
+
+    /**
+     * The web service rejects oversized JSON before resolving its grading area.
+     */
+    public function test_external_import_rejects_oversized_json(): void {
+        $this->resetAfterTest(true);
+        set_config('enablejsonwebservice', 1, 'gradingform_checklist');
+        set_config('importmaxbytes', 1024, 'gradingform_checklist');
+
+        $this->expectException(\invalid_parameter_exception::class);
+        $this->expectExceptionMessage('exceeds the site limit');
+        import_definition::execute(0, str_repeat('x', 1025), 'draft');
+    }
+
+    /**
+     * The JSON import web service can create a definition when explicitly enabled.
+     */
+    public function test_external_import_creates_definition_when_enabled(): void {
+        $this->resetAfterTest(true);
+        set_config('enablejsonwebservice', 1, 'gradingform_checklist');
+
+        ['areaid' => $areaid, 'teacher' => $teacher] = $this->get_import_area();
+        $this->setUser($teacher);
+
+        $payload = canonical_import_data::json_example();
+        $payload['name'] = 'Imported checklist';
+        $payload['groups'][0]['description'] = 'Imported group';
+        $payload['groups'][0]['items'][0]['definition'] = 'Imported item';
+
+        $result = import_definition::execute($areaid, json_encode($payload, JSON_THROW_ON_ERROR), 'ready');
+
+        $this->assertGreaterThan(0, $result['definitionid']);
+        $this->assertSame('ready', $result['status']);
+        $this->assertSame([], $result['warnings']);
+
+        $manager = get_grading_manager($areaid);
+        $definition = $manager->get_controller('checklist')->get_definition(true);
+        $group = reset($definition->checklist_groups);
+        $item = reset($group['items']);
+
+        $this->assertSame('Imported checklist', $definition->name);
+        $this->assertSame('Imported group', $group['description']);
+        $this->assertSame('Imported item', $item['definition']);
+    }
+
+    /**
+     * The JSON import web service requires grading-form management permission.
+     */
+    public function test_external_import_requires_manage_grading_forms_capability(): void {
+        $this->resetAfterTest(true);
+        set_config('enablejsonwebservice', 1, 'gradingform_checklist');
+
+        ['areaid' => $areaid, 'student' => $student] = $this->get_import_area();
+        $this->setUser($student);
+
+        $this->expectException(\core\exception\required_capability_exception::class);
+        import_definition::execute($areaid, json_encode(canonical_import_data::json_example(), JSON_THROW_ON_ERROR), 'draft');
     }
 
     /**
@@ -410,8 +481,10 @@ class importer_test extends advanced_testcase {
      * The published JSON example is valid according to the shared importer contract.
      */
     public function test_json_example_is_valid_import_payload(): void {
-        $result = (new json_importer())->parse(json_encode(canonical_import_data::json_example(),
-            JSON_THROW_ON_ERROR));
+        $result = (new json_importer())->parse(json_encode(
+            canonical_import_data::json_example(),
+            JSON_THROW_ON_ERROR
+        ));
 
         $this->assertFalse($result->has_errors(), implode(' ', $result->get_errors()));
         $this->assertSame([], $result->get_data()['benchmark']['files']);
@@ -428,5 +501,28 @@ class importer_test extends advanced_testcase {
             $this->assertStringContainsString('charset=utf-8', $source);
             $this->assertMatchesRegularExpression('/0,\s*0,\s*true,\s*true,/', $source);
         }
+    }
+
+    /**
+     * Creates a grading area with enrolled users for external import tests.
+     *
+     * @return array
+     */
+    protected function get_import_area(): array {
+        $generator = $this->getDataGenerator();
+        $course = $generator->create_course();
+        $module = $generator->create_module('assign', ['course' => $course]);
+        $teacher = $generator->create_and_enrol($course, 'editingteacher');
+        $student = $generator->create_and_enrol($course, 'student');
+        $context = \context_module::instance($module->cmid);
+
+        $gradinggenerator = $generator->get_plugin_generator('core_grading');
+        $controller = $gradinggenerator->create_instance($context, 'mod_assign', 'submissions', 'checklist');
+
+        return [
+            'areaid' => $controller->get_areaid(),
+            'teacher' => $teacher,
+            'student' => $student,
+        ];
     }
 }

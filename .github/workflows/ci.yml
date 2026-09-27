@@ -1,0 +1,145 @@
+name: Required Plugin Checks
+run-name: Required checks on ${{ github.ref_name }}
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Blocking code quality
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:17
+        env: {POSTGRES_USER: postgres, POSTGRES_HOST_AUTH_METHOD: trust}
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready --health-interval 10s
+          --health-timeout 5s --health-retries 3
+    steps:
+      - uses: actions/checkout@v6
+        with: {path: plugin, persist-credentials: false}
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: pgsql, zip, gd, soap, intl, mbstring, xml
+          ini-values: max_input_vars=5000
+          coverage: none
+      - name: Install moodle-plugin-ci
+        run: |
+          composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci ^4
+          echo "$(pwd)/ci/bin" >> "$GITHUB_PATH"
+          echo "$(pwd)/ci/vendor/bin" >> "$GITHUB_PATH"
+          sudo locale-gen en_AU.UTF-8
+          echo "NVM_DIR=$HOME/.nvm" >> "$GITHUB_ENV"
+      - name: Install Moodle test site
+        run: moodle-plugin-ci install --plugin ./plugin --db-host=127.0.0.1
+        env: {DB: pgsql, MOODLE_BRANCH: MOODLE_405_STABLE}
+      - name: PHP lint
+        run: moodle-plugin-ci phplint
+      - name: Plugin validation
+        run: moodle-plugin-ci validate
+      - name: Upgrade savepoints
+        run: moodle-plugin-ci savepoints
+      - name: Moodle coding standard
+        run: moodle-plugin-ci phpcs
+      - name: PHPDoc
+        run: moodle-plugin-ci phpdoc
+      - name: Mustache lint
+        run: moodle-plugin-ci mustache
+      - name: AMD, CSS, and Gherkin lint
+        run: moodle-plugin-ci grunt -t amd -t stylelint -t gherkinlint --max-lint-warnings 0
+      - name: Verify committed AMD output
+        run: git -C plugin diff --exit-code -- amd/build
+      - name: Secret patterns
+        shell: bash
+        run: |
+          set +e
+          git -C plugin grep -nEi '(BEGIN (RSA|OPENSSH|EC) PRIVATE KEY|aws_secret_access_key|client_secret[[:space:]]*[:=]|api[_-]?key[[:space:]]*[:=])' -- ':!.github/workflows/ci.yml'
+          status=$?
+          if [ "$status" -eq 0 ]; then
+            echo 'Potential committed secret detected.' >&2
+            exit 1
+          fi
+          exit "$((status == 1 ? 0 : status))"
+
+  compatibility:
+    name: Moodle ${{ matrix.moodle }} / PHP ${{ matrix.php }} / ${{ matrix.database }}
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {moodle: '4.5', branch: MOODLE_405_STABLE, php: '8.1', database: pgsql}
+          - {moodle: '4.5', branch: MOODLE_405_STABLE, php: '8.1', database: mariadb}
+          - {moodle: '4.5', branch: MOODLE_405_STABLE, php: '8.3', database: pgsql}
+          - {moodle: '5.0', branch: MOODLE_500_STABLE, php: '8.2', database: pgsql}
+          - {moodle: '5.0', branch: MOODLE_500_STABLE, php: '8.2', database: mariadb}
+          - {moodle: '5.0', branch: MOODLE_500_STABLE, php: '8.4', database: pgsql}
+          - {moodle: '5.1', branch: MOODLE_501_STABLE, php: '8.2', database: pgsql}
+          - {moodle: '5.1', branch: MOODLE_501_STABLE, php: '8.2', database: mariadb}
+          - {moodle: '5.1', branch: MOODLE_501_STABLE, php: '8.4', database: pgsql}
+          - {moodle: '5.2', branch: MOODLE_502_STABLE, php: '8.3', database: pgsql}
+          - {moodle: '5.2', branch: MOODLE_502_STABLE, php: '8.3', database: mariadb}
+          - {moodle: '5.2', branch: MOODLE_502_STABLE, php: '8.4', database: pgsql}
+    services:
+      postgres:
+        image: postgres:17
+        env: {POSTGRES_USER: postgres, POSTGRES_HOST_AUTH_METHOD: trust}
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready --health-interval 10s
+          --health-timeout 5s --health-retries 3
+      mariadb:
+        image: mariadb:11
+        env:
+          MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: '1'
+          MYSQL_CHARACTER_SET_SERVER: utf8mb4
+          MYSQL_COLLATION_SERVER: utf8mb4_unicode_ci
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval 10s --health-timeout 5s --health-retries 3
+    steps:
+      - uses: actions/checkout@v6
+        with: {path: plugin, persist-credentials: false}
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: ${{ matrix.database == 'pgsql' && 'pgsql' || 'mysqli' }}, zip, gd, soap, intl, mbstring, xml
+          ini-values: max_input_vars=5000
+          coverage: none
+      - name: Install moodle-plugin-ci
+        run: |
+          composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci ^4
+          echo "$(pwd)/ci/bin" >> "$GITHUB_PATH"
+          echo "$(pwd)/ci/vendor/bin" >> "$GITHUB_PATH"
+          sudo locale-gen en_AU.UTF-8
+          echo "NVM_DIR=$HOME/.nvm" >> "$GITHUB_ENV"
+      - name: Install Moodle and plugin
+        run: moodle-plugin-ci install --plugin ./plugin --db-host=127.0.0.1
+        env: {DB: "${{ matrix.database }}", MOODLE_BRANCH: "${{ matrix.branch }}"}
+      - run: moodle-plugin-ci validate
+      - run: moodle-plugin-ci savepoints
+      - name: PHPUnit with developer debugging
+        run: moodle-plugin-ci phpunit --fail-on-warning
+
+  required-baseline:
+    name: Moodle 4.5 / PHP 8.3 / PostgreSQL
+    needs: [quality, compatibility]
+    if: ${{ always() }}
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Enforce all required code checks
+        env:
+          QUALITY_RESULT: ${{ needs.quality.result }}
+          COMPATIBILITY_RESULT: ${{ needs.compatibility.result }}
+        run: |
+          test "$QUALITY_RESULT" = success
+          test "$COMPATIBILITY_RESULT" = success

@@ -5,6 +5,14 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * External checklist definition import.
@@ -14,9 +22,11 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace gradingform_checklist\external;
+
+defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 
@@ -35,7 +45,6 @@ require_once($CFG->dirroot . '/grade/grading/lib.php');
  * Imports a canonical JSON checklist definition.
  */
 class import_definition extends external_api {
-
     /**
      * Returns parameters.
      *
@@ -74,6 +83,11 @@ class import_definition extends external_api {
 
         if (!config::enabled('enablejsonwebservice')) {
             throw new \moodle_exception('featuredisabled', 'gradingform_checklist');
+        }
+        if (strlen($importjson) > config::import_max_bytes()) {
+            throw new \invalid_parameter_exception(
+                get_string('importerrorfilesize', 'gradingform_checklist', config::import_max_bytes())
+            );
         }
 
         $manager = get_grading_manager($areaid);

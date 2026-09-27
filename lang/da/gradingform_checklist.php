@@ -15,7 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Language strings for the Checklist plugin.
+ *
  * @copyright  Copyright (c) 2025 Open LMS (https://www.openlms.net)
+ * @package    gradingform_checklist
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -38,6 +41,8 @@ $string['confirmdeletegroup'] = 'Er du sikker på, at du vil slette denne gruppe
 $string['confirmdeleteitem'] = 'Er du sikker på, at du vil slette dette element?';
 $string['definechecklist'] = 'Definer tjekliste';
 $string['description'] = 'Beskrivelse';
+$string['enablegroupremarks'] = 'Tillad karaktergiver at tilføje tekstbemærkninger for hver tjeklistegruppe';
+$string['enableitemremarks'] = 'Tillad karaktergiver at tilføje tekstbemærkninger for hvert tjeklisteelement';
 $string['err_definitionmax'] = 'Elementdefinition må ikke være på mere end 255 tegn.';
 $string['err_descriptionmax'] = 'Gruppebeskrivelse må ikke være på mere end 255 tegn.';
 $string['err_nodefinition'] = 'Elementdefinition skal udfyldes';
@@ -46,12 +51,12 @@ $string['err_nogroups'] = 'Tjeklisten skal indeholde mindst en gruppe';
 $string['err_scoreformat'] = 'Antal point for hvert element skal være et gyldigt positivt tal';
 $string['err_scoremax'] = 'Antal point for hvert element må ikke være højere end 1000';
 $string['err_totalscore'] = 'Maksimum antal mulige print, når der gives karakter af tjeklisten, skal være højere end nul';
-$string['groupfeedback'] = 'Gruppefeedback for "{$a}"';
 $string['gradingof'] = '{$a} pointtildeling';
 $string['groupadditem'] = 'Tilføj element';
 $string['groupdelete'] = 'Slet gruppe';
 $string['groupdescription'] = 'Gruppebeskrivelse';
 $string['groupempty'] = 'Klik for at redigere gruppe';
+$string['groupfeedback'] = 'Gruppefeedback for "{$a}"';
 $string['groupmovedown'] = 'Flyt ned';
 $string['groupmoveup'] = 'Flyt op';
 $string['grouppoints'] = 'Gruppepoint';
@@ -62,11 +67,12 @@ $string['itemempty'] = 'Klik for at redigere element';
 $string['itemfeedback'] = 'Feedback for "{$a}"';
 $string['itemremark'] = 'Elementbemærkning til "{$a}"';
 $string['itemscore'] = 'Elementpointresultat';
+$string['maxlengthalert'] = 'Dette indtastningsfelt har en maks. længde på {$a} tegn';
 $string['name'] = 'Navn';
 $string['needregrademessage'] = 'Tjeklistedefinitionen blev ændret, efter denne studerende havde fået karakter. Den studerende kan ikke se denne tjekliste, før du gennemgår den og opdaterer karakteren.';
+$string['overallpoints'] = 'Samlede point';
 $string['pluginname'] = 'Tjekliste';
 $string['previewchecklist'] = 'Vis eksempel på tjekliste';
-$string['overallpoints'] = 'Samlede point';
 $string['regrademessage1'] = 'Du er ved at gemme ændringer i en tjekliste, der allerede er blevet brugt til karaktergivning.
 Angiv venligst, om de eksisterende karakterer skal gennemgås. Hvis du angiver dette, skjules tjeklisten for studerende, indtil deres elementer har fået nye karakterer.';
 $string['regrademessage5'] = 'Du er ved at gemme væsentlige ændringer til en tjekliste, der allerede er blevet brugt til karaktergivning. Karakterbogsværdien ændres ikke, men tjeklisten skjules for studerende, indtil deres elementer har fået ny karakter.';
@@ -79,8 +85,5 @@ $string['savechecklistdraft'] = 'Gem som kladde';
 $string['scorepostfix'] = '{$a} point';
 $string['showitempointseval'] = 'Vis point for hvert element under evaluering';
 $string['showitempointstudent'] = 'Vis point for hvert element til dem, der får karakter';
-$string['enableitemremarks'] = 'Tillad karaktergiver at tilføje tekstbemærkninger for hvert tjeklisteelement';
-$string['enablegroupremarks'] = 'Tillad karaktergiver at tilføje tekstbemærkninger for hver tjeklistegruppe';
 $string['showremarksstudent'] = 'Vis alle bemærkninger til dem, der får karakter';
 $string['unchecked'] = 'Ikke markeret';
-$string['maxlengthalert'] = 'Dette indtastningsfelt har en maks. længde på {$a} tegn';

@@ -1,21 +1,22 @@
 <?php
-
-// This file is part of Moodle - http://moodle.org/
+// This file is part of Moodle - http://moodle.org/.
 //
-// Moodle is free software: you can redistribute it and/or modify
+// Moodle is free software: you can redistribute it and/or modify.
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// Moodle is distributed in the hope that it will be useful,
+// Moodle is distributed in the hope that it will be useful,.
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
-// You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+// You should have received a copy of the GNU General Public License.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
+ * Upgrade steps for the Checklist grading form plugin.
+ *
  * @package    gradingform_checklist
  * @author     Sam Chaffee
  * @copyright  2011 David Mudrak <david@moodle.com>
@@ -23,7 +24,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
 
 /**
  * Copies benchmark files from a legacy group itemid to the definition itemid.
@@ -32,8 +32,11 @@ defined('MOODLE_INTERNAL') || die();
  * @param int $legacyitemid The legacy group id used as file itemid.
  * @param int $definitionid The new definition id used as file itemid.
  */
-function xmldb_gradingform_checklist_copy_legacy_benchmark_files(int $contextid, int $legacyitemid,
-        int $definitionid): void {
+function xmldb_gradingform_checklist_copy_legacy_benchmark_files(
+    int $contextid,
+    int $legacyitemid,
+    int $definitionid
+): void {
     $fs = get_file_storage();
     $files = $fs->get_area_files(
         $contextid,
@@ -182,25 +185,23 @@ function xmldb_gradingform_checklist_upgrade($oldversion) {
     $dbman = $DB->get_manager();
 
     if ($oldversion < 2012051001) {
-
-        // Changing type of field description on table gradingform_checklist_groups to text
+        // Changing type of field description on table gradingform_checklist_groups to text.
         $table = new xmldb_table('gradingform_checklist_groups');
         $field = new xmldb_field('description', XMLDB_TYPE_TEXT, 'big', null, null, null, null, 'sortorder');
 
-        // Launch change of type for field description
+        // Launch change of type for field description.
         $dbman->change_field_type($table, $field);
 
-        // Changing type of field definition on table gradingform_checklist_items to text
+        // Changing type of field definition on table gradingform_checklist_items to text.
         $table = new xmldb_table('gradingform_checklist_items');
         $field = new xmldb_field('definition', XMLDB_TYPE_TEXT, 'big', null, null, null, null, 'score');
 
-        // Launch change of type for field definition
+        // Launch change of type for field definition.
         $dbman->change_field_type($table, $field);
 
-        // checklist savepoint reached
+        // Checklist savepoint reached.
         upgrade_plugin_savepoint(true, 2012051001, 'gradingform', 'checklist');
     }
-
 
     if ($oldversion < 2026073000) {
         $table = new xmldb_table('gradingform_checklist_groups');
@@ -273,6 +274,16 @@ function xmldb_gradingform_checklist_upgrade($oldversion) {
     // Version 2026081200 refreshes service metadata and hardens benchmark defaults.
     if ($oldversion < 2026081200) {
         upgrade_plugin_savepoint(true, 2026081200, 'gradingform', 'checklist');
+    }
+
+    // Version 2026090200 restores checklist item move controls in the editor.
+    if ($oldversion < 2026090200) {
+        upgrade_plugin_savepoint(true, 2026090200, 'gradingform', 'checklist');
+    }
+
+    // Version 2026092300 is the 4.5.8 release; it contains no database schema changes.
+    if ($oldversion < 2026092300) {
+        upgrade_plugin_savepoint(true, 2026092300, 'gradingform', 'checklist');
     }
 
     return true;

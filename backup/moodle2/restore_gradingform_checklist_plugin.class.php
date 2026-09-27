@@ -24,7 +24,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
 
 /**
  * Defines checklist backup structures
@@ -33,20 +32,26 @@ class restore_gradingform_checklist_plugin extends restore_gradingform_plugin {
     /**
      * Declares the checklist XML paths attached to the form definition element
      *
-     * @return array of {@link restore_path_element}
+     * @return restore_path_element[]
      */
     protected function define_definition_plugin_structure() {
 
-        $paths = array();
+        $paths = [];
 
-        $paths[] = new restore_path_element('gradingform_checklist_benchmark',
-            $this->get_pathfor('/benchmark'));
+        $paths[] = new restore_path_element(
+            'gradingform_checklist_benchmark',
+            $this->get_pathfor('/benchmark')
+        );
 
-        $paths[] = new restore_path_element('gradingform_checklist_group',
-            $this->get_pathfor('/groups/group'));
+        $paths[] = new restore_path_element(
+            'gradingform_checklist_group',
+            $this->get_pathfor('/groups/group')
+        );
 
-        $paths[] = new restore_path_element('gradingform_checklist_item',
-            $this->get_pathfor('/groups/group/items/item'));
+        $paths[] = new restore_path_element(
+            'gradingform_checklist_item',
+            $this->get_pathfor('/groups/group/items/item')
+        );
 
         return $paths;
     }
@@ -61,17 +66,21 @@ class restore_gradingform_checklist_plugin extends restore_gradingform_plugin {
     /**
      * Declares the checklist XML paths attached to the form instance element
      *
-     * @return array of {@link restore_path_element}
+     * @return restore_path_element[]
      */
     protected function define_instance_plugin_structure() {
 
-        $paths = array();
+        $paths = [];
 
-        $paths[] = new restore_path_element('gradingform_checklist_filling',
-            $this->get_pathfor('/fillings/filling'));
+        $paths[] = new restore_path_element(
+            'gradingform_checklist_filling',
+            $this->get_pathfor('/fillings/filling')
+        );
 
-        $paths[] = new restore_path_element('gradingform_checklist_observation',
-            $this->get_pathfor('/observations/observation'));
+        $paths[] = new restore_path_element(
+            'gradingform_checklist_observation',
+            $this->get_pathfor('/observations/observation')
+        );
 
         return $paths;
     }
@@ -95,7 +104,7 @@ class restore_gradingform_checklist_plugin extends restore_gradingform_plugin {
      * Processes group element data
      *
      * Sets the mapping 'gradingform_checklist_group' to be used later by
-     * {@link self::process_gradinform_checklist_filling()}
+     * self::process_gradinform_checklist_filling().
      *
      * @param stdClass $data
      */
@@ -114,7 +123,7 @@ class restore_gradingform_checklist_plugin extends restore_gradingform_plugin {
      * Processes item element data
      *
      * Sets the mapping 'gradingform_checklist_item' to be used later by
-     * {@link self::process_gradinform_checklist_filling()}
+     * self::process_gradinform_checklist_filling().
      *
      * @param stdClass $data
      */

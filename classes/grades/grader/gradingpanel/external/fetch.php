@@ -22,17 +22,19 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace gradingform_checklist\grades\grader\gradingpanel\external;
 
+defined('MOODLE_INTERNAL') || die();
+
 global $CFG;
 
-use \core\exception\coding_exception;
+use core\exception\coding_exception;
 use context;
 use core_grades\component_gradeitem as gradeitem;
 use core_grades\component_gradeitems;
-// Moodle patch INT-19461: Add missing core_external imports
+// Moodle patch INT-19461: Add missing core_external imports.
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_multiple_structure;
@@ -41,8 +43,8 @@ use core_external\external_value;
 use core_external\external_warnings;
 use core_external\util;
 use stdClass;
-use \core\exception\moodle_exception;
-require_once($CFG->dirroot.'/grade/grading/form/checklist/lib.php');
+use core\exception\moodle_exception;
+require_once($CFG->dirroot . '/grade/grading/form/checklist/lib.php');
 
 /**
  * Web services relating to fetching of a checklist for the grading panel.
@@ -52,7 +54,6 @@ require_once($CFG->dirroot.'/grade/grading/form/checklist/lib.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class fetch extends external_api {
-
     /**
      * Describes the parameters for fetching the grading panel for a simple grade.
      *
@@ -60,7 +61,7 @@ class fetch extends external_api {
      * @since Moodle 3.8
      */
     public static function execute_parameters(): external_function_parameters {
-        return new external_function_parameters ([
+        return new external_function_parameters([
             'component' => new external_value(
                 PARAM_ALPHANUMEXT,
                 'The name of the component',
@@ -145,6 +146,7 @@ class fetch extends external_api {
      *
      * @param gradeitem $gradeitem
      * @param stdClass $gradeduser
+     * @param bool $isgrading Whether the current user is grading the user.
      * @return array
      */
     public static function get_fetch_data(gradeitem $gradeitem, stdClass $gradeduser, bool $isgrading = true): array {
@@ -188,8 +190,15 @@ class fetch extends external_api {
         $points = 0;
         if ($definition->checklist_groups) {
             // Iterate over the defined criterion in the checklist and map out what we need to render each item.
-            $criterion = array_map(function ($criterion) use ($definitionid, $fillings, $context, $hasgrade, $templateoptions,
-                &$maxpoints, &$points) {
+            $criterion = array_map(function ($criterion) use (
+                $definitionid,
+                $fillings,
+                $context,
+                $hasgrade,
+                $templateoptions,
+                &$maxpoints,
+                &$points
+) {
                 // The general structure we'll be returning, we still need to get the remark (if any) and the levels associated.
                 $maxgrouppoints = 0;
                 $grouppoints = 0;
@@ -205,8 +214,15 @@ class fetch extends external_api {
                     'maxgrouppoints' => 0,
                     'grouppoints' => 0,
                 ];
-                $result['items'] = array_map(function ($items) use ($criterion, $fillings, $context, $definitionid,
-                    $templateoptions, &$maxgrouppoints, &$grouppoints) {
+                $result['items'] = array_map(function ($items) use (
+                    $criterion,
+                    $fillings,
+                    $context,
+                    $definitionid,
+                    $templateoptions,
+                    &$maxgrouppoints,
+                    &$grouppoints
+) {
                     $result = [
                         'id' => $items['id'],
                         'criterionid' => $criterion['id'],
@@ -225,7 +241,8 @@ class fetch extends external_api {
                     if (!empty($fillings['groups'][$criterion['id']]['items'][$items['id']])) {
                         $filling = $fillings['groups'][$criterion['id']]['items'][$items['id']];
                         if ($templateoptions->showitemfeedback) {
-                            $result['remark'] = self::get_formatted_text($context,
+                            $result['remark'] = self::get_formatted_text(
+                                $context,
                                 $definitionid,
                                 'remark',
                                 $filling['remark'],
@@ -246,10 +263,15 @@ class fetch extends external_api {
                     $maxgrouppoints += $items['score'];
                     return $result;
                 }, $criterion['items']);
-                if ($templateoptions->showgroupfeedback && !empty($fillings['groups'][$criterion['id']]['items'][0])){
+                if ($templateoptions->showgroupfeedback && !empty($fillings['groups'][$criterion['id']]['items'][0])) {
                     $groupfeedbackfill = $fillings['groups'][$criterion['id']]['items'][0];
-                    $result['groupfeedback'] = self::get_formatted_text($context, $definitionid, 'remark',
-                        $groupfeedbackfill['remark'], (int) $groupfeedbackfill['remarkformat']);
+                    $result['groupfeedback'] = self::get_formatted_text(
+                        $context,
+                        $definitionid,
+                        'remark',
+                        $groupfeedbackfill['remark'],
+                        (int) $groupfeedbackfill['remarkformat']
+                    );
                 }
                 // Add the item counts to the criterion structure.
                 if ($templateoptions->showgrouppoints) {
@@ -271,8 +293,10 @@ class fetch extends external_api {
             $observationmode = \gradingform_checklist_controller::clean_observation_mode($options['observationmode']);
             $savedobservation = $fillings['observation'] ?? [];
             $timestamp = !empty($savedobservation['observationdate']) ? (int)$savedobservation['observationdate'] : 0;
-            if ($timestamp <= 0 && $isgrading
-                    && $options['observationdefault'] === \gradingform_checklist_controller::OBSERVATION_DEFAULT_NOW) {
+            if (
+                $timestamp <= 0 && $isgrading
+                    && $options['observationdefault'] === \gradingform_checklist_controller::OBSERVATION_DEFAULT_NOW
+            ) {
                 $timestamp = time();
             }
             if ($timestamp > 0 || $isgrading) {
@@ -283,8 +307,10 @@ class fetch extends external_api {
                     'showtime' => $observationmode === \gradingform_checklist_controller::OBSERVATION_MODE_DATETIME,
                     'isgrading' => $isgrading,
                     'displayvalue' => $timestamp > 0
-                        ? \gradingform_checklist_controller::format_observation_date($timestamp,
-                            $savedobservation['observationmode'] ?? $observationmode)
+                        ? \gradingform_checklist_controller::format_observation_date(
+                            $timestamp,
+                            $savedobservation['observationmode'] ?? $observationmode
+                        )
                         : '',
                 ];
             }
@@ -356,7 +382,11 @@ class fetch extends external_api {
                         'id' => new external_value(PARAM_INT, 'ID of the Criteria'),
                         'description' => new external_value(PARAM_RAW, 'Description of the Criteria'),
                         'groupfeedback' => new external_value(PARAM_RAW, 'Group feedback', VALUE_OPTIONAL),
-                        'maxgrouppoints' => new external_value(PARAM_LOCALISEDFLOAT, 'Maximum number of criterion points', VALUE_OPTIONAL),
+                        'maxgrouppoints' => new external_value(
+                            PARAM_LOCALISEDFLOAT,
+                            'Maximum number of criterion points',
+                            VALUE_OPTIONAL
+                        ),
                         'grouppoints' => new external_value(PARAM_LOCALISEDFLOAT, 'Criterion points', VALUE_OPTIONAL),
                         'items' => new external_multiple_structure(new external_single_structure([
                             'id' => new external_value(PARAM_INT, 'ID of item'),
@@ -364,7 +394,11 @@ class fetch extends external_api {
                             'score' => new external_value(PARAM_RAW, 'What this item is worth'),
                             'definition' => new external_value(PARAM_RAW, 'Definition of the item'),
                             'checked' => new external_value(PARAM_BOOL, 'Selected flag'),
-                            'remark' => new external_value(PARAM_RAW, 'Any remarks for this criterion for the user being assessed', VALUE_OPTIONAL),
+                            'remark' => new external_value(
+                                PARAM_RAW,
+                                'Any remarks for this criterion for the user being assessed',
+                                VALUE_OPTIONAL
+                            ),
                         ])),
                     ])
                 ),
@@ -375,7 +409,11 @@ class fetch extends external_api {
                     'buttonicon' => new external_value(PARAM_TEXT, 'Benchmark button icon'),
                     'title' => new external_value(PARAM_TEXT, 'Benchmark title'),
                 ], 'Teacher-only checklist benchmark', VALUE_OPTIONAL),
-                'maxpoints' => new external_value(PARAM_LOCALISEDFLOAT, 'Maximum number of points for all criteria', VALUE_OPTIONAL),
+                'maxpoints' => new external_value(
+                    PARAM_LOCALISEDFLOAT,
+                    'Maximum number of points for all criteria',
+                    VALUE_OPTIONAL
+                ),
                 'points' => new external_value(PARAM_LOCALISEDFLOAT, 'Points obtained for all criteria', VALUE_OPTIONAL),
                 'timecreated' => new external_value(PARAM_INT, 'The time that the grade was created'),
                 'usergrade' => new external_value(PARAM_RAW, 'Current user grade'),
@@ -396,7 +434,13 @@ class fetch extends external_api {
      * @param int $format The input format of the string
      * @return string
      */
-    protected static function get_formatted_text(context $context, int $definitionid, string $filearea, string $text, int $format): string {
+    protected static function get_formatted_text(
+        context $context,
+        int $definitionid,
+        string $filearea,
+        string $text,
+        int $format
+    ): string {
         $formatoptions = [
             'noclean' => false,
             'trusted' => false,

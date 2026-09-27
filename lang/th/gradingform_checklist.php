@@ -15,7 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Language strings for the Checklist plugin.
+ *
  * @copyright  Copyright (c) 2025 Open LMS (https://www.openlms.net)
+ * @package    gradingform_checklist
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -38,6 +41,8 @@ $string['confirmdeletegroup'] = 'คุณแน่ใจหรือว่า�
 $string['confirmdeleteitem'] = 'คุณแน่ใจหรือว่าต้องการลบรายการนี้';
 $string['definechecklist'] = 'กำหนดรายการตรวจสอบ';
 $string['description'] = 'คำอธิบาย';
+$string['enablegroupremarks'] = 'อนุญาตผู้ให้เกรดเพิ่มข้อความข้อสังเกตสำหรับรายการตรวจสอบแต่ละกลุ่ม';
+$string['enableitemremarks'] = 'อนุญาตผู้ให้เกรดเพิ่มข้อความข้อสังเกตสำหรับแต่ละรายการในรายการตรวจสอบ';
 $string['err_definitionmax'] = 'คำอธิบายรายการต้องมีอักขระไม่เกิน 255 ตัว';
 $string['err_descriptionmax'] = 'คำอธิบายกลุ่มต้องมีอักขระไม่เกิน 255 ตัว';
 $string['err_nodefinition'] = 'คำอธิบายรายการต้องไม่ว่างเปล่า';
@@ -46,12 +51,12 @@ $string['err_nogroups'] = 'รายการตรวจสอบต้อง�
 $string['err_scoreformat'] = 'จำนวนคะแนนสำหรับแต่ละรายการจะต้องเป็นจำนวนที่ไม่เป็นลบที่ถูกต้อง';
 $string['err_scoremax'] = 'จำนวนคะแนนสำหรับแต่ละรายการต้องไม่มากกว่า 1,000';
 $string['err_totalscore'] = 'จำนวนคะแนนสูงสุดที่เป็นไปได้เมื่อให้คะแนนตามรายการตรวจสอบต้องมากกว่าศูนย์';
-$string['groupfeedback'] = 'ผลตอบรับของกลุ่มสำหรับ "{$a}"';
 $string['gradingof'] = 'การให้เกรด {$a}';
 $string['groupadditem'] = 'เพิ่มรายการ';
 $string['groupdelete'] = 'ลบกลุ่ม';
 $string['groupdescription'] = 'คำอธิบายกลุ่ม';
 $string['groupempty'] = 'คลิกเพื่อแก้ไขกลุ่ม';
+$string['groupfeedback'] = 'ผลตอบรับของกลุ่มสำหรับ "{$a}"';
 $string['groupmovedown'] = 'เลื่อนลง';
 $string['groupmoveup'] = 'เลื่อนขึ้น';
 $string['grouppoints'] = 'คะแนนกลุ่ม';
@@ -62,11 +67,12 @@ $string['itemempty'] = 'คลิกเพื่อแก้ไขรายก�
 $string['itemfeedback'] = 'ผลตอบรับสำหรับ "{$a}"';
 $string['itemremark'] = 'หมายเหตุของรายการสำหรับ "{$a}"';
 $string['itemscore'] = 'คะแนนรายการ';
+$string['maxlengthalert'] = 'ฟิลด์อินพุตนี้มีความยาวสูงสุด {$a} อักขระ';
 $string['name'] = 'ชื่อ';
 $string['needregrademessage'] = 'คำอธิบายรายการตรวจสอบมีการเปลี่ยนแปลงหลังจากที่ผู้เรียนคนนี้ได้รับเกรด ผู้เรียนไม่สามารถเห็นรายการตรวจสอบนี้จนกว่าคุณจะตรวจสอบรายการตรวจสอบและอัปเดตเกรด';
+$string['overallpoints'] = 'คะแนนโดยรวม';
 $string['pluginname'] = 'รายการตรวจสอบ';
 $string['previewchecklist'] = 'ดูตัวอย่างรายการตรวจสอบ';
-$string['overallpoints'] = 'คะแนนโดยรวม';
 $string['regrademessage1'] = 'คุณกำลังจะบันทึกการเปลี่ยนแปลงที่ทำกับรายการตรวจสอบซึ่งถูกใช้ในการให้เกรดแล้ว โปรด
 ระบุว่าจำเป็นต้องทบทวนเกรดที่มีอยู่เดิมหรือไม่ หากคุณตั้งค่าตามนี้ รายการตรวจสอบจะถูกซ่อนจากผู้เรียนจนกว่ารายการของพวกเขาจะได้รับการให้เกรดใหม่';
 $string['regrademessage5'] = 'คุณกำลังจะบันทึกการเปลี่ยนแปลงที่สำคัญในรายการตรวจสอบที่ใช้สำหรับการให้เกรดแล้ว ค่าของสมุดเกรดจะไม่เปลี่ยนแปลง แต่รายการตรวจสอบจะถูกซ่อนจากผู้เรียนจนกว่ารายการของพวกเขาจะได้รับการให้เกรดใหม่';
@@ -79,8 +85,5 @@ $string['savechecklistdraft'] = 'บันทึกเป็นร่าง';
 $string['scorepostfix'] = '{$a} คะแนน';
 $string['showitempointseval'] = 'แสดงคะแนนสำหรับแต่ละรายการระหว่างการประเมิน';
 $string['showitempointstudent'] = 'แสดงคะแนนสำหรับแต่ละรายการต่อผู้ที่ได้รับเกรด';
-$string['enableitemremarks'] = 'อนุญาตผู้ให้เกรดเพิ่มข้อความข้อสังเกตสำหรับแต่ละรายการในรายการตรวจสอบ';
-$string['enablegroupremarks'] = 'อนุญาตผู้ให้เกรดเพิ่มข้อความข้อสังเกตสำหรับรายการตรวจสอบแต่ละกลุ่ม';
 $string['showremarksstudent'] = 'แสดงข้อสังเกตทั้งหมดต่อผู้ที่ได้รับเกรด';
 $string['unchecked'] = 'ไม่ถูกตรวจสอบ';
-$string['maxlengthalert'] = 'ฟิลด์อินพุตนี้มีความยาวสูงสุด {$a} อักขระ';

@@ -15,7 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Language strings for the Checklist plugin.
+ *
  * @copyright  Copyright (c) 2025 Open LMS (https://www.openlms.net)
+ * @package    gradingform_checklist
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -38,6 +41,8 @@ $string['confirmdeletegroup'] = 'Segur que voleu suprimir aquest grup?';
 $string['confirmdeleteitem'] = 'Confirmeu que voleu suprimir aquest element?';
 $string['definechecklist'] = 'Defineix la llista de comprovació';
 $string['description'] = 'Descripció';
+$string['enablegroupremarks'] = 'Permet al qualificador afegir observacions en format text per a cada grup de la llista de comprovació';
+$string['enableitemremarks'] = 'Permet al qualificador afegir observacions en format text per a cada element de la llista de comprovació';
 $string['err_definitionmax'] = 'La definició de l’element no ha de superar els 255 caràcters.';
 $string['err_descriptionmax'] = 'La descripció del grup no ha de superar els 255 caràcters.';
 $string['err_nodefinition'] = 'La definició de l’element no pot ser buida';
@@ -46,12 +51,12 @@ $string['err_nogroups'] = 'La llista de comprovació ha de tenir almenys un grup
 $string['err_scoreformat'] = 'El nombre de punts per a cada element ha de ser un nombre vàlid no negatiu';
 $string['err_scoremax'] = 'El nombre de punts per a cada element no ha de ser superior a 1.000';
 $string['err_totalscore'] = 'El nombre de punts màxim possible quan es qualifica amb la llista de comprovació ha de ser superior a zero';
-$string['groupfeedback'] = 'Retroacció de grup per a "{$a}"';
 $string['gradingof'] = 'Qualificacions per a {$a}';
 $string['groupadditem'] = 'Afegeix un element';
 $string['groupdelete'] = 'Suprimeix el grup';
 $string['groupdescription'] = 'Descripció del grup';
 $string['groupempty'] = 'Feu clic per editar el grup';
+$string['groupfeedback'] = 'Retroacció de grup per a "{$a}"';
 $string['groupmovedown'] = 'Mou avall';
 $string['groupmoveup'] = 'Mou amunt';
 $string['grouppoints'] = 'Punts del grup';
@@ -62,11 +67,12 @@ $string['itemempty'] = 'Feu clic per editar l’element';
 $string['itemfeedback'] = 'Retroacció per a "{$a}"';
 $string['itemremark'] = 'Observació de l\'element per a "{$a}"';
 $string['itemscore'] = 'Puntuació de l\'element';
+$string['maxlengthalert'] = 'Aquest camp d\'entrada té una longitud màxima de {$a} caràcters';
 $string['name'] = 'Nom';
 $string['needregrademessage'] = 'La definició de la llista de comprovació ha canviat després que l’estudiant hagi rebut la qualificació. L’estudiant no pot veure aquesta llista de comprovació fins que no la reviseu i actualitzeu la qualificació.';
+$string['overallpoints'] = 'Punts globals';
 $string['pluginname'] = 'Llista de comprovació';
 $string['previewchecklist'] = 'Visualització prèvia de la llista de comprovació';
-$string['overallpoints'] = 'Punts globals';
 $string['regrademessage1'] = 'Esteu a punt de desar canvis a una llista de verificació que ja s\'ha fet servir per qualificar. Si us plau,
 indiqueu si cal revisar les qualificacions existents. Si establiu això, la llista de verificació s’ocultarà als estudiants fins que es tornin a classificar els seus elements.';
 $string['regrademessage5'] = 'Esteu a punt de desar canvis significatius en una llista de comprovació que ja s’ha utilitzat per qualificar. Si marqueu aquesta opció, no es faran canvis a la qualificació del butlletí de qualificacions, però la llista de comprovació quedarà oculta per als estudiants fins que es revisin les qualificacions dels seus elements.';
@@ -79,8 +85,5 @@ $string['savechecklistdraft'] = 'Desa com a esborrany';
 $string['scorepostfix'] = '{$a} punts';
 $string['showitempointseval'] = 'Mostra els punts de cada element durant l\'avaluació';
 $string['showitempointstudent'] = 'Mostra els punts de cada element als alumnes qualificats';
-$string['enableitemremarks'] = 'Permet al qualificador afegir observacions en format text per a cada element de la llista de comprovació';
-$string['enablegroupremarks'] = 'Permet al qualificador afegir observacions en format text per a cada grup de la llista de comprovació';
 $string['showremarksstudent'] = 'Mostra totes les observacions als alumnes que s\'estan qualificant';
 $string['unchecked'] = 'Desmarcat';
-$string['maxlengthalert'] = 'Aquest camp d\'entrada té una longitud màxima de {$a} caràcters';

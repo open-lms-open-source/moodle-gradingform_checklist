@@ -15,7 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Language strings for the Checklist plugin.
+ *
  * @copyright  Copyright (c) 2025 Open LMS (https://www.openlms.net)
+ * @package    gradingform_checklist
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -38,6 +41,8 @@ $string['confirmdeletegroup'] = 'Weet u zeker dat u deze groep wilt verwijderen?
 $string['confirmdeleteitem'] = 'Weet u zeker dat u dit item wil verwijderen?';
 $string['definechecklist'] = 'Definieer checklist';
 $string['description'] = 'Inleidende tekst';
+$string['enablegroupremarks'] = 'Grader toestaan tekstopmerkingen toe te voegen voor elke groep in de checklist';
+$string['enableitemremarks'] = 'Grader toestaan tekstopmerkingen toe te voegen voor elk item in de checklist';
 $string['err_definitionmax'] = 'De beschrijving van het item mag niet meer dan 255 tekens bevatten';
 $string['err_descriptionmax'] = 'De beschrijving van de groep mag niet meer dan 255 tekens bevatten';
 $string['err_nodefinition'] = 'De definitie van het item mag niet leeg zijn';
@@ -46,12 +51,12 @@ $string['err_nogroups'] = 'Checklist moet minimaal één groep bevatten';
 $string['err_scoreformat'] = 'Het aantal punten voor elk item moet een geldig positief getal zijn';
 $string['err_scoremax'] = 'Aantal punten voor elk item mag niet groter zijn dan 1000';
 $string['err_totalscore'] = 'Het maximale aantal mogelijke punten bij beoordeling door de checklist moet meer dan nul zijn';
-$string['groupfeedback'] = 'Groepsfeedback voor "{$a}"';
 $string['gradingof'] = '{$a} beoordeling';
 $string['groupadditem'] = 'Voeg item toe';
 $string['groupdelete'] = 'Verwijder groep';
 $string['groupdescription'] = 'Groepsbeschrijving';
 $string['groupempty'] = 'Klik om groep te bewerken';
+$string['groupfeedback'] = 'Groepsfeedback voor "{$a}"';
 $string['groupmovedown'] = 'Verplaats lager';
 $string['groupmoveup'] = 'Verplaats hoger';
 $string['grouppoints'] = 'Groepspunten';
@@ -62,11 +67,12 @@ $string['itemempty'] = 'Klik om het item te bewerken';
 $string['itemfeedback'] = 'Feedback voor "{$a}"';
 $string['itemremark'] = 'Itemopmerking voor "{$a}"';
 $string['itemscore'] = 'Itemscore';
+$string['maxlengthalert'] = 'Het invoerveld heeft een maximumlengte van {$a} tekens';
 $string['name'] = 'Naam';
 $string['needregrademessage'] = 'De checklistdefinitie is gewijzigd nadat deze student werd beoordeeld. De student kan deze checklist pas zien nadat u de checklist hebt beoordeeld en het cijfer heb aangepast.';
+$string['overallpoints'] = 'Totale aantal punten';
 $string['pluginname'] = 'Checklist';
 $string['previewchecklist'] = 'Voorbeeld checklist';
-$string['overallpoints'] = 'Totale aantal punten';
 $string['regrademessage1'] = 'U staat op het punt om wijzigingen op te slaan in een checklist die al is gebruikt voor beoordeling.
 Geef aan of bestaande cijfers moeten worden herzien. Als u deze optie instelt, wordt de checklist verborgen voor studenten tot hun items opnieuw zijn beoordeeld.';
 $string['regrademessage5'] = 'U staat op het punt om belangrijke wijzigingen op te slaan in een checklist die al is gebruikt voor beoordeling. Het cijfer in de cijferlijst wordt niet gewijzigd, maar de checklist wordt verborgen voor studenten tot hun items opnieuw zijn beoordeeld.';
@@ -79,8 +85,5 @@ $string['savechecklistdraft'] = 'Bewaar als concept';
 $string['scorepostfix'] = '{$a} punten';
 $string['showitempointseval'] = 'Toon punten voor elk item tijdens evaluatie';
 $string['showitempointstudent'] = 'Toon punten voor elk item aan wie beoordeeld wordt';
-$string['enableitemremarks'] = 'Grader toestaan tekstopmerkingen toe te voegen voor elk item in de checklist';
-$string['enablegroupremarks'] = 'Grader toestaan tekstopmerkingen toe te voegen voor elke groep in de checklist';
 $string['showremarksstudent'] = 'Toon alle opmerkingen aan diegenen die beoordeeld worden';
 $string['unchecked'] = 'Uitgeschakeld';
-$string['maxlengthalert'] = 'Het invoerveld heeft een maximumlengte van {$a} tekens';

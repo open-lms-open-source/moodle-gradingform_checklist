@@ -38,7 +38,6 @@ use tests\gradingform_checklist\generator\criterion;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class gradingform_checklist_generator extends component_generator_base {
-
     /**
      * Create an instance of a checklist.
      *
@@ -77,7 +76,12 @@ class gradingform_checklist_generator extends component_generator_base {
         $benchmarkformat = $options['benchmarkformat'] ?? FORMAT_HTML;
         $benchmarkbuttonlabel = $options['benchmarkbuttonlabel'] ?? 'Open to view Benchmarks';
         $benchmarkbuttonicon = $options['benchmarkbuttonicon'] ?? 'fa-solid fa-file-circle-check';
-        unset($options['benchmark'], $options['benchmarkformat'], $options['benchmarkbuttonlabel'], $options['benchmarkbuttonicon']);
+        unset(
+            $options['benchmark'],
+            $options['benchmarkformat'],
+            $options['benchmarkbuttonlabel'],
+            $options['benchmarkbuttonicon']
+        );
         $checklist->set_benchmark($benchmark, $benchmarkformat, $benchmarkbuttonlabel, $benchmarkbuttonicon);
         foreach ($options as $key => $value) {
             $checklist->set_option($key, $value);
@@ -136,7 +140,7 @@ class gradingform_checklist_generator extends component_generator_base {
 
         $criterion = $item = null;
 
-        $criterion = array_reduce($criteria, function($carry, $criterion) use ($description) {
+        $criterion = array_reduce($criteria, function ($carry, $criterion) use ($description) {
             if ($criterion['description'] === $description) {
                 $carry = $criterion;
             }
@@ -146,7 +150,7 @@ class gradingform_checklist_generator extends component_generator_base {
 
         if ($criterion) {
             $criterion = (object) $criterion;
-            $item = array_reduce($criterion->items, function($carry, $item) use ($score) {
+            $item = array_reduce($criterion->items, function ($carry, $item) use ($score) {
                 if ($item['score'] == $score) {
                     $carry = $item;
                 }
@@ -192,7 +196,6 @@ class gradingform_checklist_generator extends component_generator_base {
                     'checked' => $checked,
                 ];
             }
-
         }
 
         return $result;
@@ -214,12 +217,19 @@ class gradingform_checklist_generator extends component_generator_base {
                 ],
             ],
             'Group 2' => [
-                'Has references' => 1
+                'Has references' => 1,
             ],
         ];
 
-        return $this->create_instance($context, $component, $area, 'testchecklist', 'Description text', $criteria,
-            ['enableitemremarks' => 1, 'benchmark' => '<p>Teacher benchmark for checklist</p>']);
+        return $this->create_instance(
+            $context,
+            $component,
+            $area,
+            'testchecklist',
+            'Description text',
+            $criteria,
+            ['enableitemremarks' => 1, 'benchmark' => '<p>Teacher benchmark for checklist</p>']
+        );
     }
 
     /**
@@ -227,10 +237,10 @@ class gradingform_checklist_generator extends component_generator_base {
      *
      * @param gradingform_checklist_controller $controller
      * @param int $itemid
-     * @param float $spellingscore
-     * @param string $spellingremark
-     * @param float $picturescore
-     * @param string $pictureremark
+     * @param float $group1itemcheck
+     * @param string $group1itemremark
+     * @param float $group2itemcheck
+     * @param string $group2itemremark
      * @return array
      */
     public function get_test_form_data(

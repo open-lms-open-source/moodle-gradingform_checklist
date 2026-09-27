@@ -45,16 +45,18 @@
                 "numitemschecked": 5,
                 "items": [
                     {
+                        "id": 7,
                         "criterionid": 13,
                         "checked": true,
+                        "score": 1,
                         "definition": "Great work!",
                         "remark": "That's great!"
                     }
-                ],
+                ]
             }
         ],
         "numitems": 10,
-        "numitemschecked": 5,
+        "numitemschecked": 5
     }
 }}
 <form id="gradingform_checklist-{{uniqid}}">
@@ -211,7 +213,6 @@
             '#gradingform_checklist-{{uniqid}}',
             {{#quote}}{{#str}} closebenchmark, gradingform_checklist {{/str}}{{/quote}}
         );
-        const checklistRoot = $('#gradingform_checklist-{{uniqid}}');
 
         /**
          * Formats numeric points for display based on decimal precision.
@@ -231,7 +232,7 @@
             }
         }
 
-        $('#gradingform_checklist-{{uniqid}} .form-check-input.item').change(function () {
+        $('#gradingform_checklist-{{uniqid}} .form-check-input.item').change(function() {
             updatePoints();
             updateBulkCheckButton();
         });

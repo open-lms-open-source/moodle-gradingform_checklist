@@ -5,6 +5,14 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Checklist import validation.
@@ -171,8 +179,10 @@ class import_validator {
             if ($data['benchmark']['buttonlabel'] === '') {
                 $data['benchmark']['buttonlabel'] = get_string('benchmarkbuttondefault', 'gradingform_checklist');
             }
-            if ($data['benchmark']['enabled'] && trim(strip_tags($data['benchmark']['html'])) === ''
-                    && empty($data['benchmark']['files'])) {
+            if (
+                $data['benchmark']['enabled'] && trim(strip_tags($data['benchmark']['html'])) === ''
+                    && empty($data['benchmark']['files'])
+            ) {
                 $warnings[] = get_string('importwarningemptybenchmark', 'gradingform_checklist');
                 $data['benchmark']['enabled'] = false;
             }
@@ -189,8 +199,11 @@ class import_validator {
                 if (!empty($group['items']) && is_array($group['items'])) {
                     foreach ($group['items'] as $itemindex => $item) {
                         if (!is_array($item)) {
-                            $warnings[] = get_string('importwarninginvaliditem', 'gradingform_checklist',
-                                ($groupindex + 1) . '.' . ($itemindex + 1));
+                            $warnings[] = get_string(
+                                'importwarninginvaliditem',
+                                'gradingform_checklist',
+                                ($groupindex + 1) . '.' . ($itemindex + 1)
+                            );
                             continue;
                         }
                         $definition = self::clean_plain($item['definition'] ?? '');
@@ -199,18 +212,27 @@ class import_validator {
                             continue;
                         }
                         if ($definition === '') {
-                            $errors[] = get_string('importerroritemdefinition', 'gradingform_checklist',
-                                ($groupindex + 1) . '.' . ($itemindex + 1));
+                            $errors[] = get_string(
+                                'importerroritemdefinition',
+                                'gradingform_checklist',
+                                ($groupindex + 1) . '.' . ($itemindex + 1)
+                            );
                             continue;
                         }
                         if (!is_numeric($score) || (float)$score < 0 || (float)$score > 1000) {
-                            $errors[] = get_string('importerroritemscore', 'gradingform_checklist',
-                                ($groupindex + 1) . '.' . ($itemindex + 1));
+                            $errors[] = get_string(
+                                'importerroritemscore',
+                                'gradingform_checklist',
+                                ($groupindex + 1) . '.' . ($itemindex + 1)
+                            );
                             continue;
                         }
                         if (\core_text::strlen($definition) > \MoodleQuickForm_checklisteditor::get_item_definition_max_length()) {
-                            $errors[] = get_string('err_definitionmax', 'gradingform_checklist',
-                                \MoodleQuickForm_checklisteditor::get_item_definition_max_length());
+                            $errors[] = get_string(
+                                'err_definitionmax',
+                                'gradingform_checklist',
+                                \MoodleQuickForm_checklisteditor::get_item_definition_max_length()
+                            );
                             continue;
                         }
                         $items[] = [
@@ -227,8 +249,11 @@ class import_validator {
                     continue;
                 }
                 if (\core_text::strlen($description) > \MoodleQuickForm_checklisteditor::get_group_description_max_length()) {
-                    $errors[] = get_string('err_descriptionmax', 'gradingform_checklist',
-                        \MoodleQuickForm_checklisteditor::get_group_description_max_length());
+                    $errors[] = get_string(
+                        'err_descriptionmax',
+                        'gradingform_checklist',
+                        \MoodleQuickForm_checklisteditor::get_group_description_max_length()
+                    );
                     continue;
                 }
                 if (empty($items)) {

@@ -9,6 +9,8 @@ Use this checklist when preparing a Moodle Marketplace or tester package.
 - Confirm the package version and the final savepoint in `db/upgrade.php` are
   identical.
 - Review `upgrade.txt` and verify both fresh installation and upgrade paths.
+- Complete `docs/release-evidence-4.5.8.md`; production approval requires an
+  administrator and representative teacher to sign the same commit and ZIP.
 
 ## Clean package
 
@@ -22,6 +24,10 @@ The repository attributes exclude source maps, `.DS_Store`, Git packaging
 metadata, `.gitignore`, and candidate-only template assets. The package must
 contain the supported DOCX template under `docs/` and must not contain `.git` or
 editor-generated files.
+
+For 4.5.8, push `v4.5.8` only after all required checks pass on the commit. The
+tag workflow publishes `enhanced-checklist-4.5.8.zip` and its SHA-256 checksum.
+Never deploy GitHub's moving `master` archive.
 
 ## Verification
 

@@ -15,7 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Language strings for the Checklist plugin.
+ *
  * @copyright  Copyright (c) 2025 Open LMS (https://www.openlms.net)
+ * @package    gradingform_checklist
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -38,6 +41,8 @@ $string['confirmdeletegroup'] = 'Haluatko varmasti poistaa tämän ryhmän?';
 $string['confirmdeleteitem'] = 'Oletko varma, että haluat poistaa tämän?';
 $string['definechecklist'] = 'Määritä tarkistuslista';
 $string['description'] = 'Keskustelualueen kuvaus';
+$string['enablegroupremarks'] = 'Arvioija voi lisätä sanallista palautetta kuhunkin tarkistuslistan ryhmään';
+$string['enableitemremarks'] = 'Arvioija voi lisätä sanallista palautetta kuhunkin tarkistuslistan kohteeseen';
 $string['err_definitionmax'] = 'Kohteiden määritelmissä voi olla enintään 255 merkkiä';
 $string['err_descriptionmax'] = 'Ryhmän kuvauksessa voi olla enintään 255 merkkiä';
 $string['err_nodefinition'] = 'Kohteen määritelmä ei voi olla tyhjä';
@@ -46,12 +51,12 @@ $string['err_nogroups'] = 'Tarkistuslistassa on oltava vähintään yksi ryhmä'
 $string['err_scoreformat'] = 'Kunkin kohteen pistemäärän on oltava kelvollinen ei-negatiivinen luku';
 $string['err_scoremax'] = 'Kunkin kohteen pistemäärä ei voi olla suurempi kuin 1000';
 $string['err_totalscore'] = 'Tarkistuslistaa käyttävän arvioinnin enimmäispistemäärän on oltava suurempi kuin nolla';
-$string['groupfeedback'] = 'Ryhmäpalaute: {$a}';
 $string['gradingof'] = 'Arviointi: {$a}';
 $string['groupadditem'] = 'Lisää kohde';
 $string['groupdelete'] = 'Poista ryhmä';
 $string['groupdescription'] = 'Ryhmän kuvaus';
 $string['groupempty'] = 'Muokkaa ryhmää napsauttamalla';
+$string['groupfeedback'] = 'Ryhmäpalaute: {$a}';
 $string['groupmovedown'] = 'Siirrä alas';
 $string['groupmoveup'] = 'Siirrä ylös';
 $string['grouppoints'] = 'Ryhmän pisteet';
@@ -62,11 +67,12 @@ $string['itemempty'] = 'Muokkaa kohdetta napsauttamalla';
 $string['itemfeedback'] = 'Palaute: {$a}';
 $string['itemremark'] = 'Kohteen huomautus: {$a}';
 $string['itemscore'] = 'Kohteen pisteet';
+$string['maxlengthalert'] = 'Syöttökentän enimmäispituus on {$a} merkkiä';
 $string['name'] = 'Minkä nimen haluat antaa tälle sivulle?';
 $string['needregrademessage'] = 'Tarkistuslistan määritelmää on muokattu tämän opiskelijan arvioinnin jälkeen. Ko. opiskelija ei voi nähdä tarkistuslistaa, ennen kuin tarkistat tarkistuslistan ja päivität arvosanan.';
+$string['overallpoints'] = 'Kokonaispisteet';
 $string['pluginname'] = 'Tarkistuslista';
 $string['previewchecklist'] = 'Esikatsele tarkistuslistaa';
-$string['overallpoints'] = 'Kokonaispisteet';
 $string['regrademessage1'] = 'Olet tallentamassa muutoksia tarkistuslistaan, jota on jo käytetty arviointiin. Osoita,
 onko jo annettuja arvosanoja tarpeen korjata. Jos valitset tämän, tarkistuslista piilotetaan opiskelijoilta, kunnes olet korjannut heidän arvosanansa.';
 $string['regrademessage5'] = 'Olet tallentamassa merkittäviä muutoksia tarkistuslistaan, jota on jo käytetty arviointiin. Arviointikirjan arvoa ei muuteta, mutta tarkistuslista piilotetaan opiskelijoilta, kunnes olet korjannut heidän arvosanansa.';
@@ -79,8 +85,5 @@ $string['savechecklistdraft'] = 'Tallenna luonnoksena';
 $string['scorepostfix'] = '{$a} pistettä';
 $string['showitempointseval'] = 'Näytä kunkin kohteen pisteet arvioinnin aikana';
 $string['showitempointstudent'] = 'Näytä kunkin kohteen pisteet arvioitaville opiskelijoille';
-$string['enableitemremarks'] = 'Arvioija voi lisätä sanallista palautetta kuhunkin tarkistuslistan kohteeseen';
-$string['enablegroupremarks'] = 'Arvioija voi lisätä sanallista palautetta kuhunkin tarkistuslistan ryhmään';
 $string['showremarksstudent'] = 'Näytä sanallinen palaute arvioitaville opiskelijoille';
 $string['unchecked'] = 'Tarkistamaton';
-$string['maxlengthalert'] = 'Syöttökentän enimmäispituus on {$a} merkkiä';

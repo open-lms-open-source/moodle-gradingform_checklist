@@ -1,19 +1,18 @@
 <?php
-
-// This file is part of Moodle - http://moodle.org/
+// This file is part of Moodle - http://moodle.org/.
 //
-// Moodle is free software: you can redistribute it and/or modify
+// Moodle is free software: you can redistribute it and/or modify.
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// Moodle is distributed in the hope that it will be useful,
+// Moodle is distributed in the hope that it will be useful,.
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
-// You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+// You should have received a copy of the GNU General Public License.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Grading method controller for the Checklist plugin
@@ -28,9 +27,10 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/checklisteditor.php');
-require_once($CFG->dirroot.'/grade/grading/form/lib.php');
+require_once($CFG->dirroot . '/grade/grading/form/lib.php');
 
 use gradingform_checklist\local\config;
+use gradingform_checklist\local\option_policy;
 
 /** checklist: Used to compare our gradeitem_type against. */
 const CHECKLIST = 'checklist';
@@ -40,8 +40,7 @@ const CHECKLIST = 'checklist';
  * This controller encapsulates the checklist grading logic
  */
 class gradingform_checklist_controller extends gradingform_controller {
-
-    // Modes of displaying the checklist (used in gradingform_checklist_renderer)
+    // Modes of displaying the checklist (used in gradingform_checklist_renderer).
     /** checklist display mode: For editing (moderator or teacher creates a checklist) */
     const DISPLAY_EDIT_FULL     = 1;
     /** checklist display mode: Preview the checklist design with hidden fields */
@@ -49,7 +48,7 @@ class gradingform_checklist_controller extends gradingform_controller {
     /** checklist display mode: Preview the checklist design (for person with manage permission) */
     const DISPLAY_PREVIEW       = 3;
     /** checklist display mode: Preview the checklist (for people being graded) */
-    const DISPLAY_PREVIEW_GRADED= 8;
+    const DISPLAY_PREVIEW_GRADED = 8;
     /** checklist display mode: For evaluation, enabled (teacher grades a student) */
     const DISPLAY_EVAL          = 4;
     /** checklist display mode: For evaluation, with hidden fields */
@@ -79,7 +78,7 @@ class gradingform_checklist_controller extends gradingform_controller {
      * @return gradingform_checklist_renderer
      */
     public function get_renderer(moodle_page $page) {
-        return $page->get_renderer('gradingform_'. $this->get_method_name());
+        return $page->get_renderer('gradingform_' . $this->get_method_name());
     }
 
     /**
@@ -91,7 +90,9 @@ class gradingform_checklist_controller extends gradingform_controller {
      */
     public function render_preview(moodle_page $page) {
         if (!$this->is_form_defined()) {
-            throw new \core\exception\coding_exception('It is the caller\'s responsibility to make sure that the form is actually defined');
+            throw new \core\exception\coding_exception(
+                'It is the caller\'s responsibility to make sure that the form is actually defined'
+            );
         }
 
         $output = $this->get_renderer($page);
@@ -161,6 +162,17 @@ class gradingform_checklist_controller extends gradingform_controller {
         if ($downloadlinks) {
             $actions .= \html_writer::div(implode(' ', $downloadlinks), 'gradingform-checklist-import-downloads');
         }
+        if (has_capability('moodle/site:config', \context_system::instance())) {
+            $companion = \html_writer::link(
+                'https://github.com/Portvgal/moodle-local_checklistsettings',
+                get_string('settingscompanionlink', 'gradingform_checklist'),
+                ['target' => '_blank', 'rel' => 'noopener noreferrer']
+            );
+            $actions .= \html_writer::div(
+                get_string('settingscompanionnotice', 'gradingform_checklist', $companion),
+                'alert alert-info gradingform-checklist-settings-notice'
+            );
+        }
         $stateclass = $isdefined ? ' is-defined' : ' is-undefined';
         return \html_writer::div($actions, 'gradingform-checklist-import-actions' . $stateclass);
     }
@@ -171,21 +183,21 @@ class gradingform_checklist_controller extends gradingform_controller {
     protected function delete_plugin_definition() {
         global $DB;
 
-        // get the list of instances
-        $instances = array_keys($DB->get_records('grading_instances', array('definitionid' => $this->definition->id), '', 'id'));
-        // delete all fillings
+        // Get the list of instances.
+        $instances = array_keys($DB->get_records('grading_instances', ['definitionid' => $this->definition->id], '', 'id'));
+        // Delete all fillings.
         $DB->delete_records_list('gradingform_checklist_fills', 'instanceid', $instances);
         $DB->delete_records_list('gradingform_checklist_obs', 'instanceid', $instances);
-        // delete instances
+        // Delete instances.
         $DB->delete_records_list('grading_instances', 'id', $instances);
         $this->delete_definition_benchmark_files();
         $DB->delete_records('gradingform_checklist_bench', ['definitionid' => $this->definition->id]);
 
-        // get the list of groups records
-        $groups = array_keys($DB->get_records('gradingform_checklist_groups', array('definitionid' => $this->definition->id), '', 'id'));
-        // delete checklist items items
+        // Get the list of groups records.
+        $groups = array_keys($DB->get_records('gradingform_checklist_groups', ['definitionid' => $this->definition->id], '', 'id'));
+        // Delete checklist items items.
         $DB->delete_records_list('gradingform_checklist_items', 'groupid', $groups);
-        // delete groups
+        // Delete groups.
         $DB->delete_records_list('gradingform_checklist_groups', 'id', $groups);
     }
 
@@ -202,16 +214,30 @@ class gradingform_checklist_controller extends gradingform_controller {
      */
     public function get_or_create_instance($instanceid, $raterid, $itemid) {
         global $DB;
-        if ($instanceid &&
-            $instance = $DB->get_record('grading_instances', array('id'  => $instanceid, 'raterid' => $raterid, 'itemid' => $itemid), '*', IGNORE_MISSING)) {
+        if (
+            $instanceid &&
+            $instance = $DB->get_record(
+                'grading_instances',
+                ['id' => $instanceid, 'raterid' => $raterid, 'itemid' => $itemid],
+                '*',
+                IGNORE_MISSING
+            )
+        ) {
             return $this->get_instance($instance);
         }
         if ($itemid && $raterid) {
-            if ($rs = $DB->get_records('grading_instances', array('definitionid' => $this->definition->id, 'raterid' => $raterid, 'itemid' => $itemid), 'timemodified DESC', '*', 0, 1)) {
+            $conditions = [
+                'definitionid' => $this->definition->id,
+                'raterid' => $raterid,
+                'itemid' => $itemid,
+            ];
+            if ($rs = $DB->get_records('grading_instances', $conditions, 'timemodified DESC', '*', 0, 1)) {
                 $record = reset($rs);
                 $currentinstance = $this->get_current_instance($raterid, $itemid);
-                if ($record->status == gradingform_checklist_instance::INSTANCE_STATUS_INCOMPLETE &&
-                    (!$currentinstance || $record->timemodified > $currentinstance->get_data('timemodified'))) {
+                if (
+                    $record->status == gradingform_checklist_instance::INSTANCE_STATUS_INCOMPLETE &&
+                    (!$currentinstance || $record->timemodified > $currentinstance->get_data('timemodified'))
+                ) {
                     $record->isrestored = true;
                     return $this->get_instance($record);
                 }
@@ -227,13 +253,18 @@ class gradingform_checklist_controller extends gradingform_controller {
      * FEATURE_ADVANCED_GRADING, the user has the permission moodle/grade:managegradingforms
      * and there is an area with the active grading method set to the given plugin.
      *
-     * @param settings_navigation $settingsnav {@link settings_navigation}
-     * @param navigation_node $node {@link navigation_node}
+     * @param settings_navigation $settingsnav The settings navigation.
+     * @param navigation_node|null $node The navigation node.
      */
-    public function extend_settings_navigation(settings_navigation $settingsnav, navigation_node $node=null) {
-        $node->add(get_string('definechecklist', 'gradingform_checklist'),
-            $this->get_editor_url(), settings_navigation::TYPE_CUSTOM,
-            null, null, new \core\output\pix_icon('icon', '', 'gradingform_checklist'));
+    public function extend_settings_navigation(settings_navigation $settingsnav, ?navigation_node $node = null) {
+        $node->add(
+            get_string('definechecklist', 'gradingform_checklist'),
+            $this->get_editor_url(),
+            settings_navigation::TYPE_CUSTOM,
+            null,
+            null,
+            new \core\output\pix_icon('icon', '', 'gradingform_checklist')
+        );
     }
 
     /**
@@ -242,18 +273,23 @@ class gradingform_checklist_controller extends gradingform_controller {
      * This function is called when the context for the page is an activity module with the
      * FEATURE_ADVANCED_GRADING and there is an area with the active grading method set to the given plugin.
      *
-     * @param global_navigation $navigation {@link global_navigation}
-     * @param navigation_node $node {@link navigation_node}
+     * @param global_navigation $navigation The global navigation.
+     * @param navigation_node|null $node The navigation node.
      */
-    public function extend_navigation(global_navigation $navigation, navigation_node $node=null) {
+    public function extend_navigation(global_navigation $navigation, ?navigation_node $node = null) {
         if (has_capability('moodle/grade:managegradingforms', $this->get_context())) {
-            // no need for preview if user can manage forms, he will have link to manage.php in settings instead
+            // No need for preview if user can manage forms, he will have link to manage.php in settings instead.
             return;
         }
         if ($this->is_form_defined() && ($options = $this->get_options()) && !empty($options['alwaysshowdefinition'])) {
-            $node->add(get_string('gradingof', 'gradingform_checklist', get_grading_manager($this->get_areaid())->get_area_title()),
-                new \core\url('/grade/grading/form/'.$this->get_method_name().'/preview.php', array('areaid' => $this->get_areaid())),
-                settings_navigation::TYPE_CUSTOM);
+            $node->add(
+                get_string('gradingof', 'gradingform_checklist', get_grading_manager($this->get_areaid())->get_area_title()),
+                new \core\url(
+                    '/grade/grading/form/' . $this->get_method_name() . '/preview.php',
+                    ['areaid' => $this->get_areaid()]
+                ),
+                settings_navigation::TYPE_CUSTOM
+            );
         }
     }
 
@@ -333,7 +369,8 @@ class gradingform_checklist_controller extends gradingform_controller {
         $benchmarkhtml = $benchmark['html'] ?? '';
         $newdefinition->usebenchmark = $enabled ? 1 : 0;
         $newdefinition->removebenchmark = $enabled ? 0 : 1;
-        $newdefinition->benchmarkbuttonlabel = $benchmark['buttonlabel'] ?? get_string('benchmarkbuttondefault', 'gradingform_checklist');
+        $newdefinition->benchmarkbuttonlabel = $benchmark['buttonlabel']
+            ?? get_string('benchmarkbuttondefault', 'gradingform_checklist');
         $newdefinition->benchmarkbuttonicon = self::clean_benchmark_button_icon($benchmark['buttonicon'] ?? '');
         $newdefinition->benchmark_editor = [
             'text' => $enabled ? $benchmarkhtml : '',
@@ -363,8 +400,16 @@ class gradingform_checklist_controller extends gradingform_controller {
             if ($filename === '') {
                 continue;
             }
-            if ($fs->file_exists($this->get_context()->id, 'gradingform_checklist', 'benchmark',
-                    $this->definition->id, '/', $filename)) {
+            if (
+                $fs->file_exists(
+                    $this->get_context()->id,
+                    'gradingform_checklist',
+                    'benchmark',
+                    $this->definition->id,
+                    '/',
+                    $filename
+                )
+            ) {
                 continue;
             }
             $content = $file['content'] ?? '';
@@ -404,14 +449,14 @@ class gradingform_checklist_controller extends gradingform_controller {
     public function update_or_check_checklist(stdClass $newdefinition, $usermodified = null, $doupdate = false) {
         global $DB;
 
-        // firstly update the common definition data in the {grading_definition} table
+        // Firstly update the common definition data in the {grading_definition} table.
         if ($this->definition === false) {
             if (!$doupdate) {
-                // if we create the new definition there is no such thing as re-grading anyway
+                // If we create the new definition there is no such thing as re-grading anyway.
                 return 5;
             }
-            // if definition does not exist yet, create a blank one
-            // (we need id to save files embedded in description)
+            // If definition does not exist yet, create a blank one.
+            // We need id to save files embedded in description.
             parent::update_definition(new stdClass(), $usermodified);
             parent::load_definition();
         }
@@ -421,12 +466,19 @@ class gradingform_checklist_controller extends gradingform_controller {
         $newdefinition->checklist['options'] = self::normalise_comment_option_dependencies($newdefinition->checklist['options']);
         $newdefinition->options = json_encode($newdefinition->checklist['options']);
         $editoroptions = self::description_form_field_options($this->get_context());
-        $newdefinition = file_postupdate_standard_editor($newdefinition, 'description', $editoroptions, $this->get_context(),
-            'grading', 'description', $this->definition->id);
+        $newdefinition = file_postupdate_standard_editor(
+            $newdefinition,
+            'description',
+            $editoroptions,
+            $this->get_context(),
+            'grading',
+            'description',
+            $this->definition->id
+        );
 
-        // reload the definition from the database
+        // Reload the definition from the database.
         $currentdefinition = $this->get_definition(true);
-        $haschanges = array();
+        $haschanges = [];
         $currentbenchmark = $currentdefinition->benchmark ?? self::get_default_benchmark();
         $newbenchmark = $this->get_submitted_benchmark($newdefinition);
         if ($doupdate) {
@@ -436,25 +488,25 @@ class gradingform_checklist_controller extends gradingform_controller {
             $haschanges[1] = true;
         }
 
-        // update checklist data
+        // Update checklist data.
         if (empty($newdefinition->checklist['groups'])) {
-            $newgroups = array();
+            $newgroups = [];
         } else {
-            $newgroups = $newdefinition->checklist['groups']; // new ones to be saved
+            $newgroups = $newdefinition->checklist['groups']; // New ones to be saved.
         }
         $currentgroups = $currentdefinition->checklist_groups;
-        $groupsfields = array('sortorder', 'description');
-        $itemfields = array('score', 'sortorder', 'definition');
+        $groupsfields = ['sortorder', 'description'];
+        $itemfields = ['score', 'sortorder', 'definition'];
         foreach ($newgroups as $id => $group) {
-            // get list of submitted items
-            $itemsdata = array();
+            // Get list of submitted items.
+            $itemsdata = [];
             if (array_key_exists('items', $group)) {
                 $itemsdata = $group['items'];
             }
             $groupmaxscore = null;
             if (preg_match('/^NEWID\d+$/', $id)) {
-                // insert group into DB
-                $data = array('definitionid' => $this->definition->id);
+                // Insert group into DB.
+                $data = ['definitionid' => $this->definition->id];
                 foreach ($groupsfields as $key) {
                     if (array_key_exists($key, $group)) {
                         if ($key == 'description') {
@@ -468,8 +520,8 @@ class gradingform_checklist_controller extends gradingform_controller {
                 }
                 $haschanges[5] = true;
             } else {
-                // update group in DB
-                $data = array();
+                // Update group in DB.
+                $data = [];
                 foreach ($groupsfields as $key) {
                     if (array_key_exists($key, $group) && $key == 'description') {
                         $group[$key] = MoodleQuickForm_checklisteditor::clean_multiline_text($group[$key]);
@@ -479,21 +531,21 @@ class gradingform_checklist_controller extends gradingform_controller {
                     }
                 }
                 if (!empty($data)) {
-                    // update only if something is changed
+                    // Update only if something is changed.
                     $data['id'] = $id;
                     if ($doupdate) {
                         $DB->update_record('gradingform_checklist_groups', $data);
                     }
                     $haschanges[1] = true;
                 }
-                // remove deleted items from DB and calculate the maximum score for this groups
+                // Remove deleted items from DB and calculate the maximum score for this groups.
                 foreach ($currentgroups[$id]['items'] as $itemid => $currentitem) {
-                    // group max score is all sum of all items (all items checked)
+                    // Group max score is all sum of all items (all items checked).
                     $groupmaxscore += $currentitem['score'];
 
                     if (!array_key_exists($itemid, $itemsdata)) {
                         if ($doupdate) {
-                            $DB->delete_records('gradingform_checklist_items', array('id' => $itemid));
+                            $DB->delete_records('gradingform_checklist_items', ['id' => $itemid]);
                         }
                         $haschanges[4] = true;
                     }
@@ -507,8 +559,8 @@ class gradingform_checklist_controller extends gradingform_controller {
                     }
                 }
                 if (preg_match('/^NEWID\d+$/', $itemid)) {
-                    // insert item into DB
-                    $data = array('groupid' => $id);
+                    // Insert item into DB.
+                    $data = ['groupid' => $id];
                     foreach ($itemfields as $key) {
                         if (array_key_exists($key, $item)) {
                             if ($key == 'definition') {
@@ -521,12 +573,11 @@ class gradingform_checklist_controller extends gradingform_controller {
                         $itemid = $DB->insert_record('gradingform_checklist_items', $data);
                     }
 
-                    // additional item means that maximum group score will change
+                    // Additional item means that maximum group score will change.
                     $haschanges[3] = true;
-
                 } else {
-                    // update item in DB
-                    $data = array();
+                    // Update item in DB.
+                    $data = [];
                     foreach ($itemfields as $key) {
                         if (array_key_exists($key, $item) && $key == 'definition') {
                             $item[$key] = MoodleQuickForm_checklisteditor::clean_multiline_text($item[$key]);
@@ -536,7 +587,7 @@ class gradingform_checklist_controller extends gradingform_controller {
                         }
                     }
                     if (!empty($data)) {
-                        // update only if something is changed
+                        // Update only if something is changed.
                         $data['id'] = $itemid;
                         if ($doupdate) {
                             $DB->update_record('gradingform_checklist_items', $data);
@@ -549,17 +600,17 @@ class gradingform_checklist_controller extends gradingform_controller {
                 }
             }
         }
-        // remove deleted groups from DB
+        // Remove deleted groups from DB.
         foreach (array_keys($currentgroups) as $id) {
             if (!array_key_exists($id, $newgroups)) {
                 if ($doupdate) {
-                    $DB->delete_records('gradingform_checklist_groups', array('id' => $id));
-                    $DB->delete_records('gradingform_checklist_items', array('groupid' => $id));
+                    $DB->delete_records('gradingform_checklist_groups', ['id' => $id]);
+                    $DB->delete_records('gradingform_checklist_items', ['groupid' => $id]);
                 }
                 $haschanges[3] = true;
             }
         }
-        foreach (array('status', 'description', 'descriptionformat', 'name', 'options') as $key) {
+        foreach (['status', 'description', 'descriptionformat', 'name', 'options'] as $key) {
             if (isset($newdefinition->$key) && $newdefinition->$key != $this->definition->$key) {
                 $haschanges[1] = true;
             }
@@ -575,7 +626,7 @@ class gradingform_checklist_controller extends gradingform_controller {
             $this->save_definition_benchmark($newbenchmark);
             $this->load_definition();
         }
-        // return the maximum level of changes
+        // Return the maximum level of changes.
         $changelevels = array_keys($haschanges);
         sort($changelevels);
         return array_pop($changelevels);
@@ -593,29 +644,43 @@ class gradingform_checklist_controller extends gradingform_controller {
         $properties = new stdClass();
         $properties->areaid = $this->areaid;
         if ($definition) {
-            foreach (array('id', 'name', 'description', 'descriptionformat', 'status') as $key) {
+            foreach (['id', 'name', 'description', 'descriptionformat', 'status'] as $key) {
                 $properties->$key = $definition->$key;
             }
             $options = self::description_form_field_options($this->get_context());
-            $properties = file_prepare_standard_editor($properties, 'description', $options, $this->get_context(),
-                'grading', 'description', $definition->id);
+            $properties = file_prepare_standard_editor(
+                $properties,
+                'description',
+                $options,
+                $this->get_context(),
+                'grading',
+                'description',
+                $definition->id
+            );
             $benchmark = (object) ($definition->benchmark ?? self::get_default_benchmark());
             $hasbenchmark = trim((string)($benchmark->benchmark ?? '')) !== '';
             $benchmark->benchmarkformat = $benchmark->benchmarkformat ?? FORMAT_HTML;
-            $benchmark = file_prepare_standard_editor($benchmark, 'benchmark',
-                self::benchmark_form_field_options($this->get_context()), $this->get_context(),
-                'gradingform_checklist', 'benchmark', $definition->id);
+            $benchmark = file_prepare_standard_editor(
+                $benchmark,
+                'benchmark',
+                self::benchmark_form_field_options($this->get_context()),
+                $this->get_context(),
+                'gradingform_checklist',
+                'benchmark',
+                $definition->id
+            );
             $properties->usebenchmark = $hasbenchmark ? 1 : 0;
             $properties->removebenchmark = 0;
             $properties->benchmark_editor = $benchmark->benchmark_editor;
-            $properties->benchmarkbuttonlabel = $benchmark->buttonlabel ?? get_string('benchmarkbuttondefault', 'gradingform_checklist');
+            $properties->benchmarkbuttonlabel = $benchmark->buttonlabel
+                ?? get_string('benchmarkbuttondefault', 'gradingform_checklist');
             $properties->benchmarkbuttonicon = self::clean_benchmark_button_icon($benchmark->buttonicon ?? '');
         }
-        $properties->checklist = array('groups' => array(), 'options' => $this->get_options());
+        $properties->checklist = ['groups' => [], 'options' => $this->get_options()];
         if (!empty($definition->checklist_groups)) {
             $properties->checklist['groups'] = $definition->checklist_groups;
         } else if (!$definition && $addemptygroup) {
-            $properties->checklist['groups'] = array('addgroup' => 1);
+            $properties->checklist['groups'] = ['addgroup' => 1];
         }
 
         return $properties;
@@ -626,7 +691,7 @@ class gradingform_checklist_controller extends gradingform_controller {
      *
      * @see parent::get_definition_copy()
      * @param gradingform_controller $target the controller of the new copy
-     * @return stdClass definition structure to pass to the target's {@link update_definition()}
+     * @return stdClass definition structure to pass to the target's update_definition().
      */
     public function get_definition_copy(gradingform_controller $target) {
 
@@ -638,22 +703,22 @@ class gradingform_checklist_controller extends gradingform_controller {
         $new->removebenchmark = 0;
         $new->benchmarkbuttonlabel = $old->benchmarkbuttonlabel ?? get_string('benchmarkbuttondefault', 'gradingform_checklist');
         $new->benchmarkbuttonicon = self::clean_benchmark_button_icon($old->benchmarkbuttonicon ?? '');
-        $new->checklist = array('groups' => array(), 'options' => $old->checklist['options']);
+        $new->checklist = ['groups' => [], 'options' => $old->checklist['options']];
         $newgroupid = 1;
         $newitemid = 1;
-        foreach ($old->checklist['groups'] as  $oldgroup) {
+        foreach ($old->checklist['groups'] as $oldgroup) {
             unset($oldgroup['id']);
             if (isset($oldgroup['items'])) {
                 foreach ($oldgroup['items'] as $olditemid => $olditem) {
                     unset($olditem['id']);
-                    $oldgroup['items']['NEWID'.$newitemid] = $olditem;
+                    $oldgroup['items']['NEWID' . $newitemid] = $olditem;
                     unset($oldgroup['items'][$olditemid]);
                     $newitemid++;
                 }
             } else {
-                $oldgroup['items'] = array();
+                $oldgroup['items'] = [];
             }
-            $new->checklist['groups']['NEWID'.$newgroupid] = $oldgroup;
+            $new->checklist['groups']['NEWID' . $newgroupid] = $oldgroup;
             $newgroupid++;
         }
 
@@ -859,15 +924,22 @@ class gradingform_checklist_controller extends gradingform_controller {
         $context = $this->get_context();
 
         $options = self::description_form_field_options($this->get_context());
-        $description = file_rewrite_pluginfile_urls($this->definition->description, 'pluginfile.php', $context->id,
-            'grading', 'description', $this->definition->id, $options);
+        $description = file_rewrite_pluginfile_urls(
+            $this->definition->description,
+            'pluginfile.php',
+            $context->id,
+            'grading',
+            'description',
+            $this->definition->id,
+            $options
+        );
 
-        $formatoptions = array(
+        $formatoptions = [
             'noclean' => false,
             'trusted' => false,
             'filter' => true,
-            'context' => $context
-        );
+            'context' => $context,
+        ];
         return format_text($description, $this->definition->descriptionformat, $formatoptions);
     }
 
@@ -877,8 +949,8 @@ class gradingform_checklist_controller extends gradingform_controller {
     public function mark_for_regrade() {
         global $DB;
         if ($this->has_active_instances()) {
-            $conditions = array('definitionid'  => $this->definition->id,
-                'status'  => gradingform_instance::INSTANCE_STATUS_ACTIVE);
+            $conditions = ['definitionid'  => $this->definition->id,
+                'status'  => gradingform_instance::INSTANCE_STATUS_ACTIVE];
             $DB->set_field('grading_instances', 'status', gradingform_instance::INSTANCE_STATUS_NEEDUPDATE, $conditions);
         }
     }
@@ -901,16 +973,18 @@ class gradingform_checklist_controller extends gradingform_controller {
              LEFT JOIN {gradingform_checklist_items} cli ON (cli.groupid = clg.id)
                  WHERE gd.areaid = :areaid AND gd.method = :method
               ORDER BY clg.sortorder, cli.sortorder";
-        $params = array('areaid' => $this->areaid, 'method' => $this->get_method_name());
+        $params = ['areaid' => $this->areaid, 'method' => $this->get_method_name()];
 
         $rs = $DB->get_recordset_sql($sql, $params);
         $this->definition = false;
         foreach ($rs as $record) {
-            // pick the common definition data
+            // Pick the common definition data.
             if ($this->definition === false) {
                 $this->definition = new stdClass();
-                foreach (array('id', 'name', 'description', 'descriptionformat', 'status', 'copiedfromid',
-                             'timecreated', 'usercreated', 'timemodified', 'usermodified', 'timecopied', 'options') as $fieldname) {
+                foreach (
+                    ['id', 'name', 'description', 'descriptionformat', 'status', 'copiedfromid',
+                             'timecreated', 'usercreated', 'timemodified', 'usermodified', 'timecopied', 'options'] as $fieldname
+                ) {
                     $this->definition->$fieldname = $record->$fieldname;
                 }
                 $this->definition->benchmark = self::get_default_benchmark();
@@ -922,21 +996,21 @@ class gradingform_checklist_controller extends gradingform_controller {
                         'buttonicon' => self::clean_benchmark_button_icon($record->cbbuttonicon ?? ''),
                     ];
                 }
-                $this->definition->checklist_groups = array();
+                $this->definition->checklist_groups = [];
             }
-            // pick the groups data
+            // Pick the groups data.
             if (!empty($record->clgid) && empty($this->definition->checklist_groups[$record->clgid])) {
-                foreach (array('id', 'sortorder', 'description') as $fieldname) {
-                    $this->definition->checklist_groups[$record->clgid][$fieldname] = $record->{'clg'.$fieldname};
+                foreach (['id', 'sortorder', 'description'] as $fieldname) {
+                    $this->definition->checklist_groups[$record->clgid][$fieldname] = $record->{'clg' . $fieldname};
                 }
-                $this->definition->checklist_groups[$record->clgid]['items'] = array();
+                $this->definition->checklist_groups[$record->clgid]['items'] = [];
             }
-            // pick the items data
+            // Pick the items data.
             if (!empty($record->cliid)) {
-                foreach (array('id', 'score', 'sortorder', 'definition') as $fieldname) {
-                    $value = $record->{'cli'.$fieldname};
+                foreach (['id', 'score', 'sortorder', 'definition'] as $fieldname) {
+                    $value = $record->{'cli' . $fieldname};
                     if ($fieldname == 'score') {
-                        $value = (float)$value; // To prevent display like 1.00000
+                        $value = (float)$value; // To prevent display like 1.00000.
                     }
                     $this->definition->checklist_groups[$record->clgid]['items'][$record->cliid][$fieldname] = $value;
                 }
@@ -968,7 +1042,7 @@ class gradingform_checklist_controller extends gradingform_controller {
         if (!$this->is_form_available()) {
             return null;
         }
-        $returnvalue = array('minscore' => 0, 'maxscore' => 0);
+        $returnvalue = ['minscore' => 0, 'maxscore' => 0];
         foreach ($this->get_definition()->checklist_groups as $group) {
             foreach ($group['items'] as $item) {
                 $returnvalue['maxscore'] += $item['score'];
@@ -977,7 +1051,7 @@ class gradingform_checklist_controller extends gradingform_controller {
         return $returnvalue;
     }
 
-    //// full-text search support /////////////////////////////////////////////
+    // Full-text search support.
 
     /**
      * Prepare the part of the search query to append to the FROM statement
@@ -1003,18 +1077,18 @@ class gradingform_checklist_controller extends gradingform_controller {
     public static function sql_search_where($token) {
         global $DB;
 
-        $subsql = array();
-        $params = array();
+        $subsql = [];
+        $params = [];
 
-        // search in checklist group description
+        // Search in checklist group description.
         $subsql[] = $DB->sql_like('clg.description', '?', false, false);
-        $params[] = '%'.$DB->sql_like_escape($token).'%';
+        $params[] = '%' . $DB->sql_like_escape($token) . '%';
 
-        // search in checklist item definition
+        // Search in checklist item definition.
         $subsql[] = $DB->sql_like('cli.definition', '?', false, false);
-        $params[] = '%'.$DB->sql_like_escape($token).'%';
+        $params[] = '%' . $DB->sql_like_escape($token) . '%';
 
-        return array($subsql, $params);
+        return [$subsql, $params];
     }
 
     /**
@@ -1025,13 +1099,13 @@ class gradingform_checklist_controller extends gradingform_controller {
      */
     public static function benchmark_form_field_options($context) {
         global $CFG;
-        return array(
+        return [
             'maxfiles' => -1,
             'maxbytes' => get_max_upload_file_size($CFG->maxbytes),
             'context' => $context,
             'trusttext' => false,
             'subdirs' => 0,
-        );
+        ];
     }
 
     /**
@@ -1042,11 +1116,11 @@ class gradingform_checklist_controller extends gradingform_controller {
      */
     public static function description_form_field_options($context) {
         global $CFG;
-        return array(
+        return [
             'maxfiles' => -1,
             'maxbytes' => get_max_upload_file_size($CFG->maxbytes),
             'context'  => $context,
-        );
+        ];
     }
 
     /**
@@ -1065,8 +1139,7 @@ class gradingform_checklist_controller extends gradingform_controller {
      * @return bool
      */
     public static function observation_enabled(array $options): bool {
-        return !empty($options['observationmode'])
-            && $options['observationmode'] !== self::OBSERVATION_MODE_DISABLED;
+        return option_policy::observation_enabled($options);
     }
 
     /**
@@ -1076,12 +1149,7 @@ class gradingform_checklist_controller extends gradingform_controller {
      * @return string
      */
     public static function clean_observation_mode(?string $mode): string {
-        $valid = array(
-            self::OBSERVATION_MODE_DISABLED,
-            self::OBSERVATION_MODE_DATE,
-            self::OBSERVATION_MODE_DATETIME,
-        );
-        return in_array($mode, $valid, true) ? $mode : self::OBSERVATION_MODE_DISABLED;
+        return option_policy::clean_observation_mode($mode);
     }
 
     /**
@@ -1091,8 +1159,7 @@ class gradingform_checklist_controller extends gradingform_controller {
      * @return string
      */
     public static function clean_observation_default(?string $default): string {
-        $valid = array(self::OBSERVATION_DEFAULT_NOW, self::OBSERVATION_DEFAULT_BLANK);
-        return in_array($default, $valid, true) ? $default : self::OBSERVATION_DEFAULT_NOW;
+        return option_policy::clean_observation_default($default);
     }
 
     /**
@@ -1103,10 +1170,7 @@ class gradingform_checklist_controller extends gradingform_controller {
      * @return string
      */
     public static function format_observation_date(int $timestamp, string $mode): string {
-        if ($mode === self::OBSERVATION_MODE_DATE) {
-            return userdate($timestamp, get_string('strftimedate', 'langconfig'));
-        }
-        return userdate($timestamp, get_string('strftimedatetime', 'langconfig'));
+        return option_policy::format_observation_date($timestamp, $mode);
     }
 
     /**
@@ -1118,8 +1182,7 @@ class gradingform_checklist_controller extends gradingform_controller {
      * @return string
      */
     public static function format_observation_date_input(int $timestamp): string {
-        $date = usergetdate($timestamp);
-        return sprintf('%04d-%02d-%02d', $date['year'], $date['mon'], $date['mday']);
+        return option_policy::format_observation_date_input($timestamp);
     }
 
     /**
@@ -1131,8 +1194,7 @@ class gradingform_checklist_controller extends gradingform_controller {
      * @return string
      */
     public static function format_observation_time_input(int $timestamp): string {
-        $date = usergetdate($timestamp);
-        return sprintf('%02d:%02d', $date['hours'], $date['minutes']);
+        return option_policy::format_observation_time_input($timestamp);
     }
 
     /**
@@ -1142,15 +1204,7 @@ class gradingform_checklist_controller extends gradingform_controller {
      * @return array
      */
     public static function normalise_comment_option_dependencies(array $options): array {
-        if (empty($options['enableitemremarks'])) {
-            $options['requireitemcommentschecked'] = 0;
-            $options['requireatleastoneitemcomment'] = 0;
-        }
-        if (empty($options['enablegroupremarks'])) {
-            $options['requiregroupcommentschecked'] = 0;
-            $options['requireatleastonegroupcomment'] = 0;
-        }
-        return $options;
+        return option_policy::normalise_comment_dependencies($options);
     }
 
     /**
@@ -1180,10 +1234,7 @@ class gradingform_checklist_controller extends gradingform_controller {
      * @return string
      */
     public static function get_group_remark_heading(array $options): string {
-        if (!empty($options['groupremarkheading'])) {
-            return trim(clean_param($options['groupremarkheading'], PARAM_TEXT));
-        }
-        return get_string('groupremarkheadingdefault', 'gradingform_checklist');
+        return option_policy::group_remark_heading($options);
     }
 
     /**
@@ -1195,118 +1246,7 @@ class gradingform_checklist_controller extends gradingform_controller {
      * @return array structured error data
      */
     public static function get_required_comment_errors(array $groups, array $options, array $value): array {
-        $options = self::normalise_comment_option_dependencies($options);
-        $requireitemcommentschecked = !empty($options['requireitemcommentschecked']);
-        $requireatleastoneitemcomment = !empty($options['requireatleastoneitemcomment']);
-        $requiregroupcommentschecked = !empty($options['requiregroupcommentschecked']);
-        $requireatleastonegroupcomment = !empty($options['requireatleastonegroupcomment']);
-
-        if (!$requireitemcommentschecked && !$requireatleastoneitemcomment
-                && !$requiregroupcommentschecked && !$requireatleastonegroupcomment) {
-            return array();
-        }
-
-        $hascheckeditem = false;
-        $hascheckeditemremark = false;
-        $hascheckedgroupremark = false;
-        $missingcheckeditemremarks = array();
-        $missingcheckedgroupremarks = array();
-        $firstcheckeditem = null;
-        $firstcheckedgroup = null;
-
-        foreach ($groups as $groupid => $group) {
-            $submittedgroup = $value['groups'][$groupid] ?? array('items' => array());
-            $submitteditems = $submittedgroup['items'] ?? array();
-            $groupcontainscheckeditem = false;
-
-            foreach ($group['items'] as $itemid => $item) {
-                $submitteditem = $submitteditems[$itemid] ?? array();
-                $ischecked = !empty($submitteditem['id']) || !empty($submitteditem['checked']);
-
-                if (!$ischecked) {
-                    continue;
-                }
-
-                $hascheckeditem = true;
-                $groupcontainscheckeditem = true;
-                if ($firstcheckeditem === null) {
-                    $firstcheckeditem = array(
-                        'rule' => '',
-                        'groupid' => $groupid,
-                        'group' => $group['description'] ?? '',
-                        'itemid' => $itemid,
-                        'item' => $item['definition'] ?? '',
-                        'fieldtype' => 'item',
-                    );
-                }
-
-                $remark = '';
-                if (isset($submitteditem['remark'])) {
-                    $remark = trim(clean_param($submitteditem['remark'], PARAM_TEXT));
-                }
-
-                if ($remark === '') {
-                    $missingcheckeditemremarks[] = array(
-                        'rule' => 'err_requireitemcommentschecked',
-                        'groupid' => $groupid,
-                        'group' => $group['description'] ?? '',
-                        'itemid' => $itemid,
-                        'item' => $item['definition'] ?? '',
-                        'fieldtype' => 'item',
-                    );
-                } else {
-                    $hascheckeditemremark = true;
-                }
-            }
-
-            if ($groupcontainscheckeditem) {
-                if ($firstcheckedgroup === null) {
-                    $firstcheckedgroup = array(
-                        'rule' => '',
-                        'groupid' => $groupid,
-                        'group' => $group['description'] ?? '',
-                        'itemid' => 0,
-                        'item' => '',
-                        'fieldtype' => 'group',
-                    );
-                }
-                $groupremark = '';
-                if (isset($submitteditems[0]['remark'])) {
-                    $groupremark = trim(clean_param($submitteditems[0]['remark'], PARAM_TEXT));
-                }
-
-                if ($groupremark === '') {
-                    $missingcheckedgroupremarks[] = array(
-                        'rule' => 'err_requiregroupcommentschecked',
-                        'groupid' => $groupid,
-                        'group' => $group['description'] ?? '',
-                        'itemid' => 0,
-                        'item' => '',
-                        'fieldtype' => 'group',
-                    );
-                } else {
-                    $hascheckedgroupremark = true;
-                }
-            }
-        }
-
-        $errors = array();
-        if ($requireitemcommentschecked) {
-            $errors = array_merge($errors, $missingcheckeditemremarks);
-        }
-        if ($requireatleastoneitemcomment && $hascheckeditem && !$hascheckeditemremark) {
-            $firstcheckeditem['rule'] = 'err_requireatleastoneitemcomment';
-            $errors[] = $firstcheckeditem;
-        }
-        if ($requiregroupcommentschecked) {
-            $errors = array_merge($errors, $missingcheckedgroupremarks);
-        }
-        if ($requireatleastonegroupcomment && $hascheckeditem && !$hascheckedgroupremark) {
-            $firstcheckedgroup['rule'] = 'err_requireatleastonegroupcomment';
-            $errors[] = $firstcheckedgroup;
-        }
-
-        return $errors;
+        return option_policy::required_comment_errors($groups, $options, $value);
     }
 
     /**
@@ -1317,10 +1257,7 @@ class gradingform_checklist_controller extends gradingform_controller {
      * @return string
      */
     public static function get_required_comment_error_field_id(array $error, string $elementname): string {
-        if (($error['fieldtype'] ?? '') === 'group') {
-            return $elementname.'-groups-'.$error['groupid'].'-items-0-remark';
-        }
-        return $elementname.'-groups-'.$error['groupid'].'-items-'.$error['itemid'].'-remark-input';
+        return option_policy::error_field_id($error, $elementname);
     }
 
     /**
@@ -1330,11 +1267,7 @@ class gradingform_checklist_controller extends gradingform_controller {
      * @return string
      */
     public static function format_required_comment_error(array $error): string {
-        $a = (object) array(
-            'group' => $error['group'] ?? '',
-            'item' => $error['item'] ?? '',
-        );
-        return get_string($error['rule'], 'gradingform_checklist', $a);
+        return option_policy::format_error($error);
     }
 
     /**
@@ -1426,7 +1359,7 @@ class gradingform_checklist_controller extends gradingform_controller {
  * @param array $options file serving options
  * @return bool
  */
-function gradingform_checklist_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = array()) {
+function gradingform_checklist_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = []) {
     if ($filearea !== 'benchmark') {
         return false;
     }
@@ -1436,7 +1369,7 @@ function gradingform_checklist_pluginfile($course, $cm, $context, $filearea, $ar
     }
     $itemid = array_shift($args);
     $filename = array_pop($args);
-    $filepath = $args ? '/'.implode('/', $args).'/' : '/';
+    $filepath = $args ? '/' . implode('/', $args) . '/' : '/';
     $fs = get_file_storage();
     $file = $fs->get_file($context->id, 'gradingform_checklist', $filearea, $itemid, $filepath, $filename);
     if (!$file) {
@@ -1452,11 +1385,14 @@ function gradingform_checklist_pluginfile($course, $cm, $context, $filearea, $ar
  * @copyright  2011 Marina Glancy
  * @copyright  Copyright (c) 2012 Open LMS (https://www.openlms.net)
  */
-class gradingform_checklist_instance extends gradingform_instance {
-
+/**
+ * Manages one checklist grading instance.
+ */
+class gradingform_checklist_instance extends gradingform_instance { // phpcs:ignore PSR1.Classes.ClassDeclaration.MultipleClasses
+    /** @var array Checklist definition data. */
     protected $checklist;
     /** @var array Required-comment validation errors from the most recent validation. */
-    protected $requiredcommenterrors = array();
+    protected $requiredcommenterrors = [];
     /** @var bool Whether the most recent validation failed because the observation date was missing. */
     protected $observationdateerror = false;
 
@@ -1467,8 +1403,8 @@ class gradingform_checklist_instance extends gradingform_instance {
         global $DB;
 
         parent::cancel();
-        $DB->delete_records('gradingform_checklist_fills', array('instanceid' => $this->get_id()));
-        $DB->delete_records('gradingform_checklist_obs', array('instanceid' => $this->get_id()));
+        $DB->delete_records('gradingform_checklist_fills', ['instanceid' => $this->get_id()]);
+        $DB->delete_records('gradingform_checklist_obs', ['instanceid' => $this->get_id()]);
     }
 
     /**
@@ -1485,18 +1421,18 @@ class gradingform_checklist_instance extends gradingform_instance {
         $currentgrade = $this->get_checklist_filling();
         foreach ($currentgrade['groups'] as $groupid => $group) {
             foreach ($group['items'] as $record) {
-                $params = array('instanceid' => $instanceid, 'groupid' => $groupid,
+                $params = ['instanceid' => $instanceid, 'groupid' => $groupid,
                         'itemid' => $record['itemid'], 'checked' => $record['checked'], 'remark' => $record['remark'],
-                        'remarkformat' => $record['remarkformat']);
+                        'remarkformat' => $record['remarkformat']];
                 $DB->insert_record('gradingform_checklist_fills', $params);
             }
         }
         if (!empty($currentgrade['observation']['observationdate'])) {
-            $DB->insert_record('gradingform_checklist_obs', array(
+            $DB->insert_record('gradingform_checklist_obs', [
                 'instanceid' => $instanceid,
                 'observationdate' => $currentgrade['observation']['observationdate'],
                 'observationmode' => $currentgrade['observation']['observationmode'],
-            ));
+            ]);
         }
         return $instanceid;
     }
@@ -1511,15 +1447,15 @@ class gradingform_checklist_instance extends gradingform_instance {
         global $DB;
 
         if ($this->checklist === null || $force) {
-            $records = $DB->get_records('gradingform_checklist_fills', array('instanceid' => $this->get_id()));
-            $this->checklist = array('groups' => array());
+            $records = $DB->get_records('gradingform_checklist_fills', ['instanceid' => $this->get_id()]);
+            $this->checklist = ['groups' => []];
             foreach ($records as $record) {
                 if (empty($this->checklist['groups'][$record->groupid])) {
-                    $this->checklist['groups'][$record->groupid] = array('items' => array());
+                    $this->checklist['groups'][$record->groupid] = ['items' => []];
                 }
                 $this->checklist['groups'][$record->groupid]['items'][$record->itemid] = (array)$record;
             }
-            $observation = $DB->get_record('gradingform_checklist_obs', array('instanceid' => $this->get_id()));
+            $observation = $DB->get_record('gradingform_checklist_obs', ['instanceid' => $this->get_id()]);
             if ($observation) {
                 $this->checklist['observation'] = (array)$observation;
             }
@@ -1576,7 +1512,7 @@ class gradingform_checklist_instance extends gradingform_instance {
 
         $options = $this->get_controller()->get_options();
         if (!gradingform_checklist_controller::observation_enabled($options)) {
-            $DB->delete_records('gradingform_checklist_obs', array('instanceid' => $this->get_id()));
+            $DB->delete_records('gradingform_checklist_obs', ['instanceid' => $this->get_id()]);
             return;
         }
 
@@ -1589,12 +1525,12 @@ class gradingform_checklist_instance extends gradingform_instance {
             return;
         }
 
-        $record = $DB->get_record('gradingform_checklist_obs', array('instanceid' => $this->get_id()));
-        $newrecord = array(
+        $record = $DB->get_record('gradingform_checklist_obs', ['instanceid' => $this->get_id()]);
+        $newrecord = [
             'instanceid' => $this->get_id(),
             'observationdate' => $timestamp,
             'observationmode' => $mode,
-        );
+        ];
         if ($record) {
             $newrecord['id'] = $record->id;
             $DB->update_record('gradingform_checklist_obs', $newrecord);
@@ -1618,22 +1554,25 @@ class gradingform_checklist_instance extends gradingform_instance {
         $this->update_observation_date($data);
 
         foreach ($data['groups'] as $groupid => $group) {
-            foreach($group['items'] as $itemid => $record) {
+            foreach ($group['items'] as $itemid => $record) {
                 $record['remarkformat'] = FORMAT_HTML;
-                //handle deletions later
+                // Handle deletions later.
                 if (empty($record['remark']) && empty($record['id'])) {
                     continue;
                 }
-                if (!array_key_exists($groupid, $currentgrade['groups']) || !array_key_exists($itemid, $currentgrade['groups'][$groupid]['items'])) {
-                    $newrecord = array('instanceid' => $this->get_id(), 'groupid' => $groupid,
-                        'itemid' => $itemid, 'checked' => !empty($record['id']), 'remarkformat' => $record['remarkformat']);
+                $groupmissing = !array_key_exists($groupid, $currentgrade['groups']);
+                $itemmissing = !$groupmissing
+                    && !array_key_exists($itemid, $currentgrade['groups'][$groupid]['items']);
+                if ($groupmissing || $itemmissing) {
+                    $newrecord = ['instanceid' => $this->get_id(), 'groupid' => $groupid,
+                        'itemid' => $itemid, 'checked' => !empty($record['id']), 'remarkformat' => $record['remarkformat']];
                     if (isset($record['remark'])) {
                         $newrecord['remark'] = clean_param($record['remark'], PARAM_TEXT);
                     }
                     $DB->insert_record('gradingform_checklist_fills', $newrecord);
                 } else {
-                    $newrecord = array('id' => $currentgrade['groups'][$groupid]['items'][$itemid]['id']);
-                    foreach (array('remark', 'remarkformat') as $key) {
+                    $newrecord = ['id' => $currentgrade['groups'][$groupid]['items'][$itemid]['id']];
+                    foreach (['remark', 'remarkformat'] as $key) {
                         if (isset($record[$key]) && $key == 'remark') {
                             $record[$key] = clean_param($record[$key], PARAM_TEXT);
                         }
@@ -1654,12 +1593,13 @@ class gradingform_checklist_instance extends gradingform_instance {
             }
         }
 
-        // take care of unchecked items / deleted comments
+        // Take care of unchecked items / deleted comments.
         foreach ($currentgrade['groups'] as $groupid => $group) {
-            foreach($group['items'] as $itemid => $record) {
-                // if the 'id' and 'remark' elements are empty then it is not checked and there is no comment
-                if (empty($data['groups'][$groupid]['items'][$itemid]['id']) && empty($data['groups'][$groupid]['items'][$itemid]['remark'])) {
-                    $DB->delete_records('gradingform_checklist_fills', array('id' => $record['id']));
+            foreach ($group['items'] as $itemid => $record) {
+                // If the 'id' and 'remark' elements are empty then it is not checked and there is no comment.
+                $itemdata = $data['groups'][$groupid]['items'][$itemid];
+                if (empty($itemdata['id']) && empty($itemdata['remark'])) {
+                    $DB->delete_records('gradingform_checklist_fills', ['id' => $record['id']]);
                 }
             }
         }
@@ -1674,7 +1614,7 @@ class gradingform_checklist_instance extends gradingform_instance {
      * @return bool
      */
     public function validate_grading_element($elementvalue) {
-        $this->requiredcommenterrors = array();
+        $this->requiredcommenterrors = [];
         $this->observationdateerror = false;
 
         if (!isset($elementvalue['groups']) || !is_array($elementvalue['groups'])) {
@@ -1716,12 +1656,12 @@ class gradingform_checklist_instance extends gradingform_instance {
      * @return array
      */
     public function get_required_comment_validation_error_messages(?string $elementname = null): array {
-        $messages = array();
+        $messages = [];
         foreach ($this->requiredcommenterrors as $error) {
             $message = gradingform_checklist_controller::format_required_comment_error($error);
             if ($elementname !== null) {
                 $fieldid = gradingform_checklist_controller::get_required_comment_error_field_id($error, $elementname);
-                $message = \core\output\html_writer::link('#'.$fieldid, $message);
+                $message = \core\output\html_writer::link('#' . $fieldid, $message);
             }
             $messages[] = $message;
         }
@@ -1739,7 +1679,7 @@ class gradingform_checklist_instance extends gradingform_instance {
         if ($this->observationdateerror) {
             $message = get_string('err_observationdate', 'gradingform_checklist');
             if ($elementname !== null) {
-                $message = \core\output\html_writer::link('#'.$elementname.'-observation-date', $message);
+                $message = \core\output\html_writer::link('#' . $elementname . '-observation-date', $message);
             }
             $messages[] = $message;
         }
@@ -1823,14 +1763,16 @@ class gradingform_checklist_instance extends gradingform_instance {
         $curscore = 0;
         foreach ($grade['groups'] as $groupid => $group) {
             foreach ($group['items'] as $itemid => $record) {
-                // itemid of 0 means a group remark, not used for scoring; also make sure it is checked
+                // Itemid of 0 means a group remark, not used for scoring; also make sure it is checked.
                 if (!empty($itemid) && !empty($record['checked'])) {
-                    $curscore += $this->get_controller()->get_definition()->checklist_groups[$groupid]['items'][$record['itemid']]['score'];
+                    $item = $this->get_controller()->get_definition()
+                        ->checklist_groups[$groupid]['items'][$record['itemid']];
+                    $curscore += $item['score'];
                 }
             }
         }
 
-        $gradeoffset = ($curscore-$scores['minscore'])/($scores['maxscore']-$scores['minscore'])*($maxgrade-$mingrade);
+        $gradeoffset = ($curscore - $scores['minscore']) / ($scores['maxscore'] - $scores['minscore']) * ($maxgrade - $mingrade);
         if ($this->get_controller()->get_allow_grade_decimals()) {
             return $gradeoffset + $mingrade;
         }
@@ -1846,14 +1788,19 @@ class gradingform_checklist_instance extends gradingform_instance {
      */
     public function render_grading_element($page, $gradingformelement) {
         if (!$gradingformelement->_flagFrozen) {
-            $module = array('name'=>'gradingform_checklist', 'fullpath'=>'/grade/grading/form/checklist/js/checklist.js',
-                'strings' => array(
-                    array('tickall', 'gradingform_checklist'),
-                    array('untickall', 'gradingform_checklist'),
-                    array('benchmark', 'gradingform_checklist'),
-                    array('closebenchmark', 'gradingform_checklist'),
-                ));
-            $page->requires->js_init_call('M.gradingform_checklist.init', array(array('name' => $gradingformelement->getName())), true, $module);
+            $module = ['name' => 'gradingform_checklist', 'fullpath' => '/grade/grading/form/checklist/js/checklist.js',
+                'strings' => [
+                    ['tickall', 'gradingform_checklist'],
+                    ['untickall', 'gradingform_checklist'],
+                    ['benchmark', 'gradingform_checklist'],
+                    ['closebenchmark', 'gradingform_checklist'],
+                ]];
+            $page->requires->js_init_call(
+                'M.gradingform_checklist.init',
+                [['name' => $gradingformelement->getName()]],
+                true,
+                $module
+            );
             $mode = gradingform_checklist_controller::DISPLAY_EVAL;
         } else {
             if ($gradingformelement->_persistantFreeze) {
@@ -1875,14 +1822,15 @@ class gradingform_checklist_instance extends gradingform_instance {
         if ($submitted && !$this->validate_grading_element($value)) {
             $errors = $this->get_grading_validation_error_messages($gradingformelement->getName());
             $message = empty($errors) ? get_string('checklistnotcompleted', 'gradingform_checklist') : implode('<br />', $errors);
-            $html .= \core\output\html_writer::tag('div', $message, array(
+            $html .= \core\output\html_writer::tag('div', $message, [
                 'class' => 'gradingform_checklist-error',
                 'role' => 'alert',
-            ));
+            ]);
             if ($this->has_observation_date_validation_error()) {
-                $fieldid = $gradingformelement->getName().'-observation-date';
-                $html .= \core\output\html_writer::tag('script',
-                    "require(['jquery'], function($) { $('#'+".json_encode($fieldid).").focus(); });"
+                $fieldid = $gradingformelement->getName() . '-observation-date';
+                $html .= \core\output\html_writer::tag(
+                    'script',
+                    "require(['jquery'], function($) { $('#'+" . json_encode($fieldid) . ").focus(); });"
                 );
             } else if (!empty($this->requiredcommenterrors)) {
                 $requiredcommenterrors = $this->requiredcommenterrors;
@@ -1890,21 +1838,26 @@ class gradingform_checklist_instance extends gradingform_instance {
                     reset($requiredcommenterrors),
                     $gradingformelement->getName()
                 );
-                $html .= \core\output\html_writer::tag('script',
-                    "require(['jquery'], function($) { $('#'+".json_encode($fieldid).").focus(); });"
+                $html .= \core\output\html_writer::tag(
+                    'script',
+                    "require(['jquery'], function($) { $('#'+" . json_encode($fieldid) . ").focus(); });"
                 );
             }
         }
         $currentinstance = $this->get_current_instance();
         if ($currentinstance && $currentinstance->get_status() == gradingform_instance::INSTANCE_STATUS_NEEDUPDATE) {
-            $html .= \core\output\html_writer::tag('div', get_string('needregrademessage', 'gradingform_checklist'), array('class' => 'gradingform_checklist-regrade'));
+            $html .= \core\output\html_writer::tag(
+                'div',
+                get_string('needregrademessage', 'gradingform_checklist'),
+                ['class' => 'gradingform_checklist-regrade']
+            );
         }
         $haschanges = false;
         if ($currentinstance) {
             $curfilling = $currentinstance->get_checklist_filling();
             foreach ($curfilling['groups'] as $groupid => $group) {
                 foreach ($group['items'] as $itemid => $item) {
-                    // the saved checked status
+                    // The saved checked status.
                     $value['groups'][$groupid]['items'][$itemid]['savedchecked'] = !empty($item['checked']);
                     $newremark = null;
                     $newchecked = null;
@@ -1921,18 +1874,31 @@ class gradingform_checklist_instance extends gradingform_instance {
             }
         }
         if ($this->get_data('isrestored') && $haschanges) {
-            $html .= \core\output\html_writer::tag('div', get_string('restoredfromdraft', 'gradingform_checklist'), array('class' => 'gradingform_checklist-restored'));
+            $html .= \core\output\html_writer::tag(
+                'div',
+                get_string('restoredfromdraft', 'gradingform_checklist'),
+                ['class' => 'gradingform_checklist-restored']
+            );
         }
 
-        $html .= \core\output\html_writer::tag('div', $this->get_controller()->get_formatted_description(), array('class' => 'gradingform_checklist-description clearfix'));
+        $html .= \core\output\html_writer::tag(
+            'div',
+            $this->get_controller()->get_formatted_description(),
+            ['class' => 'gradingform_checklist-description clearfix']
+        );
         if ($mode != gradingform_checklist_controller::DISPLAY_VIEW) {
             $html .= $this->get_controller()->get_renderer($page)->display_benchmark_button(
                 $this->get_controller()->get_formatted_benchmark()
             );
         }
 
-        $html .= $this->get_controller()->get_renderer($page)->display_checklist($groups, $options, $mode, $gradingformelement->getName(), $value);
+        $html .= $this->get_controller()->get_renderer($page)->display_checklist(
+            $groups,
+            $options,
+            $mode,
+            $gradingformelement->getName(),
+            $value
+        );
         return $html;
     }
-
 }

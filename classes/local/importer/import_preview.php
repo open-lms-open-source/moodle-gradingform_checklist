@@ -5,6 +5,14 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Checklist import preview rendering.
@@ -24,7 +32,6 @@ require_once($CFG->dirroot . '/grade/grading/form/checklist/lib.php');
  * Renders canonical checklist import data for confirmation before import.
  */
 class import_preview {
-
     /**
      * Renders a preview of canonical import data.
      *
@@ -47,9 +54,14 @@ class import_preview {
         $html .= self::benchmark($data['benchmark'] ?? [], $page);
 
         $renderer = $page->get_renderer('gradingform_checklist');
-        $html .= \html_writer::tag('div',
-            $renderer->display_checklist($groups, $options, \gradingform_checklist_controller::DISPLAY_PREVIEW,
-                'importpreviewchecklist'),
+        $html .= \html_writer::tag(
+            'div',
+            $renderer->display_checklist(
+                $groups,
+                $options,
+                \gradingform_checklist_controller::DISPLAY_PREVIEW,
+                'importpreviewchecklist'
+            ),
             ['class' => 'gradingform-checklist-import-preview-checklist']
         );
         $html .= \html_writer::end_tag('section');

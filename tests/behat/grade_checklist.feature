@@ -59,7 +59,7 @@ Feature: Converting checklist score to grades
     And I should see "Student 1"
     Then I should not see "Group points: 0/3.5"
     And I should not see "Overall points: 0/3.5"
-    And I click on ".form-check-input" "css_element"
+    And I click on "input[type='checkbox'][name*='[items]'][name$='[id]']" "css_element"
     And I should see "Group 1"
     And I should see "Has title"
     And I should see "Has description"
@@ -115,6 +115,17 @@ Feature: Converting checklist score to grades
     Then the focused element is "Close benchmark" "button"
     And I press the escape key
     And the focused element is "Open to view Benchmarks" "button"
+
+  Scenario: Item movement controls are keyboard reachable and move edge-adjacent items
+    Given I am on the "forum1" "forum activity editing" page
+    And I navigate to "Advanced grading" in current page administration
+    And I select "Checklist" from the "setmethod" singleselect
+    And I follow "Edit the current form definition"
+    Then "//div[contains(@class, 'item')][.//*[contains(., 'Has title')]]//input[@title='Move item down' and not(@tabindex='-1')]" "xpath_element" should exist
+    And "//div[contains(@class, 'item')][.//*[contains(., 'Has description')]]//input[@title='Move item up' and not(@tabindex='-1')]" "xpath_element" should exist
+    When I click on "//div[contains(@class, 'item')][.//*[contains(., 'Has title')]]//input[@title='Move item down']" "xpath_element"
+    Then "//div[contains(@class, 'item')][.//*[contains(., 'Has description')]][following-sibling::div[contains(@class, 'item')][.//*[contains(., 'Has title')]]]" "xpath_element" should exist
+    And I press "Save checklist and make it ready"
 
   Scenario: Enable display of item points during evaluation and disable feedback of groups
     And I am on the "forum1" "forum activity editing" page
@@ -180,3 +191,43 @@ Feature: Converting checklist score to grades
     Then I should see "Group points: 0/3.5"
     And I should see "Overall points: 0/3.5"
     And I should not see "1.5 points"
+
+  Scenario: Observation date can be saved and shown to the graded student
+    Given I am on the "forum1" "forum activity editing" page
+    And I navigate to "Advanced grading" in current page administration
+    And I select "Checklist" from the "setmethod" singleselect
+    And I follow "Edit the current form definition"
+    And I set the field "Observation date selector" to "Date only"
+    And I set the field "Default observation date" to "Leave blank"
+    And I press "Save"
+    And I am on the "forum1" "forum activity" page
+    When I click on "Grade users" "button"
+    And I click on "[data-direction='1'][data-action='change-user']" "css_element"
+    And I set the field "Observation date" to "2026-08-02"
+    And I click on "input[type='checkbox'][name*='[items]'][name$='[id]']" "css_element"
+    And I click on "button[data-action='savegrade']" "css_element"
+    And I wait until the page is ready
+    And I log out
+    And I am on the "forum1" "forum activity" page logged in as "student1"
+    And I click on "View grades" "button"
+    Then I should see "Observation date"
+    And I should see "August 2026"
+
+  Scenario: Required item comments are enforced in the browser grading panel
+    Given I am on the "forum1" "forum activity editing" page
+    And I navigate to "Advanced grading" in current page administration
+    And I select "Checklist" from the "setmethod" singleselect
+    And I follow "Edit the current form definition"
+    And I click on "Allow grader to add text remarks for each checklist item" "checkbox"
+    And I click on "Require item comments for checked items" "checkbox"
+    And I press "Save"
+    And I am on the "forum1" "forum activity" page
+    When I click on "Grade users" "button"
+    And I click on "[data-direction='1'][data-action='change-user']" "css_element"
+    And I click on "input[type='checkbox'][name*='[items]'][name$='[id]']" "css_element"
+    And I click on "button[data-action='savegrade']" "css_element"
+    Then I should see "Add a comment for"
+    And I set the field with xpath "(//textarea[contains(@id, '-items-') and contains(@id, '-remark-input')])[1]" to "Evidence checked"
+    And I click on "button[data-action='savegrade']" "css_element"
+    And I wait until the page is ready
+    And "//div[contains(concat(' ', normalize-space(@class), ' '), ' alert-danger ') and contains(., 'Add a comment for')]" "xpath_element" should not exist

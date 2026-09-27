@@ -5,6 +5,14 @@
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Imports checklist definitions from DOCX or JSON.
@@ -14,7 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
+require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))) . '/config.php');
 require_once($CFG->dirroot . '/grade/grading/form/checklist/lib.php');
 require_once($CFG->dirroot . '/grade/grading/form/checklist/import_form.php');
 require_once($CFG->dirroot . '/grade/grading/form/checklist/classes/local/importer/import_preview.php');
@@ -32,7 +40,7 @@ $returnurl = trim(optional_param('returnurl', '', PARAM_RAW));
 $confirmimport = optional_param('confirmimport', 0, PARAM_BOOL);
 
 $manager = get_grading_manager($areaid);
-list($context, $course, $cm) = get_context_info_array($manager->get_context()->id);
+[$context, $course, $cm] = get_context_info_array($manager->get_context()->id);
 
 require_login($course, true, $cm);
 require_capability('moodle/grade:managegradingforms', $context);
@@ -112,6 +120,11 @@ function gradingform_checklist_import_parse_draft_file(int $draftitemid, ?string
 
     /** @var \stored_file $file */
     $file = reset($files);
+    if ($file->get_filesize() > config::import_max_bytes()) {
+        return new canonical_import_data([], [], [
+            get_string('importerrorfilesize', 'gradingform_checklist', config::import_max_bytes()),
+        ]);
+    }
     $filename = clean_param($file->get_filename(), PARAM_FILE);
     $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 
@@ -148,8 +161,10 @@ if ($confirmimport) {
         $stored = $SESSION->gradingform_checklist_import[$areaid][$importid] ?? '';
         $sourceextension = is_array($stored) ? ($stored['extension'] ?? '') : '';
         $stored = is_array($stored) ? ($stored['data'] ?? '') : $stored;
-        if (($sourceextension === 'json' && !config::enabled('enablejsonimport'))
-                || ($sourceextension === 'docx' && !config::enabled('enablewordimport'))) {
+        if (
+            ($sourceextension === 'json' && !config::enabled('enablejsonimport'))
+                || ($sourceextension === 'docx' && !config::enabled('enablewordimport'))
+        ) {
             throw new \moodle_exception('importdisabled', 'gradingform_checklist');
         }
         $result = canonical_import_data::decode($stored, true);
@@ -160,8 +175,12 @@ if ($confirmimport) {
             $controller->import_definition_from_data($result->get_data(), $status, $controller->has_active_instances());
             unset($SESSION->gradingform_checklist_import[$areaid][$importid]);
             $editurl = new \core\url('/grade/grading/form/checklist/edit.php', ['areaid' => $areaid, 'returnurl' => $returnurl]);
-            redirect($editurl, get_string('importsuccess', 'gradingform_checklist'), null,
-                \core\output\notification::NOTIFY_SUCCESS);
+            redirect(
+                $editurl,
+                get_string('importsuccess', 'gradingform_checklist'),
+                null,
+                \core\output\notification::NOTIFY_SUCCESS
+            );
         }
     } catch (\Throwable $exception) {
         $result = gradingform_checklist_import_unexpected_error($exception);
@@ -210,19 +229,34 @@ echo $OUTPUT->heading(get_string('importchecklist', 'gradingform_checklist'));
 
 $downloads = [];
 if (config::enabled('enablewordtemplate')) {
-    $downloads[] = \html_writer::link(new \core\url('/grade/grading/form/checklist/template.php',
-        ['areaid' => $areaid, 'sesskey' => sesskey()]), get_string('downloadwordtemplate', 'gradingform_checklist'),
-        ['class' => 'btn btn-secondary']);
+    $downloads[] = \html_writer::link(
+        new \core\url(
+            '/grade/grading/form/checklist/template.php',
+            ['areaid' => $areaid, 'sesskey' => sesskey()]
+        ),
+        get_string('downloadwordtemplate', 'gradingform_checklist'),
+        ['class' => 'btn btn-secondary']
+    );
 }
 if (config::enabled('enablejsonexample')) {
-    $downloads[] = \html_writer::link(new \core\url('/grade/grading/form/checklist/jsonexample.php',
-        ['areaid' => $areaid, 'sesskey' => sesskey()]), get_string('downloadjsonexample', 'gradingform_checklist'),
-        ['class' => 'btn btn-secondary']);
+    $downloads[] = \html_writer::link(
+        new \core\url(
+            '/grade/grading/form/checklist/jsonexample.php',
+            ['areaid' => $areaid, 'sesskey' => sesskey()]
+        ),
+        get_string('downloadjsonexample', 'gradingform_checklist'),
+        ['class' => 'btn btn-secondary']
+    );
 }
 if (config::enabled('enablejsonschema')) {
-    $downloads[] = \html_writer::link(new \core\url('/grade/grading/form/checklist/jsonschema.php',
-        ['areaid' => $areaid, 'sesskey' => sesskey()]), get_string('downloadjsonschema', 'gradingform_checklist'),
-        ['class' => 'btn btn-secondary']);
+    $downloads[] = \html_writer::link(
+        new \core\url(
+            '/grade/grading/form/checklist/jsonschema.php',
+            ['areaid' => $areaid, 'sesskey' => sesskey()]
+        ),
+        get_string('downloadjsonschema', 'gradingform_checklist'),
+        ['class' => 'btn btn-secondary']
+    );
 }
 if ($downloads) {
     echo \html_writer::div(implode(' ', $downloads), 'gradingform-checklist-import-downloads');
@@ -233,8 +267,10 @@ if ($result) {
     echo gradingform_checklist_import_messages($result->get_warnings(), \core\output\notification::NOTIFY_WARNING);
     if (!$result->has_errors()) {
         if ($controller->has_active_instances()) {
-            echo $OUTPUT->notification(get_string('importactiveinstances', 'gradingform_checklist'),
-                \core\output\notification::NOTIFY_WARNING);
+            echo $OUTPUT->notification(
+                get_string('importactiveinstances', 'gradingform_checklist'),
+                \core\output\notification::NOTIFY_WARNING
+            );
         }
         echo import_preview::render($result->get_data(), $PAGE);
         echo \html_writer::start_tag('form', [

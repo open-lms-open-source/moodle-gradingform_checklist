@@ -15,7 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Language strings for the Checklist plugin.
+ *
  * @copyright  Copyright (c) 2025 Open LMS (https://www.openlms.net)
+ * @package    gradingform_checklist
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -38,6 +41,8 @@ $string['confirmdeletegroup'] = 'Voulez-vous vraiment supprimer ce groupe ?';
 $string['confirmdeleteitem'] = 'Voulez-vous vraiment supprimer cet élément ?';
 $string['definechecklist'] = 'Définir la check-list';
 $string['description'] = 'Description';
+$string['enablegroupremarks'] = 'Permettre à l\'évaluateur d\'ajouter des remarques textuelles pour chaque groupe de la check-list';
+$string['enableitemremarks'] = 'Permettre à l\'évaluateur d\'ajouter des remarques textuelles pour chaque élément de la check-list';
 $string['err_definitionmax'] = 'La définition de l\'élément ne doit pas dépasser 255 caractères';
 $string['err_descriptionmax'] = 'La description de groupe ne doit pas dépasser 255 caractères';
 $string['err_nodefinition'] = 'Vous devez renseigner la définition de l\'élément';
@@ -46,12 +51,12 @@ $string['err_nogroups'] = 'La  check-list doit contenir au moins un groupe';
 $string['err_scoreformat'] = 'Le nombre de points pour chaque élément doit être un nombre non négatif valide';
 $string['err_scoremax'] = 'Le nombre de points pour chaque élément ne doit pas être supérieur à 1 000';
 $string['err_totalscore'] = 'Le nombre maximal de points possible lors de la notation au moyen de la check-list doit être supérieur à zéro';
-$string['groupfeedback'] = 'Feed-back du groupe pour « {$a} »';
 $string['gradingof'] = 'Notation {$a}';
 $string['groupadditem'] = 'Ajouter un élément';
 $string['groupdelete'] = 'Supprimer un groupe';
 $string['groupdescription'] = 'Description du groupe';
 $string['groupempty'] = 'Cliquez pour modifier le groupe';
+$string['groupfeedback'] = 'Feed-back du groupe pour « {$a} »';
 $string['groupmovedown'] = 'Descendre';
 $string['groupmoveup'] = 'Monter';
 $string['grouppoints'] = 'Points du groupe';
@@ -62,11 +67,12 @@ $string['itemempty'] = 'Cliquer pour modifier l\'élément';
 $string['itemfeedback'] = 'Feed-back pour « {$a} »';
 $string['itemremark'] = 'Remarque de l\'élément pour « {$a} »';
 $string['itemscore'] = 'Résultat de l\'élément';
+$string['maxlengthalert'] = 'La longueur maximale de ce champ de saisie est de {$a} caractères';
 $string['name'] = 'Nom';
 $string['needregrademessage'] = 'La définition de la check-list a été modifiée après la notation de l\'étudiant. Il ne peut pas voir cette check-list tant que vous ne l\'avez pas passée en revue et que vous n\'avez pas mis la note à jour.';
+$string['overallpoints'] = 'Points au total';
 $string['pluginname'] = 'Check-list';
 $string['previewchecklist'] = 'Aperçu de la check-list';
-$string['overallpoints'] = 'Points au total';
 $string['regrademessage1'] = 'Vous êtes sur le point d\'enregistrer des modifications sur une check-list déjà utilisée pour une notation.
 Indiquez si les notes existantes doivent être réévaluées. Dans ce cas, les étudiants ne pourront pas voir la check-list, tant que l\'élément n\'est pas réévalué.';
 $string['regrademessage5'] = 'Vous êtes sur le point d\'enregistrer des modifications importantes sur une check-list déjà utilisée pour une notation. La note dans le carnet de notes ne sera pas modifiée, mais les étudiants ne pourront pas voir la check-list, tant que leur élément n\'est pas réévalué.';
@@ -79,8 +85,5 @@ $string['savechecklistdraft'] = 'Enregistrer comme brouillon';
 $string['scorepostfix'] = '{$a} points';
 $string['showitempointseval'] = 'Afficher les points de chaque élément durant l\'évaluation';
 $string['showitempointstudent'] = 'Afficher les points de chaque élément aux personnes notées';
-$string['enableitemremarks'] = 'Permettre à l\'évaluateur d\'ajouter des remarques textuelles pour chaque élément de la check-list';
-$string['enablegroupremarks'] = 'Permettre à l\'évaluateur d\'ajouter des remarques textuelles pour chaque groupe de la check-list';
 $string['showremarksstudent'] = 'Afficher toutes les remarques aux personnes notées';
 $string['unchecked'] = 'Décoché';
-$string['maxlengthalert'] = 'La longueur maximale de ce champ de saisie est de {$a} caractères';

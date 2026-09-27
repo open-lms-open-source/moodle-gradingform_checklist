@@ -98,11 +98,16 @@ class provider implements
             writer::with_context($context)->export_data($checklistsubcontext, (object) $records);
         }
 
-        $observation = $DB->get_record('gradingform_checklist_obs', ['instanceid' => $instanceid],
-            'observationdate, observationmode');
+        $observation = $DB->get_record(
+            'gradingform_checklist_obs',
+            ['instanceid' => $instanceid],
+            'observationdate, observationmode'
+        );
         if ($observation) {
-            writer::with_context($context)->export_data(array_merge($checklistsubcontext,
-                [get_string('observationdate', 'gradingform_checklist')]), $observation);
+            writer::with_context($context)->export_data(array_merge(
+                $checklistsubcontext,
+                [get_string('observationdate', 'gradingform_checklist')]
+            ), $observation);
         }
     }
 
