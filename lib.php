@@ -162,17 +162,6 @@ class gradingform_checklist_controller extends gradingform_controller {
         if ($downloadlinks) {
             $actions .= \html_writer::div(implode(' ', $downloadlinks), 'gradingform-checklist-import-downloads');
         }
-        if (has_capability('moodle/site:config', \context_system::instance())) {
-            $companion = \html_writer::link(
-                'https://github.com/Portvgal/moodle-local_checklistsettings',
-                get_string('settingscompanionlink', 'gradingform_checklist'),
-                ['target' => '_blank', 'rel' => 'noopener noreferrer']
-            );
-            $actions .= \html_writer::div(
-                get_string('settingscompanionnotice', 'gradingform_checklist', $companion),
-                'alert alert-info gradingform-checklist-settings-notice'
-            );
-        }
         $stateclass = $isdefined ? ' is-defined' : ' is-undefined';
         return \html_writer::div($actions, 'gradingform-checklist-import-actions' . $stateclass);
     }

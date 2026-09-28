@@ -46,6 +46,61 @@ require_once($CFG->dirroot . '/grade/grading/form/checklist/lib.php');
  */
 final class generator_test extends advanced_testcase {
     /**
+     * Administration guidance must not obscure the configured grading actions.
+     */
+    public function test_import_actions_without_settings_banner(): void {
+        $this->resetAfterTest(true);
+        $this->setAdminUser();
+
+        $generator = $this->getDataGenerator();
+        $course = $generator->create_course();
+        foreach ([false, true] as $defined) {
+            $module = $generator->create_module('assign', ['course' => $course]);
+            $context = context_module::instance($module->cmid);
+            if ($defined) {
+                $controller = $generator->get_plugin_generator('gradingform_checklist')->create_instance(
+                    $context,
+                    'mod_assign',
+                    'submission',
+                    'Checklist',
+                    'Description',
+                    ['Group' => ['Item' => 1]]
+                );
+            } else {
+                $controller = $generator->get_plugin_generator('core_grading')->create_instance(
+                    $context,
+                    'mod_assign',
+                    'submission',
+                    'checklist'
+                );
+            }
+            $this->assertSame($defined, $controller->is_form_defined());
+            foreach ([true, false] as $enabled) {
+                $settings = [
+                    'enablewordimport',
+                    'enablejsonimport',
+                    'enablewordtemplate',
+                    'enablejsonexample',
+                    'enablejsonschema',
+                ];
+                foreach ($settings as $setting) {
+                    set_config($setting, (int)$enabled, 'gradingform_checklist');
+                }
+                $html = $controller->render_import_actions();
+                $this->assertStringNotContainsString('gradingform-checklist-settings-notice', $html);
+                $this->assertStringNotContainsString('https://github.com/Portvgal/moodle-local_checklistsettings', $html);
+                foreach (['import.php', 'template.php', 'jsonexample.php', 'jsonschema.php'] as $endpoint) {
+                    if ($enabled) {
+                        $this->assertStringContainsString('/grade/grading/form/checklist/' . $endpoint, $html);
+                    } else {
+                        $this->assertStringNotContainsString('/grade/grading/form/checklist/' . $endpoint, $html);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Test checklist editor validation accepts the configured long-text limits.
      */
     public function test_checklist_editor_validates_long_text_limits(): void {
