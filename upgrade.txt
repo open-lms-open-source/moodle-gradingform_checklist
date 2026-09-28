@@ -1,6 +1,13 @@
 Checklist grading form upgrade notes
 =====================================
 
+2026092800
+----------
+
+Enhanced Checklist 4.5.9 removes the optional settings companion information
+banner from the Advanced grading page. Settings and grading behaviour are
+unchanged. No database schema migration is required.
+
 2026092300
 ----------
 

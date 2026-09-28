@@ -31,29 +31,29 @@ jobs:
           test "$version" = "$firstnote"
           test "$(git rev-list -n1 "$GITHUB_REF_NAME")" = "$GITHUB_SHA"
       - name: Build package from tagged Git tree
-        run: git archive --format=zip --prefix=checklist/ "$GITHUB_SHA" -o enhanced-checklist-4.5.8.zip
+        run: git archive --format=zip --prefix=checklist/ "$GITHUB_SHA" -o enhanced-checklist-4.5.9.zip
       - name: Validate package contents
         shell: bash
         run: |
           set -euo pipefail
-          unzip -Z1 enhanced-checklist-4.5.8.zip > package-files.txt
+          unzip -Z1 enhanced-checklist-4.5.9.zip > package-files.txt
           test "$(cut -d/ -f1 package-files.txt | sort -u)" = checklist
           grep -qx 'checklist/version.php' package-files.txt
           grep -qx 'checklist/docs/checklist-import-template.docx' package-files.txt
           ! grep -Eq '(^|/)(\.git|\.github|\.DS_Store)(/|$)|\.map$|checklist-import-template-candidate\.docx$' package-files.txt
-          unzip -p enhanced-checklist-4.5.8.zip checklist/version.php | grep -q "release.*'4.5.8'"
-          sha256sum enhanced-checklist-4.5.8.zip > enhanced-checklist-4.5.8.zip.sha256
+          unzip -p enhanced-checklist-4.5.9.zip checklist/version.php | grep -q "release.*'4.5.9'"
+          sha256sum enhanced-checklist-4.5.9.zip > enhanced-checklist-4.5.9.zip.sha256
       - name: Upload workflow artifact
         uses: actions/upload-artifact@v7
         with:
-          name: enhanced-checklist-4.5.8
+          name: enhanced-checklist-4.5.9
           path: |
-            enhanced-checklist-4.5.8.zip
-            enhanced-checklist-4.5.8.zip.sha256
+            enhanced-checklist-4.5.9.zip
+            enhanced-checklist-4.5.9.zip.sha256
       - name: Publish GitHub release assets
         env:
           GH_TOKEN: ${{ github.token }}
         run: >-
           gh release upload "$GITHUB_REF_NAME"
-          enhanced-checklist-4.5.8.zip enhanced-checklist-4.5.8.zip.sha256
+          enhanced-checklist-4.5.9.zip enhanced-checklist-4.5.9.zip.sha256
           --clobber
