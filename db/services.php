@@ -30,7 +30,7 @@ $functions = [
         'methodname' => 'execute',
         'description' => 'Fetch the data required to display the grader grading panel, ' .
             'creating the grade item if required',
-        'type' => 'write',
+        'type' => 'read',
         'ajax' => true,
     ],
     'gradingform_checklist_grader_gradingpanel_store' => [
@@ -39,5 +39,12 @@ $functions = [
         'description' => 'Store the grading data for a user from the grader grading panel.',
         'type' => 'write',
         'ajax' => true,
+    ],
+    'gradingform_checklist_import_definition' => [
+        'classname' => 'gradingform_checklist\\external\\import_definition',
+        'methodname' => 'execute',
+        'description' => 'Import a checklist definition from canonical JSON.',
+        'type' => 'write',
+        'ajax' => false,
     ],
 ];

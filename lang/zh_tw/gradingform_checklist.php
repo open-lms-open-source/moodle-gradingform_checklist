@@ -15,7 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Language strings for the Checklist plugin.
+ *
  * @copyright  Copyright (c) 2025 Open LMS (https://www.openlms.net)
+ * @package    gradingform_checklist
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -38,6 +41,8 @@ $string['confirmdeletegroup'] = '您確定要刪除此群組嗎？';
 $string['confirmdeleteitem'] = '您確定要刪除此項目嗎？';
 $string['definechecklist'] = '定義檢查清單';
 $string['description'] = '描述';
+$string['enablegroupremarks'] = '允許評分者針對各個檢查清單群組新增文字備註';
+$string['enableitemremarks'] = '允許評分者針對各個檢查清單項目新增文字備註';
 $string['err_definitionmax'] = '項目定義不得超過 255 個字元';
 $string['err_descriptionmax'] = '群組說明不得超過 255 個字元';
 $string['err_nodefinition'] = '項目定義不得留空';
@@ -46,12 +51,12 @@ $string['err_nogroups'] = '檢查清單必須包含至少一個群組';
 $string['err_scoreformat'] = '各項目的分數必須是有效的非負數';
 $string['err_scoremax'] = '各項目的分數不得超過 1000';
 $string['err_totalscore'] = '以檢查清單評分的滿分數量上限必須大於零';
-$string['groupfeedback'] = '「{$a}」的小組意見回應';
 $string['gradingof'] = '{$a} 評分';
 $string['groupadditem'] = '新增項目';
 $string['groupdelete'] = '刪除群組';
 $string['groupdescription'] = '群組說明';
 $string['groupempty'] = '按一下以編輯群組';
+$string['groupfeedback'] = '「{$a}」的小組意見回應';
 $string['groupmovedown'] = '往下移';
 $string['groupmoveup'] = '往上移';
 $string['grouppoints'] = '群組分數';
@@ -62,11 +67,12 @@ $string['itemempty'] = '按一下以編輯項目';
 $string['itemfeedback'] = '「{$a}」的意見回應';
 $string['itemremark'] = '「{$a}」的項目備註';
 $string['itemscore'] = '項目得分';
+$string['maxlengthalert'] = '此輸入欄位的最大長度為 {$a} 個字元';
 $string['name'] = '名稱';
 $string['needregrademessage'] = '此學員經評分後，檢查清單的定義曾作變更。在您檢閱檢查清單且更新成績之後，學員才能看見此檢查清單。';
+$string['overallpoints'] = '整體分數';
 $string['pluginname'] = '檢查清單';
 $string['previewchecklist'] = '預覽檢查清單';
-$string['overallpoints'] = '整體分數';
 $string['regrademessage1'] = '您即將儲存變更至曾經用於評分的檢查清單。請
 指示是否需要檢閱現有的成績。若您設定此項目，則在學員的項目完成重新評分之前，系統將對學員隱藏檢查清單。';
 $string['regrademessage5'] = '您即將儲存針對已用於評分的檢查清單所進行的重大變更。成績單的值將維持不變，但在學員的項目完成重新評分之前，系統將對學員隱藏檢查清單。';
@@ -79,8 +85,5 @@ $string['savechecklistdraft'] = '另存為草稿';
 $string['scorepostfix'] = '{$a} 分';
 $string['showitempointseval'] = '評估時顯示各項目的分數';
 $string['showitempointstudent'] = '向受評者顯示各項目的分數';
-$string['enableitemremarks'] = '允許評分者針對各個檢查清單項目新增文字備註';
-$string['enablegroupremarks'] = '允許評分者針對各個檢查清單群組新增文字備註';
 $string['showremarksstudent'] = '向受評者顯示所有備註';
 $string['unchecked'] = '未檢查';
-$string['maxlengthalert'] = '此輸入欄位的最大長度為 {$a} 個字元';

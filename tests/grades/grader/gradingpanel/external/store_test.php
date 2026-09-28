@@ -14,16 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace gradingform_checklist\grades\grader\gradingpanel\external;
 
 use advanced_testcase;
-use \core\exception\coding_exception;
+use core\exception\coding_exception;
 use core_grades\component_gradeitem;
 use core_external\external_api;
 use mod_forum\local\entities\forum as forum_entity;
-use \core\exception\moodle_exception;
+use core\exception\moodle_exception;
 
 /**
  * Unit tests for core_grades\component_gradeitems;
@@ -32,14 +32,10 @@ use \core\exception\moodle_exception;
  * @category   test
  * @copyright  Copyright (c) 2023 Open LMS (https://www.openlms.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * 
+ * @coversNothing
+ *
  */
-class store_test extends advanced_testcase {
-
-    protected function setUp(): void {
-        global $CFG;
-    }
-
+final class store_test extends advanced_testcase {
     /**
      * Ensure that an execute with an invalid component is rejected.
      */
@@ -106,6 +102,44 @@ class store_test extends advanced_testcase {
     }
 
     /**
+     * Ensure that an execute with an invalid graded user is rejected.
+     */
+    public function test_execute_invalid_graded_user(): void {
+        $this->resetAfterTest();
+
+        [
+            'forum' => $forum,
+            'teacher' => $teacher,
+        ] = $this->get_test_data();
+
+        $this->setUser($teacher);
+
+        $this->expectException(moodle_exception::class);
+        store::execute('mod_forum', (int) $forum->get_context()->id, 'forum', 0, false, 'formdata');
+    }
+
+    /**
+     * A student cannot store another user's checklist grade.
+     */
+    public function test_execute_store_rejects_user_without_grading_capability(): void {
+        $this->resetAfterTest();
+
+        ['forum' => $forum, 'student' => $student] = $this->get_test_data();
+        $otherstudent = $this->getDataGenerator()->create_and_enrol($forum->get_course_record(), 'student');
+        $this->setUser($student);
+
+        $this->expectException(\core\exception\required_capability_exception::class);
+        store::execute(
+            'mod_forum',
+            (int)$forum->get_context()->id,
+            'forum',
+            (int)$otherstudent->id,
+            false,
+            'formdata'
+        );
+    }
+
+    /**
      * Ensure that an execute against the correct grading method returns the current state of the user.
      */
     public function test_execute_store_graded(): void {
@@ -127,9 +161,13 @@ class store_test extends advanced_testcase {
         $grade = $gradeitem->get_grade_for_user($student, $teacher);
         $instance = $gradeitem->get_advanced_grading_instance($teacher, $grade);
 
-        $submissiondata = $checklistgenerator->get_test_form_data($controller, (int) $student->id,
-            1, 'This is the first comment',
-            1, 'This is the second comment'
+        $submissiondata = $checklistgenerator->get_test_form_data(
+            $controller,
+            (int) $student->id,
+            1,
+            'This is the first comment',
+            1,
+            'This is the second comment'
         );
 
         $formdata = http_build_query((object) [
@@ -167,6 +205,19 @@ class store_test extends advanced_testcase {
         $this->assertArrayHasKey('gradedby', $result['grade']);
         $this->assertEquals(fullname($teacher), $result['grade']['gradedby']);
 
+        $this->assertArrayHasKey('options', $result['grade']);
+        $this->assertArrayHasKey('enablebulkcheck', $result['grade']['options']);
+        $this->assertTrue($result['grade']['options']['enablebulkcheck']);
+        $this->assertArrayHasKey('showitempoints', $result['grade']['options']);
+        $this->assertFalse($result['grade']['options']['showitempoints']);
+        $this->assertArrayHasKey('showgrouppoints', $result['grade']['options']);
+        $this->assertFalse($result['grade']['options']['showgrouppoints']);
+        $this->assertArrayHasKey('groupremarkheading', $result['grade']['options']);
+        $this->assertEquals(
+            get_string('groupremarkheadingdefault', 'gradingform_checklist'),
+            $result['grade']['options']['groupremarkheading']
+        );
+
         $this->assertArrayHasKey('criteria', $result['grade']);
         $criteria = $result['grade']['criteria'];
         $this->assertCount(count($definition->checklist_groups), $criteria);
@@ -201,7 +252,6 @@ class store_test extends advanced_testcase {
                 $this->assertArrayHasKey('score', $item);
                 $this->assertEquals($sourceitem['score'], $item['score']);
             }
-
         }
 
         $this->assertEquals(false, $criteria[0]['items'][0]['checked']);

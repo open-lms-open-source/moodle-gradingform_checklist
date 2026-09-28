@@ -22,23 +22,25 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace gradingform_checklist\grades\grader\gradingpanel\external;
 
+defined('MOODLE_INTERNAL') || die();
+
 global $CFG;
 
-use \core\exception\coding_exception;
+use core\exception\coding_exception;
 use context;
 use core_grades\component_gradeitem as gradeitem;
 use core_grades\component_gradeitems;
-// Moodle patch INT-19461: Add missing core_external imports
+// Moodle patch INT-19461: Add missing core_external imports.
 use core_external\external_api;
 use core_external\external_function_parameters;
 use core_external\external_single_structure;
 use core_external\external_value;
-use \core\exception\moodle_exception;
-require_once($CFG->dirroot.'/grade/grading/form/checklist/lib.php');
+use core\exception\moodle_exception;
+require_once($CFG->dirroot . '/grade/grading/form/checklist/lib.php');
 
 /**
  * Web services relating to storing of a checklist for the grading panel.
@@ -48,7 +50,6 @@ require_once($CFG->dirroot.'/grade/grading/form/checklist/lib.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class store extends external_api {
-
     /**
      * Describes the parameters for storing the grading panel for a simple grade.
      *
@@ -56,7 +57,7 @@ class store extends external_api {
      * @since Moodle 3.8
      */
     public static function execute_parameters(): external_function_parameters {
-        return new external_function_parameters ([
+        return new external_function_parameters([
             'component' => new external_value(
                 PARAM_ALPHANUMEXT,
                 'The name of the component',
@@ -79,7 +80,7 @@ class store extends external_api {
             ),
             'notifyuser' => new external_value(
                 PARAM_BOOL,
-                'Wheteher to notify the user or not',
+                'Whether to notify the user or not',
                 VALUE_DEFAULT,
                 false
             ),
@@ -92,21 +93,27 @@ class store extends external_api {
     }
 
     /**
-     * Fetch the data required to build a grading panel for a simple grade.
+     * Store grading panel data for a simple grade.
      *
      * @param string $component
      * @param int $contextid
      * @param string $itemname
      * @param int $gradeduserid
-     * @param string $formdata
      * @param bool $notifyuser
+     * @param string $formdata
      * @return array
      * @throws \core\exception\coding_exception
      * @throws moodle_exception
      * @since Moodle 3.8
      */
-    public static function execute(string $component, int $contextid, string $itemname, int $gradeduserid, bool $notifyuser,
-                                   string $formdata): array {
+    public static function execute(
+        string $component,
+        int $contextid,
+        string $itemname,
+        int $gradeduserid,
+        bool $notifyuser,
+        string $formdata
+    ): array {
         global $USER;
 
         [
@@ -143,7 +150,7 @@ class store extends external_api {
         }
 
         // Fetch the record for the graded user.
-        $gradeduser = \core_user::get_user($gradeduserid);
+        $gradeduser = \core_user::get_user($gradeduserid, '*', MUST_EXIST);
 
         // Require that this user can save grades.
         $gradeitem->require_user_can_grade($gradeduser, $USER);
@@ -157,6 +164,21 @@ class store extends external_api {
         // Parse the serialised string into an object.
         $data = [];
         parse_str($formdata, $data);
+
+        if (!empty($data['advancedgrading']) && isset($data['instanceid'])) {
+            $grade = $gradeitem->get_grade_for_user($gradeduser, $USER);
+            $gradinginstance = $gradeitem->get_advanced_grading_instance($USER, $grade, (int) $data['instanceid']);
+            if (
+                $gradinginstance instanceof \gradingform_checklist_instance
+                    && !$gradinginstance->validate_grading_element($data['advancedgrading'])
+            ) {
+                $errors = $gradinginstance->get_grading_validation_error_messages();
+                if (empty($errors)) {
+                    $errors[] = get_string('checklistnotcompleted', 'gradingform_checklist');
+                }
+                throw new moodle_exception('requiredcommentserror', 'gradingform_checklist', '', implode(' ', $errors));
+            }
+        }
 
         // Grade.
         $gradeitem->store_grade_from_formdata($gradeduser, $USER, (object) $data);

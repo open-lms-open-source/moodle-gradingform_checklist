@@ -15,7 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Language strings for the Checklist plugin.
+ *
  * @copyright  Copyright (c) 2025 Open LMS (https://www.openlms.net)
+ * @package    gradingform_checklist
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -38,6 +41,8 @@ $string['confirmdeletegroup'] = '¿Está seguro de que desea eliminar este grupo
 $string['confirmdeleteitem'] = '¿Está seguro de que desea eliminar este elemento?';
 $string['definechecklist'] = 'Definir lista de verificación';
 $string['description'] = 'Descripción';
+$string['enablegroupremarks'] = 'Permite a los calificadores agregar observaciones en cada uno de los grupos de la lista de verificación.';
+$string['enableitemremarks'] = 'Permite a los calificadores agregar observaciones en cada uno de los elementos de la lista de verificación.';
 $string['err_definitionmax'] = 'La definición del elemento no puede contener más de 255 caracteres';
 $string['err_descriptionmax'] = 'La descripción del grupo no puede contener más de 255 caracteres';
 $string['err_nodefinition'] = 'La definición del elemento no puede estar vacía';
@@ -46,12 +51,12 @@ $string['err_nogroups'] = 'La lista de verificación debe contener al menos un g
 $string['err_scoreformat'] = 'El número de puntos para cada elemento debe ser un número válido que no sea negativo';
 $string['err_scoremax'] = 'El número de puntos para cada elemento debe ser mayor que 1000';
 $string['err_totalscore'] = 'El número máximo de puntos posible cuando se califique según la lista de verificación debe ser superior a cero';
-$string['groupfeedback'] = 'Retroalimentación de grupo para "{$a}"';
 $string['gradingof'] = 'Calificaciones {$a}';
 $string['groupadditem'] = 'Agregar elemento';
 $string['groupdelete'] = 'Eliminar grupo';
 $string['groupdescription'] = 'Descripción del grupo';
 $string['groupempty'] = 'Haga clic para editar el grupo.';
+$string['groupfeedback'] = 'Retroalimentación de grupo para "{$a}"';
 $string['groupmovedown'] = 'Mover hacia abajo';
 $string['groupmoveup'] = 'Mover hacia arriba';
 $string['grouppoints'] = 'Puntos del grupo';
@@ -62,11 +67,12 @@ $string['itemempty'] = 'Haga clic para editar el elemento.';
 $string['itemfeedback'] = 'Comentarios sobre "{$a}"';
 $string['itemremark'] = 'Observación del elemento para "{$a}"';
 $string['itemscore'] = 'Puntuación del elemento';
+$string['maxlengthalert'] = 'Este campo de entrada tiene una longitud máxima de {$a} caracteres';
 $string['name'] = '¿Cómo quiere llamar a esta página?';
 $string['needregrademessage'] = 'La definición de la lista de verificación se cambió después de que se calificó a este estudiante. El estudiante no podrá ver esta lista de verificación hasta que usted la revise y actualice la calificación.';
+$string['overallpoints'] = 'Puntos generales';
 $string['pluginname'] = 'Lista de verificación';
 $string['previewchecklist'] = 'Vista previa de la lista de verificación';
-$string['overallpoints'] = 'Puntos generales';
 $string['regrademessage1'] = 'Va a guardar cambios en una lista de verificación que ya se ha usado para poner calificaciones.
 Indique si las calificaciones existentes deben revisarse. En caso afirmativo, la lista de verificación se ocultará de los estudiantes hasta que se vuelvan a calificar sus elementos.';
 $string['regrademessage5'] = 'Está a punto de guardar cambios importantes en una lista de verificación que ya se usó para poner calificaciones. El valor del libro de calificaciones no se cambiará, pero la lista de verificación se ocultará de los estudiantes hasta que su elemento se vuelva a calificar.';
@@ -79,8 +85,5 @@ $string['savechecklistdraft'] = 'Guardar como borrador';
 $string['scorepostfix'] = '{$a} puntos';
 $string['showitempointseval'] = 'Mostrar los puntos de cada elemento durante la evaluación.';
 $string['showitempointstudent'] = 'Mostrar los puntos de cada elemento que se va a calificar.';
-$string['enableitemremarks'] = 'Permite a los calificadores agregar observaciones en cada uno de los elementos de la lista de verificación.';
-$string['enablegroupremarks'] = 'Permite a los calificadores agregar observaciones en cada uno de los grupos de la lista de verificación.';
 $string['showremarksstudent'] = 'Mostrar todas las observaciones a los que son calificados';
 $string['unchecked'] = 'Sin verificar';
-$string['maxlengthalert'] = 'Este campo de entrada tiene una longitud máxima de {$a} caracteres';

@@ -1,25 +1,23 @@
 <?php
-
-// This file is part of Moodle - http://moodle.org/
+// This file is part of Moodle - http://moodle.org/.
 //
-// Moodle is free software: you can redistribute it and/or modify
+// Moodle is free software: you can redistribute it and/or modify.
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// Moodle is distributed in the hope that it will be useful,
+// Moodle is distributed in the hope that it will be useful,.
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
-// You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+// You should have received a copy of the GNU General Public License.
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
  * Checklist editor form
  *
- * @package    gradingform
- * @subpackage checklist
+ * @package    gradingform_checklist
  * @author     Sam Chaffee
  * @copyright  2011 Marina Glancy <marina@moodle.com>
  * @copyright  Copyright (c) 2012 Open LMS (https://www.openlms.net)
@@ -30,13 +28,18 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/lib/formslib.php');
 require_once($CFG->dirroot . '/grade/grading/form/checklist/checklisteditor.php');
-MoodleQuickForm::registerElementType('checklisteditor', $CFG->dirroot.'/grade/grading/form/checklist/checklisteditor.php', 'MoodleQuickForm_checklisteditor');
+
+use gradingform_checklist\local\config;
+MoodleQuickForm::registerElementType(
+    'checklisteditor',
+    $CFG->dirroot . '/grade/grading/form/checklist/checklisteditor.php',
+    'MoodleQuickForm_checklisteditor'
+);
 
 /**
  * Defines the checklist edit form
  */
 class gradingform_checklist_editchecklist extends moodleform {
-
     /**
      * Form element definition
      */
@@ -49,37 +52,96 @@ class gradingform_checklist_editchecklist extends moodleform {
         $form->addElement('hidden', 'returnurl');
         $form->setType('returnurl', PARAM_LOCALURL);
 
-        // name
-        $form->addElement('text', 'name', get_string('name', 'gradingform_checklist'), array('size'=>52));
+        // Name.
+        $form->addElement('text', 'name', get_string('name', 'gradingform_checklist'), ['size' => 52]);
         $form->addRule('name', get_string('required'), 'required');
         $form->setType('name', PARAM_TEXT);
 
-        // description
+        // Description.
         $options = gradingform_checklist_controller::description_form_field_options($this->_customdata['context']);
         $form->addElement('editor', 'description_editor', get_string('description', 'gradingform_checklist'), null, $options);
         $form->setType('description_editor', PARAM_RAW);
 
-        // checklist completion status
-        $choices = array();
-        $choices[gradingform_controller::DEFINITION_STATUS_DRAFT]    = \core\output\html_writer::tag('span', get_string('statusdraft', 'core_grading'), array('class' => 'status draft'));
-        $choices[gradingform_controller::DEFINITION_STATUS_READY]    = \core\output\html_writer::tag('span', get_string('statusready', 'core_grading'), array('class' => 'status ready'));
-        $form->addElement('select', 'status', get_string('checkliststatus', 'gradingform_checklist'), $choices)->freeze();
+        // Benchmark.
+        $form->addElement('hidden', 'usebenchmark', 0);
+        $form->setType('usebenchmark', PARAM_BOOL);
+        $form->setDefault('usebenchmark', 0);
+        $form->addElement('hidden', 'removebenchmark', 0);
+        $form->setType('removebenchmark', PARAM_BOOL);
+        $form->setDefault('removebenchmark', 0);
 
-        // checklist editor
-        $element = $form->addElement('checklisteditor', 'checklist', get_string('checklist', 'gradingform_checklist'));
+        $benchmarkbuttons = \core\output\html_writer::start_div('form-group row fitem');
+        $benchmarkbuttons .= \core\output\html_writer::div('', 'col-md-3 col-form-label d-flex pb-0 pr-md-0');
+        $benchmarkbuttons .= \core\output\html_writer::start_div('col-md-9 form-inline align-items-start felement pt-1 pb-1');
+        $benchmarkbuttons .= \core\output\html_writer::start_div('gradingform-checklist-benchmark-actions');
+        $benchmarkbuttons .= \core\output\html_writer::tag('button', get_string('addbenchmark', 'gradingform_checklist'), [
+            'type' => 'button',
+            'class' => 'btn btn-primary',
+            'id' => 'gradingform-checklist-add-benchmark',
+        ]);
+        $benchmarkbuttons .= \core\output\html_writer::tag('button', get_string('removebenchmark', 'gradingform_checklist'), [
+            'type' => 'button',
+            'class' => 'btn btn-primary ml-2',
+            'id' => 'gradingform-checklist-remove-benchmark',
+        ]);
+        $benchmarkbuttons .= \core\output\html_writer::end_div();
+        $benchmarkbuttons .= \core\output\html_writer::end_div();
+        $benchmarkbuttons .= \core\output\html_writer::end_div();
+        $form->addElement('html', $benchmarkbuttons);
+
+        $benchmarkoptions = gradingform_checklist_controller::benchmark_form_field_options($this->_customdata['context']);
+        $form->addElement('editor', 'benchmark_editor', get_string('benchmark', 'gradingform_checklist'), null, $benchmarkoptions);
+        $form->setType('benchmark_editor', PARAM_RAW);
+
+        $form->addElement(
+            'text',
+            'benchmarkbuttonlabel',
+            get_string('benchmarkbuttonlabel', 'gradingform_checklist'),
+            ['size' => 52]
+        );
+        $form->setType('benchmarkbuttonlabel', PARAM_TEXT);
+        $form->setDefault('benchmarkbuttonlabel', get_string('benchmarkbuttondefault', 'gradingform_checklist'));
+
+        $form->addElement(
+            'text',
+            'benchmarkbuttonicon',
+            get_string('benchmarkbuttonicon', 'gradingform_checklist'),
+            ['size' => 52]
+        );
+        $form->setType('benchmarkbuttonicon', PARAM_TEXT);
+        $form->setDefault('benchmarkbuttonicon', 'fa-solid fa-file-circle-check');
+
+        $this->add_benchmark_toggle_script();
+
+        // Checklist editor.
+        $form->addElement(
+            'html',
+            \core\output\html_writer::div(
+                \core\output\html_writer::tag(
+                    'h3',
+                    get_string('checklist', 'gradingform_checklist'),
+                    ['class' => 'gradingform-checklist-section-heading']
+                ),
+                'form-group row fitem gradingform-checklist-heading-row'
+            )
+        );
+        $element = $form->addElement('checklisteditor', 'checklist', '');
         $form->setType('checklist', PARAM_RAW);
-        //$element->freeze(); // TODO freeze checklist editor if needed
 
-        $buttonarray = array();
+        $buttonarray = [];
         $buttonarray[] = &$form->createElement('submit', 'savechecklist', get_string('savechecklist', 'gradingform_checklist'));
         if ($this->_customdata['allowdraft']) {
-            $buttonarray[] = &$form->createElement('submit', 'savechecklistdraft', get_string('savechecklistdraft', 'gradingform_checklist'));
+            $buttonarray[] = &$form->createElement(
+                'submit',
+                'savechecklistdraft',
+                get_string('savechecklistdraft', 'gradingform_checklist')
+            );
         }
         $editbutton = &$form->createElement('submit', 'editchecklist', ' ');
         $editbutton->freeze();
         $buttonarray[] = &$editbutton;
         $buttonarray[] = &$form->createElement('cancel');
-        $form->addGroup($buttonarray, 'buttonar', '', array(' '), false);
+        $form->addGroup($buttonarray, 'buttonar', '', [' '], false);
         $form->closeHeaderBefore('buttonar');
     }
 
@@ -88,24 +150,67 @@ class gradingform_checklist_editchecklist extends moodleform {
      * data submission and set_data().
      * All form setup that is dependent on form values should go in here.
      *
-     * We remove the element status if there is no current status (i.e. checklist is only being created)
-     * so the users do not get confused
+     * Update button text for ready checklists.
      */
     public function definition_after_data() {
-        $form = $this->_form;
-        $el = $form->getElement('status');
-        if (!$el->getValue()) {
-            $form->removeElement('status');
-        } else {
-            $vals = array_values($el->getValue());
-            if ($vals[0] == gradingform_controller::DEFINITION_STATUS_READY) {
-                $this->findButton('savechecklist')->setValue(get_string('save', 'gradingform_checklist'));
-            }
+        if (($this->_defaultValues['status'] ?? null) == gradingform_controller::DEFINITION_STATUS_READY) {
+            $this->findButton('savechecklist')->setValue(get_string('save', 'gradingform_checklist'));
+        }
+        if (!config::enabled('enablebenchmarks') && empty($this->_defaultValues['usebenchmark'])) {
+            $this->_form->addElement('html', \html_writer::div(
+                get_string('benchmarkdisabled', 'gradingform_checklist'),
+                'alert alert-info'
+            ));
         }
     }
 
     /**
-     * Form vlidation.
+     * Adds client-side benchmark controls.
+     */
+    protected function add_benchmark_toggle_script(): void {
+        global $PAGE;
+
+        $benchmarkenabled = config::enabled('enablebenchmarks') ? 'true' : 'false';
+
+        $PAGE->requires->js_init_code(<<<JS
+require(['jquery'], function($) {
+    const benchmarkFeatureEnabled = {$benchmarkenabled};
+    const useBenchmark = $('#id_usebenchmark, input[name="usebenchmark"]').first();
+    const removeBenchmark = $('#id_removebenchmark, input[name="removebenchmark"]').first();
+    const addButton = $('#gradingform-checklist-add-benchmark');
+    const removeButton = $('#gradingform-checklist-remove-benchmark');
+    const benchmarkFields = $('#fitem_id_benchmark_editor, #fitem_id_benchmarkbuttonlabel, #fitem_id_benchmarkbuttonicon');
+
+    function setBenchmarkEnabled(enabled, remove) {
+        if (!benchmarkFeatureEnabled && enabled) {
+            return;
+        }
+        useBenchmark.val(enabled ? 1 : 0);
+        removeBenchmark.val(remove ? 1 : 0);
+        benchmarkFields.toggleClass('d-none', !enabled);
+        addButton.toggleClass('d-none', enabled);
+        removeButton.toggleClass('d-none', !enabled);
+    }
+
+    addButton.on('click', function() {
+        setBenchmarkEnabled(true, false);
+    });
+    removeButton.on('click', function() {
+        setBenchmarkEnabled(false, true);
+    });
+    if (!useBenchmark.length || !removeBenchmark.length) {
+        return;
+    }
+    if (!benchmarkFeatureEnabled && useBenchmark.val() !== '1') {
+        addButton.addClass('d-none');
+    }
+    setBenchmarkEnabled(useBenchmark.val() === '1', removeBenchmark.val() === '1');
+});
+JS);
+    }
+
+    /**
+     * Form validation.
      * If there are errors return array of errors ("fieldname"=>"error message"),
      * otherwise true if ok.
      *
@@ -116,17 +221,25 @@ class gradingform_checklist_editchecklist extends moodleform {
      */
     public function validation($data, $files) {
         $err = parent::validation($data, $files);
-        $err = array();
+        $err = [];
+
+        if (
+            !config::enabled('enablebenchmarks')
+                && !empty($data['usebenchmark'])
+                && empty($this->_defaultValues['usebenchmark'])
+        ) {
+            $err['benchmark_editor'] = get_string('benchmarkdisabled', 'gradingform_checklist');
+        }
         $form = $this->_form;
         $checklistel = $form->getElement('checklist');
         if ($checklistel->non_js_button_pressed($data['checklist'])) {
-            // if JS is disabled and button such as 'Add group' is pressed - prevent from submit
+            // If JS is disabled and button such as 'Add group' is pressed - prevent from submit.
             $err['checklistdummy'] = 1;
         } else if (isset($data['editchecklist'])) {
-            // continue editing
+            // Continue editing.
             $err['checklistdummy'] = 1;
         } else if (isset($data['savechecklist']) && $data['savechecklist']) {
-            // If user attempts to make checklist active - it needs to be validated
+            // If user attempts to make checklist active - it needs to be validated.
             if ($checklistel->validate($data['checklist']) !== false) {
                 $err['checklistdummy'] = 1;
             }
@@ -161,27 +274,26 @@ class gradingform_checklist_editchecklist extends moodleform {
     public function need_confirm_regrading($controller) {
         $data = $this->get_data();
         if (isset($data->checklist['regrade'])) {
-            // we have already displayed the confirmation on the previous step
+            // We have already displayed the confirmation on the previous step.
             return false;
         }
         if (!isset($data->savechecklist) || !$data->savechecklist) {
-            // we only need confirmation when button 'Save checklist' is pressed
+            // We only need confirmation when button 'Save checklist' is pressed.
             return false;
         }
         if (!$controller->has_active_instances()) {
-            // nothing to re-grade, confirmation not needed
+            // Nothing to re-grade, confirmation not needed.
             return false;
         }
         $changelevel = $controller->update_or_check_checklist($data);
         if ($changelevel == 0) {
-            // no changes in the checklist, no confirmation needed
+            // No changes in the checklist, no confirmation needed.
             return false;
         }
 
-        // freeze form elements and pass the values in hidden fields
-        // TODO description_editor does not freeze the normal way!
+        // Freeze form elements and pass the values in hidden fields.
         $form = $this->_form;
-        foreach (array('checklist', 'name'/*, 'description_editor'*/) as $fieldname) {
+        foreach (['checklist', 'name'/*, 'description_editor'*/] as $fieldname) {
             $el =& $form->getElement($fieldname);
             $el->freeze();
             $el->setPersistantFreeze(true);
@@ -190,7 +302,7 @@ class gradingform_checklist_editchecklist extends moodleform {
             }
         }
 
-        // replace button text 'savechecklist' and unfreeze 'Back to edit' button
+        // Replace button text 'savechecklist' and unfreeze 'Back to edit' button.
         $this->findButton('savechecklist')->setValue(get_string('continue'));
         $el =& $this->findButton('editchecklist');
         $el->setValue(get_string('backtoediting', 'gradingform_checklist'));
@@ -205,7 +317,7 @@ class gradingform_checklist_editchecklist extends moodleform {
      * @param string $elementname
      * @return HTML_QuickForm_element
      */
-    protected function &findButton($elementname) {
+    protected function &findButton($elementname) { // phpcs:ignore moodle.NamingConventions.ValidFunctionName.LowercaseMethod
         $form = $this->_form;
         $buttonar =& $form->getElement('buttonar');
         $elements =& $buttonar->getElements();

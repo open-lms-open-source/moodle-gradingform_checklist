@@ -14,17 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace gradingform_checklist\grades\grader\gradingpanel\external;
 
 use advanced_testcase;
-use \core\exception\coding_exception;
+use core\exception\coding_exception;
 use core_grades\component_gradeitem;
 use core_grades\component_gradeitems;
 use core_external\external_api;
 use mod_forum\local\entities\forum as forum_entity;
-use \core\exception\moodle_exception;
+use core\exception\moodle_exception;
 
 /**
  * Unit tests for core_grades\component_gradeitems;
@@ -33,14 +33,10 @@ use \core\exception\moodle_exception;
  * @category   test
  * @copyright  Copyright (c) 2023 Open LMS (https://www.openlms.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * 
+ * @coversNothing
+ *
  */
-class fetch_test extends advanced_testcase {
-
-    protected function setUp(): void {
-        global $CFG;
-    }
-
+final class fetch_test extends advanced_testcase {
     /**
      * Ensure that an execute with an invalid component is rejected.
      */
@@ -137,7 +133,26 @@ class fetch_test extends advanced_testcase {
         $this->assertArrayHasKey('gradedby', $result['grade']);
         $this->assertEquals(null, $result['grade']['gradedby']);
 
+        $this->assertArrayHasKey('options', $result['grade']);
+        $this->assertArrayHasKey('enablebulkcheck', $result['grade']['options']);
+        $this->assertTrue($result['grade']['options']['enablebulkcheck']);
+        $this->assertArrayHasKey('showitempoints', $result['grade']['options']);
+        $this->assertFalse($result['grade']['options']['showitempoints']);
+        $this->assertArrayHasKey('showgrouppoints', $result['grade']['options']);
+        $this->assertFalse($result['grade']['options']['showgrouppoints']);
+        $this->assertArrayHasKey('groupremarkheading', $result['grade']['options']);
+        $this->assertEquals(
+            get_string('groupremarkheadingdefault', 'gradingform_checklist'),
+            $result['grade']['options']['groupremarkheading']
+        );
+        $this->assertArrayHasKey('isgrading', $result['grade']['options']);
+        $this->assertTrue($result['grade']['options']['isgrading']);
+
         $this->assertArrayHasKey('criteria', $result['grade']);
+        $this->assertArrayHasKey('benchmark', $result['grade']);
+        $this->assertStringContainsString('Teacher benchmark for checklist', $result['grade']['benchmark']['content']);
+        $this->assertEquals('Open to view Benchmarks', $result['grade']['benchmark']['buttonlabel']);
+        $this->assertEquals('fa-solid fa-file-circle-check', $result['grade']['benchmark']['buttonicon']);
         $criteria = $result['grade']['criteria'];
         $this->assertCount(count($definition->checklist_groups), $criteria);
         foreach ($criteria as $criterion) {
@@ -147,6 +162,7 @@ class fetch_test extends advanced_testcase {
 
             $this->assertArrayHasKey('description', $criterion);
             $this->assertEquals($sourcecriterion['description'], $criterion['description']);
+            $this->assertArrayNotHasKey('benchmark', $criterion);
 
             $this->assertArrayHasKey('items', $criterion);
 
@@ -229,8 +245,15 @@ class fetch_test extends advanced_testcase {
 
     /**
      * Executes and performs all the assertions of the fetch method with the given parameters.
+     *
+     * @param \mod_forum\local\entities\forum $forum The forum being graded.
+     * @param gradingform_checklist_controller $controller The checklist controller.
+     * @param stdClass $definition The checklist definition.
+     * @param stdClass $fetcheruser The user fetching the grading data.
+     * @param stdClass $grader The user who stores the grade.
+     * @param stdClass $gradeduser The user being graded.
      */
-    private function execute_and_assert_fetch ($forum, $controller, $definition, $fetcheruser, $grader, $gradeduser) {
+    private function execute_and_assert_fetch($forum, $controller, $definition, $fetcheruser, $grader, $gradeduser) {
         $generator = \testing_util::get_data_generator();
         $checklistgenerator = $generator->get_plugin_generator('gradingform_checklist');
 
@@ -240,9 +263,13 @@ class fetch_test extends advanced_testcase {
         $grade = $gradeitem->get_grade_for_user($gradeduser, $grader);
         $instance = $gradeitem->get_advanced_grading_instance($grader, $grade);
 
-        $submissiondata = $checklistgenerator->get_test_form_data($controller, (int) $gradeduser->id,
-            1, 'This is the first comment',
-            1, 'This is the second comment'
+        $submissiondata = $checklistgenerator->get_test_form_data(
+            $controller,
+            (int) $gradeduser->id,
+            1,
+            'This is the first comment',
+            1,
+            'This is the second comment'
         );
 
         $gradeitem->store_grade_from_formdata($gradeduser, $grader, (object) [
@@ -282,7 +309,26 @@ class fetch_test extends advanced_testcase {
         $this->assertArrayHasKey('gradedby', $result['grade']);
         $this->assertEquals(fullname($grader), $result['grade']['gradedby']);
 
+        $this->assertArrayHasKey('options', $result['grade']);
+        $this->assertArrayHasKey('enablebulkcheck', $result['grade']['options']);
+        $this->assertEquals($fetcheruser->id !== $gradeduser->id, $result['grade']['options']['enablebulkcheck']);
+        $this->assertArrayHasKey('showitempoints', $result['grade']['options']);
+        $this->assertArrayHasKey('showgrouppoints', $result['grade']['options']);
+        $this->assertArrayHasKey('groupremarkheading', $result['grade']['options']);
+        $this->assertEquals(
+            get_string('groupremarkheadingdefault', 'gradingform_checklist'),
+            $result['grade']['options']['groupremarkheading']
+        );
+        $this->assertArrayHasKey('isgrading', $result['grade']['options']);
+        $this->assertEquals($fetcheruser->id !== $gradeduser->id, $result['grade']['options']['isgrading']);
+
         $this->assertArrayHasKey('criteria', $result['grade']);
+        if ($fetcheruser->id !== $gradeduser->id) {
+            $this->assertArrayHasKey('benchmark', $result['grade']);
+            $this->assertStringContainsString('Teacher benchmark for checklist', $result['grade']['benchmark']['content']);
+        } else {
+            $this->assertArrayNotHasKey('benchmark', $result['grade']);
+        }
         $criteria = $result['grade']['criteria'];
         $this->assertCount(count($definition->checklist_groups), $criteria);
         foreach ($criteria as $criterion) {
@@ -292,6 +338,7 @@ class fetch_test extends advanced_testcase {
 
             $this->assertArrayHasKey('description', $criterion);
             $this->assertEquals($sourcecriterion['description'], $criterion['description']);
+            $this->assertArrayNotHasKey('benchmark', $criterion);
 
             $this->assertArrayHasKey('remark', $criterion['items'][0]);
 
@@ -316,7 +363,6 @@ class fetch_test extends advanced_testcase {
                 $this->assertArrayHasKey('score', $item);
                 $this->assertEquals($sourceitem['score'], $item['score']);
             }
-
         }
 
         $this->assertEquals(false, $criteria[0]['items'][0]['checked']);
@@ -374,8 +420,10 @@ class fetch_test extends advanced_testcase {
         $data = $this->get_test_form_data(
             $controller,
             $itemid,
-            1, 'This is the first comment',
-            1, 'This is the second comment'
+            1,
+            'This is the first comment',
+            1,
+            'This is the second comment'
         );
 
         // Update this instance with data.

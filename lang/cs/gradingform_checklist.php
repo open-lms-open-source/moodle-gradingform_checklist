@@ -15,7 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Language strings for the Checklist plugin.
+ *
  * @copyright  Copyright (c) 2025 Open LMS (https://www.openlms.net)
+ * @package    gradingform_checklist
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -38,6 +41,8 @@ $string['confirmdeletegroup'] = 'Opravdu chcete tuto skupinu odstranit?';
 $string['confirmdeleteitem'] = 'Opravdu chcete tuto položku zrušit?';
 $string['definechecklist'] = 'Definovat kontrolní seznam';
 $string['description'] = 'Další podrobnosti o uživateli';
+$string['enablegroupremarks'] = 'Povolit klasifikátorovi přidat ke každé skupině kontrolního seznamu textové poznámky';
+$string['enableitemremarks'] = 'Povolit klasifikátorovi přidat ke každé položce kontrolního seznamu textové poznámky';
 $string['err_definitionmax'] = 'Definice položky smí obsahovat maximálně 255 znaků.';
 $string['err_descriptionmax'] = 'Popis skupiny smí obsahovat maximálně 255 znaků.';
 $string['err_nodefinition'] = 'Definice položky nesmí být prázdná.';
@@ -46,12 +51,12 @@ $string['err_nogroups'] = 'Kontrolní seznam musí obsahovat alespoň jednu skup
 $string['err_scoreformat'] = 'Počet bodů pro každou položku musí být platné nezáporné číslo.';
 $string['err_scoremax'] = 'Počet bodů pro každou položku nesmí být větší než 1000.';
 $string['err_totalscore'] = 'Maximální možný počet bodů při klasifikaci musí být větší než nula.';
-$string['groupfeedback'] = 'Zpětná vazba skupiny pro „{$a}“';
 $string['gradingof'] = 'Klasifikace {$a}';
 $string['groupadditem'] = 'Přidat položku';
 $string['groupdelete'] = 'Odstranit skupinu';
 $string['groupdescription'] = 'Popis skupiny';
 $string['groupempty'] = 'Kliknout, chcete-li upravit skupinu';
+$string['groupfeedback'] = 'Zpětná vazba skupiny pro „{$a}“';
 $string['groupmovedown'] = 'Posunout dolů';
 $string['groupmoveup'] = 'Posunout nahoru';
 $string['grouppoints'] = 'Počet bodů skupiny';
@@ -62,11 +67,12 @@ $string['itemempty'] = 'Kliknout, chcete-li upravit položku';
 $string['itemfeedback'] = 'Zpětná vazba pro položku „{$a}“';
 $string['itemremark'] = 'Poznámka k položce pro „{$a}“';
 $string['itemscore'] = 'Skóre položky';
+$string['maxlengthalert'] = 'Toto vstupní pole má maximální počet znaků: {$a}';
 $string['name'] = 'Název';
 $string['needregrademessage'] = 'Definice kontrolního seznamu byla po klasifikaci studenta změněna. Student nebude moci kontrolní seznam zobrazit, dokud jej nezkontrolujete a neaktualizujete klasifikaci.';
+$string['overallpoints'] = 'Celkový počet bodů';
 $string['pluginname'] = 'Kontrolní seznam';
 $string['previewchecklist'] = 'Náhled kontrolního seznamu';
-$string['overallpoints'] = 'Celkový počet bodů';
 $string['regrademessage1'] = 'Chystáte se uložit změny kontrolního seznamu, který již byl použit při klasifikaci.
 Rozhodněte, zda by existující klasifikace měly být zkontrolovány a revidovány. Pokud ano, bude kontrolní seznam studentům skrytý, dokud nebudou jejich položky znovu klasifikovány.';
 $string['regrademessage5'] = 'Chystáte se uložit závažné změny kontrolního seznamu, který již byla použit při klasifikaci. Hodnota v centru klasifikace nebude změněna, ale kontrolní seznam bude pro studenty skrytý, dokud nebudou jejich položky znovu klasifikovány.';
@@ -79,8 +85,5 @@ $string['savechecklistdraft'] = 'Uložit jako koncept';
 $string['scorepostfix'] = 'Bodů: {$a}';
 $string['showitempointseval'] = 'Během hodnocení zobrazovat body pro každou položku';
 $string['showitempointstudent'] = 'Zobrazit klasifikovaným uživatelům body za každou položku';
-$string['enableitemremarks'] = 'Povolit klasifikátorovi přidat ke každé položce kontrolního seznamu textové poznámky';
-$string['enablegroupremarks'] = 'Povolit klasifikátorovi přidat ke každé skupině kontrolního seznamu textové poznámky';
 $string['showremarksstudent'] = 'Zobrazit všechny poznámky studentům, kteří jsou právě klasifikováni';
 $string['unchecked'] = 'Nezaškrtnuté';
-$string['maxlengthalert'] = 'Toto vstupní pole má maximální počet znaků: {$a}';

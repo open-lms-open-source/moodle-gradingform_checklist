@@ -49,5 +49,31 @@
         <INDEX NAME="instanceid-groupid-itemid" UNIQUE="true" FIELDS="instanceid, groupid, itemid" COMMENT="Index on the instance group and item ids"/>
       </INDEXES>
     </TABLE>
+    <TABLE NAME="gradingform_checklist_bench" COMMENT="Stores teacher-only checklist-level benchmark content">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="definitionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="grading_definitions id"/>
+        <FIELD NAME="benchmark" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Teacher-only benchmark guidance for this checklist"/>
+        <FIELD NAME="benchmarkformat" TYPE="int" LENGTH="2" NOTNULL="false" SEQUENCE="false" COMMENT="Text format for the benchmark"/>
+        <FIELD NAME="buttonlabel" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" DEFAULT="Open to view Benchmarks" COMMENT="Benchmark button label"/>
+        <FIELD NAME="buttonicon" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" DEFAULT="fa-solid fa-file-circle-check" COMMENT="Font Awesome icon class for the benchmark button"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="definitionid" TYPE="foreign-unique" FIELDS="definitionid" REFTABLE="grading_definitions" REFFIELDS="id" COMMENT="Unique foreign key on grading_definitions"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="gradingform_checklist_obs" COMMENT="Stores observation dates for checklist grading instances">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="instanceid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Grading instance id"/>
+        <FIELD NAME="observationdate" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Observation date as a Unix timestamp"/>
+        <FIELD NAME="observationmode" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" DEFAULT="date" COMMENT="Observation selector mode used when the date was saved"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="instanceid" TYPE="foreign-unique" FIELDS="instanceid" REFTABLE="grading_instances" REFFIELDS="id" COMMENT="Unique foreign key on grading_instances"/>
+      </KEYS>
+    </TABLE>
   </TABLES>
 </XMLDB>

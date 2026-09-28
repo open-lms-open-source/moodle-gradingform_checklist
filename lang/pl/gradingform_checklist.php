@@ -15,7 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Language strings for the Checklist plugin.
+ *
  * @copyright  Copyright (c) 2025 Open LMS (https://www.openlms.net)
+ * @package    gradingform_checklist
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -38,6 +41,8 @@ $string['confirmdeletegroup'] = 'Czy na pewno chcesz usunąć tę grupę?';
 $string['confirmdeleteitem'] = 'Czy na pewno chcesz usunąć tą pozycję?';
 $string['definechecklist'] = 'Definiuj formularz';
 $string['description'] = 'Opis';
+$string['enablegroupremarks'] = 'Pozwól oceniającemu na dodawanie uwag tekstowych do każdej grupy kryteriów';
+$string['enableitemremarks'] = 'Pozwól oceniającemu na dodawanie uwag tekstowych do każdego kryterium';
 $string['err_definitionmax'] = 'Definicja przedmiotu nie może być dłuższa niż 255 znaków';
 $string['err_descriptionmax'] = 'Opis grupy nie może być dłuższy niż 255 znaków';
 $string['err_nodefinition'] = 'Definicja przedmiotu nie może być pusta';
@@ -46,12 +51,12 @@ $string['err_nogroups'] = 'Formularz musi zawierać co najmniej jedną grupę';
 $string['err_scoreformat'] = 'Liczba punktów za każdy przedmiot musi być prawidłową liczbą nieujemną';
 $string['err_scoremax'] = 'Liczba punktów za każdy przedmiot nie może przekraczać 1000';
 $string['err_totalscore'] = 'Maksymalna możliwa liczba punktów do otrzymania przy ocenianiu według listy kryteriów musi być większa od zera';
-$string['groupfeedback'] = 'Komunikat zwrotny grupy dla „{$a}”';
 $string['gradingof'] = 'Ocenianie {$a}';
 $string['groupadditem'] = 'Dodaj element';
 $string['groupdelete'] = 'Usuń grupę';
 $string['groupdescription'] = 'Informacje o grupie';
 $string['groupempty'] = 'Kliknij, aby edytować grupę';
+$string['groupfeedback'] = 'Komunikat zwrotny grupy dla „{$a}”';
 $string['groupmovedown'] = 'Przesuń w dół';
 $string['groupmoveup'] = 'Przesuń do góry';
 $string['grouppoints'] = 'Punkty grupowe';
@@ -62,11 +67,12 @@ $string['itemempty'] = 'Kliknij, aby edytować przedmiot';
 $string['itemfeedback'] = 'Informacja zwrotna dla „{$a}”';
 $string['itemremark'] = 'Uwaga na temat przedmiotu dla „{$a}”';
 $string['itemscore'] = 'Wynik z przedmiotu';
+$string['maxlengthalert'] = 'Maksymalna liczba znaków w polu wynosi: {$a}';
 $string['name'] = 'Imię';
 $string['needregrademessage'] = 'Definicja formularza kryteriów została zmieniona po ocenieniu tego studenta. Dlatego student ten nie zobaczy tego formularza, dopóki go nie przejrzysz i nie zaktualizujesz oceny.';
+$string['overallpoints'] = 'Ogólna liczba punktów';
 $string['pluginname'] = 'Lista kryteriów';
 $string['previewchecklist'] = 'Podgląd formularza kryteriów';
-$string['overallpoints'] = 'Ogólna liczba punktów';
 $string['regrademessage1'] = 'Użytkownik ma zamiar zapisać zmiany na liście kontrolnej, która była już wykorzystywana do oceniania.
 Należy wskazać, czy istniejące oceny wymagają sprawdzenia. Jeżeli tak, lista kontrolna będzie ukryta dla studentów do czasu ponownej oceny ich prac.';
 $string['regrademessage5'] = 'Użytkownik ma zamiar zapisać istotne zmiany w formularzu kryteriów, który był już wykorzystywany do oceniania. Wartość w dzienniku ocen nie ulegnie zmianie, ale informacje szczegółowe będą ukryte dla studentów do czasu ponownej oceny ich prac.';
@@ -79,8 +85,5 @@ $string['savechecklistdraft'] = 'Zapisz jako szkic';
 $string['scorepostfix'] = '{$a} punktów';
 $string['showitempointseval'] = 'Podczas oceniania wyświetlaj punktację za każdy przedmiot';
 $string['showitempointstudent'] = 'Oceniani widzą punktację za każdy przedmiot';
-$string['enableitemremarks'] = 'Pozwól oceniającemu na dodawanie uwag tekstowych do każdego kryterium';
-$string['enablegroupremarks'] = 'Pozwól oceniającemu na dodawanie uwag tekstowych do każdej grupy kryteriów';
 $string['showremarksstudent'] = 'Oceniani widzą wszystkie uwagi';
 $string['unchecked'] = 'Niesprawdzone';
-$string['maxlengthalert'] = 'Maksymalna liczba znaków w polu wynosi: {$a}';

@@ -1,0 +1,40 @@
+Checklist grading form upgrade notes
+=====================================
+
+2026092800
+----------
+
+Enhanced Checklist 4.5.9 removes the optional settings companion information
+banner from the Advanced grading page. Settings and grading behaviour are
+unchanged. No database schema migration is required.
+
+2026092300
+----------
+
+Enhanced Checklist 4.5.8 includes all fixes made after 4.5.7, including the
+edge-group checklist item movement correction, expanded Moodle 4.5-5.2 CI,
+release packaging validation, and additional security and accessibility tests.
+No database schema migration is required for this release.
+
+2026090200
+----------
+
+This release restores checklist item move controls in the editor and aligns the
+item score, points label, move controls, and delete control columns. No database
+schema migration is required for this release.
+
+2026080700
+----------
+
+This release aligns the final upgrade savepoint with the plugin version and
+contains administration-setting, documentation, and accessibility updates.
+No database schema migration is required for this release.
+
+Earlier migrations in this release line:
+
+* 2026073000 introduced temporary benchmark fields on checklist groups.
+* 2026073100 defensively migrates any temporary group benchmark content into
+  the dedicated checklist-level benchmark table, copies legacy benchmark files
+  to the definition-level file area when this can be done without overwriting
+  different target files, and then removes the obsolete group fields.
+* 2026080200 introduced observation-date storage for checklist grading instances.

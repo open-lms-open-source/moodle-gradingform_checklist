@@ -15,7 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Language strings for the Checklist plugin.
+ *
  * @copyright  Copyright (c) 2025 Open LMS (https://www.openlms.net)
+ * @package    gradingform_checklist
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -38,6 +41,8 @@ $string['confirmdeletegroup'] = 'Möchten Sie diese Gruppe wirklich löschen?';
 $string['confirmdeleteitem'] = 'Möchten Sie dieses Element wirklich löschen?';
 $string['definechecklist'] = 'Checkliste definieren';
 $string['description'] = 'Beschreibung';
+$string['enablegroupremarks'] = 'Bewerter/in gestatten, Textanmerkungen bei jeder Checklistengruppe hinzuzufügen.';
+$string['enableitemremarks'] = 'Bewerter/in gestatten, Textanmerkungen bei jedem Checklistenelement hinzuzufügen.';
 $string['err_definitionmax'] = 'Die Elementdefinition darf nicht länger als 255 Zeichen sein.';
 $string['err_descriptionmax'] = 'Die Gruppenbeschreibung darf nicht länger als 255 Zeichen sein.';
 $string['err_nodefinition'] = 'Die Elementdefinition darf nicht leer sein.';
@@ -46,12 +51,12 @@ $string['err_nogroups'] = 'Die Checkliste muss mindestens 1 Gruppe enthalten.';
 $string['err_scoreformat'] = 'Die Anzahl der Punkte für jedes Element muss eine gültige, nicht negative Zahl sein.';
 $string['err_scoremax'] = 'Die Anzahl der Punkte für jedes Element darf nicht größer als 1000 sein.';
 $string['err_totalscore'] = 'Die höchste zu vergebende Punktzahl, wenn nach der Checkliste bewertet wird, muss größer als 0 sein.';
-$string['groupfeedback'] = 'Gruppenfeedback für "{$a}"';
 $string['gradingof'] = '{$a}-Bewertung';
 $string['groupadditem'] = 'Objekt hinzufügen';
 $string['groupdelete'] = 'Gruppe löschen';
 $string['groupdescription'] = 'Gruppenbeschreibung';
 $string['groupempty'] = 'Klicken, um die Gruppe zu bearbeiten';
+$string['groupfeedback'] = 'Gruppenfeedback für "{$a}"';
 $string['groupmovedown'] = 'Nach unten verschieben';
 $string['groupmoveup'] = 'Nach oben verschieben';
 $string['grouppoints'] = 'Gruppenpunkte';
@@ -62,11 +67,12 @@ $string['itemempty'] = 'Klicken, um das Element zu bearbeiten';
 $string['itemfeedback'] = 'Feedback für "{$a}"';
 $string['itemremark'] = 'Elementanmerkung für "{$a}"';
 $string['itemscore'] = 'Elementpunktzahl';
+$string['maxlengthalert'] = 'Für dieses Eingabefeld gilt eine maximale Länge von {$a} Zeichen';
 $string['name'] = 'Name';
 $string['needregrademessage'] = 'Die Checklistendefinition wurde geändert, nachdem dieser Teilnehmer bewertet wurde. Der Teilnehmer kann diese Checkliste erst wieder sehen, nachdem Sie die Checkliste überprüft und die Bewertung aktualisiert haben.';
+$string['overallpoints'] = 'Gesamtpunktzahl';
 $string['pluginname'] = 'Checkliste';
 $string['previewchecklist'] = 'Vorschau der Checkliste';
-$string['overallpoints'] = 'Gesamtpunktzahl';
 $string['regrademessage1'] = 'Sie sind dabei, wesentliche Änderungen an einer Checkliste zu speichern, die bereits zum Bewerten verwendet wurde. Bitte
 geben Sie an, ob vorhandene Bewertungen geprüft werden müssen. Wenn Sie dies festlegen, wird die Checkliste für die Kursteilnehmer/innen ausgeblendet, bis ihre Elemente neu bewertet wurden.';
 $string['regrademessage5'] = 'Sie sind dabei, wesentliche Änderungen an einer Checkliste zu speichern, die bereits zum Bewerten verwendet wurde. Der Bewertungsberichtwert bleibt unverändert, jedoch wird die Checkliste den Teilnehmern erst wieder angezeigt, nachdem ihre Elemente neu bewertet wurden.';
@@ -79,8 +85,5 @@ $string['savechecklistdraft'] = 'Als Entwurf speichern';
 $string['scorepostfix'] = '{$a} Punkte';
 $string['showitempointseval'] = 'Punkte für jedes Element während der Beurteilung anzeigen.';
 $string['showitempointstudent'] = 'Punkte für jedes Element denjenigen anzeigen, die gerade bewertet werden.';
-$string['enableitemremarks'] = 'Bewerter/in gestatten, Textanmerkungen bei jedem Checklistenelement hinzuzufügen.';
-$string['enablegroupremarks'] = 'Bewerter/in gestatten, Textanmerkungen bei jeder Checklistengruppe hinzuzufügen.';
 $string['showremarksstudent'] = 'Alle Anmerkungen denjenigen anzeigen, die gerade bewertet werden.';
 $string['unchecked'] = 'Nicht geprüft';
-$string['maxlengthalert'] = 'Für dieses Eingabefeld gilt eine maximale Länge von {$a} Zeichen';

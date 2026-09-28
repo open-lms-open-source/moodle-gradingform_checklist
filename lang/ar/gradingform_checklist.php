@@ -15,7 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Language strings for the Checklist plugin.
+ *
  * @copyright  Copyright (c) 2025 Open LMS (https://www.openlms.net)
+ * @package    gradingform_checklist
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -38,6 +41,8 @@ $string['confirmdeletegroup'] = 'هل تريد بالتأكيد حذف هذه ا
 $string['confirmdeleteitem'] = 'هل تريد بالفعل حذف هذا العنصر؟';
 $string['definechecklist'] = 'تعريف قائمة الاختيارات';
 $string['description'] = 'الوصف';
+$string['enablegroupremarks'] = 'السماح لمصنف التقدير بإضافة ملاحظات نصية لكل مجموعة من مجموعات قائمة الاختيارات';
+$string['enableitemremarks'] = 'السماح لمصنف التقدير بإضافة ملاحظات نصية لكل عنصر قائمة اختيار';
 $string['err_definitionmax'] = 'يجب ألا يبلغ طول تعريف العنصر أكثر من 255 حرف';
 $string['err_descriptionmax'] = 'يجب ألا يبلغ طول وصف المجموعة أكثر من 255 حرف';
 $string['err_nodefinition'] = 'لا يمكن أن يكون تعريف العنصر فارغ';
@@ -46,12 +51,12 @@ $string['err_nogroups'] = 'يجب أن تحتوي قائمة الاختيارا�
 $string['err_scoreformat'] = 'يجب أن يكون عدد النقاط لكل عنصر رقم غير سالب صالح';
 $string['err_scoremax'] = 'يجب ألا يكون عدد النقاط الخاص بكل عنصر أكبر من 1000';
 $string['err_totalscore'] = 'يجب أن يكون الحد الأقصى لعدد النقاط المحتملة عند تقديرها باستخدام قائمة الاختيارات أكبر من صفر';
-$string['groupfeedback'] = 'ملاحظات المجموعة لـ "{$a}"';
 $string['gradingof'] = 'تقدير {$a}';
 $string['groupadditem'] = 'إضافة عنصر';
 $string['groupdelete'] = 'حذف المجموعة';
 $string['groupdescription'] = 'وصف المجموعة';
 $string['groupempty'] = 'انقر لتحرير المجموعة';
+$string['groupfeedback'] = 'ملاحظات المجموعة لـ "{$a}"';
 $string['groupmovedown'] = 'نقل لأسفل';
 $string['groupmoveup'] = 'نقل لأعلى';
 $string['grouppoints'] = 'نقاط المجموعة';
@@ -62,11 +67,12 @@ $string['itemempty'] = 'انقر لتحرير عنصر';
 $string['itemfeedback'] = 'ملاحظات لـ "{$a}"';
 $string['itemremark'] = 'ملاحظة العنصر لـ "{$a}"';
 $string['itemscore'] = 'درجة العنصر';
+$string['maxlengthalert'] = 'الحد الأقصى لطول حقل الإدخال هذا هو {$a} من الأحرف';
 $string['name'] = 'الاسم';
 $string['needregrademessage'] = 'تم تغيير تعريف قائمة الاختيارات بعد منح تقدير لهذا الطالب. لا يمكن للطالب رؤية قائمة الاختيارات هذه حتى تقوم بمراجعة قائمة الاختيارات وتحديث التقدير.';
+$string['overallpoints'] = 'إجمالي النقاط';
 $string['pluginname'] = 'قائمة الاختيارات';
 $string['previewchecklist'] = 'معاينة قائمة الاختيارات';
-$string['overallpoints'] = 'إجمالي النقاط';
 $string['regrademessage1'] = 'أنت على وشك حفظ التغييرات إلى قائمة الاختيارات التي تم استخدامها بالفعل في التقدير. يُرجى
 تحديد ما إذا كانت التقديرات الموجودة بحاجة إلى مراجعة. وإذا قمت بتعيين ذلك، فسيتم إخفاء قائمة الاختيارات عن الطلاب حتى تتم إعادة تقدير العناصر الخاصة بهم.';
 $string['regrademessage5'] = 'أنت على وشك حفظ تغييرات مهمة إلى قائمة الاختيارات التي تم استخدامها بالفعل في التقدير. لن تتغير قيمة دفتر التقديرات ولكن سيتم إخفاء قائمة الاختيارات عن الطلاب حتى يتم إعادة تقدير العناصر الخاصة بهم.';
@@ -79,8 +85,5 @@ $string['savechecklistdraft'] = 'حفظ كمسودة';
 $string['scorepostfix'] = '{$a} من النقاط';
 $string['showitempointseval'] = 'عرض النقاط لكل عنصر أثناء التقييم';
 $string['showitempointstudent'] = 'عرض النقاط لكل عنصر لهؤلاء الذين يتم منحهم تقديرًا';
-$string['enableitemremarks'] = 'السماح لمصنف التقدير بإضافة ملاحظات نصية لكل عنصر قائمة اختيار';
-$string['enablegroupremarks'] = 'السماح لمصنف التقدير بإضافة ملاحظات نصية لكل مجموعة من مجموعات قائمة الاختيارات';
 $string['showremarksstudent'] = 'إظهار جميع الملاحظات لهؤلاء الذين يتم منحهم تقديرًا';
 $string['unchecked'] = 'غير محدد';
-$string['maxlengthalert'] = 'الحد الأقصى لطول حقل الإدخال هذا هو {$a} من الأحرف';
