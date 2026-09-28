@@ -286,5 +286,10 @@ function xmldb_gradingform_checklist_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2026092300, 'gradingform', 'checklist');
     }
 
+    // Version 2026092800 removes the administration banner; no schema changes are required.
+    if ($oldversion < 2026092800) {
+        upgrade_plugin_savepoint(true, 2026092800, 'gradingform', 'checklist');
+    }
+
     return true;
 }
